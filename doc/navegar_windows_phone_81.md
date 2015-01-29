@@ -43,6 +43,7 @@ Ajoutez :
              //Surcharge éventuelle de la prise en compte du bouton physique ou virtuel de retour
              //Par défaut Navegar par en charge ce bouton
              //SimpleIoc.Default.GetInstance<INavigation>().BackButtonPressed += VotreFonctionDeRetour;
+             
              if (string.IsNullOrEmpty(SimpleIoc.Default.GetInstance<INavigation>().NavigateTo<YourFirstViewModel>(true)))
              {
                   throw new Exception("Impossible de créer la page d'accueil");
