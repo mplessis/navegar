@@ -1,4 +1,3 @@
-
 ##Principe de fonctionnement en Windows 8.1
 
 Bonjour, bienvenue dans ce tutoriel vous permettant d'intégrer Navegar dans une solution Windows 8.1. Nous allons voir l'installation du package, l'initialisation et la navigation vers un premier ViewModel
