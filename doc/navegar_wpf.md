@@ -1,4 +1,4 @@
-##Intégrer Navegar à une solution WPF
+##Principe de fonctionnement en WPF
 
 Bonjour, bienvenue dans ce tutoriel vous permettant d'intégrer Navegar dans une solution WPF. Nous allons voir l'installation du package, l'initialisation et la navigation vers un premier ViewModel
 
