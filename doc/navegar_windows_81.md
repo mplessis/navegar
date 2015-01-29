@@ -5,9 +5,6 @@ Bonjour, bienvenue dans ce tutoriel vous permettant d'intégrer Navegar dans une
 ###I. Création d'une solution Windows 8.1 et installation de Navegar
 
 Commonçons par créer une solution de type Windows 8.1 (ou universelle)
-Pour cela, il vous suffit de faire
-
-    Fichier -> Nouveau -> Projet
 
 Une fois votre solution créée, nous allons procéder à l'installation de Navegar, pour cela vous pouvez utiliser le gestionnaire de paquet de NuGet en mode graphique ou bien en ligne de commande
 
@@ -16,7 +13,8 @@ Une fois votre solution créée, nous allons procéder à l'installation de Nave
 Ceci installera également MvvmLightLibs
 
 Vous devez également installer *MvvmLight* complet pour le bon fonctionnement de l'application, Navegar ne l'installe pas car il est possible d'utiliser Navegar dans un projet bibliothéque qui n'a pas besoin de tout *MvvmLight*
-II. Initialisation de la navigation
+
+###II. Initialisation de la navigation
 
 Afin d'initialiser la navigation au sein de l'application vous devez modifier le fichier **App.xaml.cs** pour naviguer sur votre premier ViewModel (premiére page)
 
@@ -47,7 +45,7 @@ Ajoutez :
         }
     }
 
-Pour que cela fonctionne il faut modifier le fichier *ViewModelLocator* de *MvvmLight* pour enregistrer la classe de navigation ainsi que vos ViewModels et leur page associée dans l'IOC de *MvvmLight*.
+Pour que cela fonctionne il faut modifier le fichier **ViewModelLocator** de *MvvmLight* pour enregistrer la classe de navigation ainsi que vos ViewModels et leur page associée dans l'IOC de *MvvmLight*.
 L'enregistrement des ViewModel et des pages devra être fait à chaque création d'une page.
 
 Modifiez le constructeur de la classe **ViewModelLocator** et ajoutez :
