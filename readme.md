@@ -1,5 +1,4 @@
-Navegar
-=======
+![Logo Navegar](http://www.kopigi.fr/navegar/navegar.png)
 
 Navegar vous permet de gérer une navigation inspirée des applications Windows 8, pour WPF mais également de gérer la navigation des applications Windows 8 (Modern UI/WinRT) en utilisant l'approche ViewModel First et non l'approche View First, intégrée dans le Framework WinRT, le tout basé sur MVVMLight et SimpleIoc
 
