@@ -6,6 +6,11 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{D9C280EE-1970-4388-AE3D-4B7B5D0B009C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{14D285BB-F94F-4069-AC2A-84E110E9F5B5}"
+	ProjectSection(SolutionItems) = preProject
+		doc\navegar_windows_81.md = doc\navegar_windows_81.md
+		doc\navegar_windows_phone_81.md = doc\navegar_windows_phone_81.md
+		doc\navegar_wpf.md = doc\navegar_wpf.md
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "navegar", "navegar", "{05063999-1CDA-49CE-A2A1-E3CF22165F59}"
 EndProject
