@@ -15,13 +15,13 @@ Une fois votre solution créée, nous allons procéder à l'installation de Nave
 
 Ceci installera également MvvmLightLibs
 
-Vous devez également installer MvvmLight complet pour le bon fonctionnement de l'application, Navegar ne l'installe pas car il est possible d'utiliser Navegar dans un projet bibliothéque qui n'a pas besoin de tout MvvmLight
+Vous devez également installer *MvvmLight* complet pour le bon fonctionnement de l'application, Navegar ne l'installe pas car il est possible d'utiliser Navegar dans un projet bibliothéque qui n'a pas besoin de tout *MvvmLight*
 
 ###II. Initialisation de la navigation
 
 La navigation en WPF fonctionne sur le principe d'une page principale qui va accueillir des UserControl qui seront vos différentes pages. Navegar ne gére pas de navigation multi-fenêtres.
 
-Pour que cela fonctionne il faut modifier le fichier ViewModelLocator de MvvmLight pour enregistrer la classe de navigation dans l'IOC de MvvmLight et enregistrer l'instance de la fenêtre principale (hôte)
+Pour que cela fonctionne il faut modifier le fichier ViewModelLocator de MvvmLight pour enregistrer la classe de navigation dans l'IOC de *MvvmLight* et enregistrer l'instance de la fenêtre principale (hôte)
 
 Modifiez le constructeur de la classe ViewModelLocator et ajoutez :
 
@@ -35,11 +35,11 @@ Modifiez le constructeur de la classe ViewModelLocator et ajoutez :
     //qui sera utilisée par la classe de navigation
     SimpleIoc.Default.GetInstance<INavigation>().GenerateMainViewModelInstance<MainViewModel>();
 
-Supprimez ensuit la ligne :
+Supprimez ensuite la ligne :
 
     SimpleIoc.Default.Register<MainViewModel>();
 
-Afin d'affecter un DataContext à la page principale vous devez enregistrer une propriété dans la classe ViewModelLocator. Ajoutez le code dans la classe (en remplacement de la propriété déja définie par MvvmLight) :
+Afin d'affecter un DataContext à la page principale vous devez enregistrer une propriété dans la classe ViewModelLocator. Ajoutez le code dans la classe (en remplacement de la propriété déja définie par *MvvmLight*) :
 
     public YourFirstViewModel Main
     {
@@ -60,11 +60,11 @@ La navigation est maintenant initialisée.
 
 ###III. Préparation de la page Main et du MainViewModel pour gérer la navigation en Usercontrol
 
-Ajouter un USerControl et un ViewModel associé, nommez les FirstView et FirstViewModel
+Ajouter un USerControl et un ViewModel associé, nommez les *FirstView* et *FirstViewModel*
 
-Afin d'avoir une navigation par UserControl vous devez modifier votre Main.xaml et votre MainViewModel.cs en utilisant le code suivant :
+Afin d'avoir une navigation par UserControl vous devez modifier votre *Main.xaml* et votre *MainViewModel.cs* en utilisant le code suivant :
 
-####MainViewModel.cs :
+**MainViewModel.cs** :
 
     public class MainViewModel : ViewModelBase
     {
@@ -113,7 +113,7 @@ Afin d'avoir une navigation par UserControl vous devez modifier votre Main.xaml 
         }
     }
 
-####Main.xaml :
+**Main.xaml** :
 
     <Grid>
         <ContentControl Content="{Binding CurrentView}" Focusable="False" Grid.Row="1"/>
@@ -129,7 +129,7 @@ Pour associer le ViewModel d'un UserControl au UserControl vous devez ajouter un
  
 ###IV. Premiére navigation vers une seconde page
 
-Ajoutez un second UserControl avec son ViewModel associé, nommez les SecondViewModel et SecondView. Ajoutez un DataTemplate pour associer les deux.
+Ajoutez un second UserControl avec son ViewModel associé, nommez les *SecondViewModel* et *SecondView*. Ajoutez un DataTemplate pour associer les deux.
 
 Ajoutez un bouton à votre premier ViewModel afin de lancer la navigation vers le second. Pour cela créez une ICommand et affectez le code suivant à votre ICommand :
 
