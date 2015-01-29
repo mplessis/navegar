@@ -5,9 +5,12 @@ Navegar vous permet de gérer une navigation inspirée des applications Windows 
 
 Partant du principe du framework MVVM, Navegar permet de passer d'une page WPF ou WinRT, à une autre en utilisant simplement l'appel à un ViewModel (l'approche ViewModel First).
 
-Il s'agit d'un ensemble de classes disponibles sur Nuget et dont le code source est lui disponible sur cette plateforme.
+Il s'agit d'un ensemble de classes disponibles sur [Nuget](https://www.nuget.org/packages/Navegar/) et dont le code source est lui disponible sur cette plateforme. Un ensemble de documentation et de tutoriaux sont disponibles sur [navegar.kopigi.fr](http://navegar.kopigi.fr)
 
-Vous pouvez également retrouver la documentation et des tutoriaux sur le site navegar.kopigi.fr ou bien çi-dessous
+##Installation
+Afin d'intégrer Navegar à votre application vous devez installer le package NuGet :
+
+    PM> Install-Package Navegar 
 
 ##Tutoriaux
 
@@ -33,5 +36,11 @@ Enfin des assistants interactifs pour Visual Studio vous permettent également d
 - [Navegar dans WPF](http://www.kopigi.fr/navegar/documentation/assistants/Navegar%20dans%20WPF.mvax)
 - [Navegar dans Windows 8.1](http://www.kopigi.fr/navegar/documentation/assistants/Navegar%20dans%20Windows%208.1.mvax)
 - [Navegar dans Windows Phone 8.1](http://www.kopigi.fr/navegar/documentation/assistants/Navegar%20dans%20Windows%20Phone%208.1.mvax)
+
+Vous pouvez également retrouver le contenu de ces assistants dans le repertoire *doc* du projet ou ici :
+
+- [Navegar dans WPF (en ligne)](https://github.com/mplessis/navegar/blob/master/doc/navegar_wpf.md)
+- [Navegar dans Windows 8.1 (en ligne)](https://github.com/mplessis/navegar/blob/master/doc/navegar_windows_81.md)
+- [Navegar dans Windows Phone 8.1 (en ligne)](https://github.com/mplessis/navegar/blob/master/doc/navegar_windows_phone_81.md)
 
 Si vous rencontrez des soucis pour intégrer Navegar dans votre application, n'hésitez pas à revenir vers moi.
