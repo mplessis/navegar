@@ -37,4 +37,10 @@ Enfin des assistants interactifs pour Visual Studio vous permettent également d
 - [Navegar dans Windows 8.1](http://www.kopigi.fr/navegar/documentation/assistants/Navegar%20dans%20Windows%208.1.mvax)
 - [Navegar dans Windows Phone 8.1](http://www.kopigi.fr/navegar/documentation/assistants/Navegar%20dans%20Windows%20Phone%208.1.mvax)
 
+Vous pouvez également retrouver le contenu de ces assistants dans le repertoire *doc* du projet ou ici :
+
+- [Navegar dans WPF (en ligne)](https://github.com/mplessis/navegar/blob/master/doc/navegar_wpf.md)
+- [Navegar dans Windows 8.1 (en ligne)](https://github.com/mplessis/navegar/blob/master/doc/navegar_windows_81.md)
+- [Navegar dans Windows Phone 8.1 (en ligne)](https://github.com/mplessis/navegar/blob/master/doc/navegar_windows_phone_81.md)
+
 Si vous rencontrez des soucis pour intégrer Navegar dans votre application, n'hésitez pas à revenir vers moi.
