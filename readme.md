@@ -5,9 +5,12 @@ Navegar vous permet de gérer une navigation inspirée des applications Windows 
 
 Partant du principe du framework MVVM, Navegar permet de passer d'une page WPF ou WinRT, à une autre en utilisant simplement l'appel à un ViewModel (l'approche ViewModel First).
 
-Il s'agit d'un ensemble de classes disponibles sur Nuget et dont le code source est lui disponible sur cette plateforme.
+Il s'agit d'un ensemble de classes disponibles sur [Nuget](http://navegar.nuget.org) et dont le code source est lui disponible sur cette plateforme. Un ensemble de documentation et de tutoriaux sont disponibles sur [navegar.kopigi.fr](http://navegar.kopigi.fr)
 
-Vous pouvez également retrouver la documentation et des tutoriaux sur le site navegar.kopigi.fr ou bien çi-dessous
+##Installation
+Afin d'intégrer Navegar à votre application vous devez installer le package NuGet :
+
+    PM> Install-Package Navegar 
 
 ##Tutoriaux
 
