@@ -76,8 +76,9 @@ Afin d'avoir une navigation par UserControl vous devez modifier votre *Main.xaml
         private ViewModelBase _currentView;
         
         /// <summary>
-        /// L'attribut CurrentViewNavigation permet de définir automatiquement, quelle propriété du viewmodel
-        /// devra être utilisé pour charger le viewmodel vers lequel la navigation va s'effectuer
+        /// L'attribut CurrentViewNavigation permet de définir automatiquement, 
+        /// quelle propriété du viewmodel devra être utilisé pour charger le viewmodel
+        /// vers lequel la navigation va s'effectuer
         /// </summary>
         [CurrentViewNavigation]
         public ViewModelBase CurrentView
@@ -92,8 +93,8 @@ Afin d'avoir une navigation par UserControl vous devez modifier votre *Main.xaml
         
         public MainViewModel()
         { 
-             //Permet d'éviter l'appel à la navigation pendant le chargement du viewmodel principal. Sans ceci le
-             //chargement du MainViewModel
+             //Permet d'éviter l'appel à la navigation pendant le chargement du viewmodel principal. 
+             //Sans ceci le chargement du MainViewModel
              //ne se passe pas correctement puisque le chargement du viewmodel n'est pas possible
              _timerLoadAccueil = new DispatcherTimer
              {
