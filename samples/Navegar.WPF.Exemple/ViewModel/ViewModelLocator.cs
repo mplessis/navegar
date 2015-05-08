@@ -21,14 +21,7 @@ namespace Navegar.WPF.Exemple.ViewModel
                              .GenerateMainViewModelInstance<MainViewModel>();
         }
 
-        public MainViewModel Main
-        {
-            //3. Retrouve le viewmodel principal
-            get
-            {
-                return SimpleIoc.Default.GetInstance<INavigation>()
-                                .GetMainViewModelInstance<MainViewModel>();
-            }
-        }
+        public MainViewModel Main => SimpleIoc.Default.GetInstance<INavigation>()
+            .GetMainViewModelInstance<MainViewModel>();
     }
 }

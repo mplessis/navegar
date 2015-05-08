@@ -155,17 +155,17 @@ namespace Navegar.UAP.Win81
             get { return _backButtonPressed; }
             set
             {
-                _backButtonPressed = value;
                 if (value != null)
                 {
                     Windows.Phone.UI.Input.HardwareButtons.BackPressed -= HardwareButtonsBackPressed;
-                    Windows.Phone.UI.Input.HardwareButtons.BackPressed += _backButtonPressed;    
+                    Windows.Phone.UI.Input.HardwareButtons.BackPressed += value;    
                 }
                 else
                 {
                     Windows.Phone.UI.Input.HardwareButtons.BackPressed -= _backButtonPressed;
                     Windows.Phone.UI.Input.HardwareButtons.BackPressed += HardwareButtonsBackPressed; 
                 }
+                _backButtonPressed = value;
             }
         }
 #endif

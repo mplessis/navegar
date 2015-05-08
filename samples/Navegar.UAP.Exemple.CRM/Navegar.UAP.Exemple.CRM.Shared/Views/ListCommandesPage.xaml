@@ -4,14 +4,13 @@
     xmlns:local="using:Navegar.UAP.Exemple.CRM.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:format="using:WinRTConverters.Format"
-    xmlns:Visibility="using:WinRTConverters.Visibility"
+    xmlns:converters="using:Navegar.UAP.Exemple.CRM.Converters"
     x:Class="Navegar.UAP.Exemple.CRM.Views.ListCommandesPage"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
-    	<Visibility:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-        <format:StringFormatConverter x:Key="StringFormatConverter"/>
+    	<converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <converters:StringFormatConverter x:Key="StringFormatConverter"/>
         <DataTemplate x:Key="CommandeTemplate">
         	<Grid Margin="0,0,0,20">
         		<Grid.RowDefinitions>

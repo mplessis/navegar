@@ -25,6 +25,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controllers\ClientsController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controllers\CommandesController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controllers\UsersController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\StringFormatConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)POCO\Client.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)POCO\Commande.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)POCO\PocoBase.cs" />

@@ -4,12 +4,12 @@
     xmlns:local="using:Navegar.UAP.Exemple.CRM.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:Format="using:WinRTConverters.Format"
+    xmlns:converters="using:Navegar.UAP.Exemple.CRM.Converters"
     x:Class="Navegar.UAP.Exemple.CRM.Views.ListClientsPage"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
-    	<Format:StringFormatConverter x:Key="StringFormatConverter"/>
+    	<converters:StringFormatConverter x:Key="StringFormatConverter"/>
         <DataTemplate x:Key="ClientTemplate">
         	<Grid Margin="0,0,0,20">
         		<Grid.RowDefinitions>

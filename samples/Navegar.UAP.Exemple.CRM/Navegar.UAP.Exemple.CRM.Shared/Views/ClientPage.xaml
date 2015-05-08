@@ -4,14 +4,13 @@
     xmlns:local="using:Navegar.UAP.Exemple.CRM.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:Format="using:WinRTConverters.Format"
-    xmlns:visibility="using:WinRTConverters.Visibility"
+    xmlns:converters="using:Navegar.UAP.Exemple.CRM.Converters"
     x:Class="Navegar.UAP.Exemple.CRM.Views.ClientPage"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 	<Page.Resources>
-		<Format:StringFormatConverter x:Key="StringFormatConverter"/>
-        <visibility:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+		<converters:StringFormatConverter x:Key="StringFormatConverter"/>
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 	</Page.Resources>
     <Page.DataContext>
         <Binding Path="ClientPageViewModelInstance" Source="{StaticResource Locator}"/>
