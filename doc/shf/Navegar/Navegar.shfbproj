@@ -36,7 +36,7 @@
     <Preliminary>False</Preliminary>
     <NamingMethod>Guid</NamingMethod>
     <HelpTitle>Navegar</HelpTitle>
-    <CopyrightHref>http://navegar.codeplex.com</CopyrightHref>
+    <CopyrightHref>https://github.com/mplessis/navegar/blob/master/LICENSE</CopyrightHref>
     <ContentPlacement>AboveNamespaces</ContentPlacement>
     <VisibleItems>InheritedMembers, Protected, SealedProtected</VisibleItems>
     <MissingTags>None</MissingTags>
@@ -56,7 +56,7 @@
     <SandcastlePath>C:\Program Files (x86)\Sandcastle\</SandcastlePath>
     <WorkingPath />
     <BuildAssemblerVerbosity>OnlyWarningsAndErrors</BuildAssemblerVerbosity>
-    <HelpFileFormat>HtmlHelp1, Website</HelpFileFormat>
+    <HelpFileFormat>Website</HelpFileFormat>
     <IndentHtml>False</IndentHtml>
     <FrameworkVersion>.NET Framework 4.5</FrameworkVersion>
     <KeepLogFile>True</KeepLogFile>

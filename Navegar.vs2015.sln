@@ -7,6 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{D9C2
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{14D285BB-F94F-4069-AC2A-84E110E9F5B5}"
 	ProjectSection(SolutionItems) = preProject
+		doc\navegar_windows_10.md = doc\navegar_windows_10.md
 		doc\navegar_windows_81.md = doc\navegar_windows_81.md
 		doc\navegar_windows_phone_81.md = doc\navegar_windows_phone_81.md
 		doc\navegar_wpf.md = doc\navegar_wpf.md
@@ -55,6 +56,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Universal Windows Plateform (Windows 10)", "Universal Windows Plateform (Windows 10)", "{0D00570D-559E-4FA1-8905-D576FBEC30AC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Navegar.UWP.Exemple.CRM", "samples\Navegar.UWP.Exemple.CRM\Navegar.UWP.Exemple.CRM\Navegar.UWP.Exemple.CRM.csproj", "{9462438D-21B2-49CB-95E8-1BEE4F876D56}"
+EndProject
+Project("{7CF6DF6D-3B04-46F8-A40B-537D21BCA0B4}") = "Navegar.UWP.Win10", "doc\shf\Navegar.UWP.Win10\Navegar.UWP.Win10.shfbproj", "{F0660265-FBF0-46B2-93FA-D1DD10061BC8}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -263,6 +266,22 @@ Global
 		{9462438D-21B2-49CB-95E8-1BEE4F876D56}.Release|x86.ActiveCfg = Release|x86
 		{9462438D-21B2-49CB-95E8-1BEE4F876D56}.Release|x86.Build.0 = Release|x86
 		{9462438D-21B2-49CB-95E8-1BEE4F876D56}.Release|x86.Deploy.0 = Release|x86
+		{F0660265-FBF0-46B2-93FA-D1DD10061BC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0660265-FBF0-46B2-93FA-D1DD10061BC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0660265-FBF0-46B2-93FA-D1DD10061BC8}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{F0660265-FBF0-46B2-93FA-D1DD10061BC8}.Debug|ARM.Build.0 = Debug|Any CPU
+		{F0660265-FBF0-46B2-93FA-D1DD10061BC8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F0660265-FBF0-46B2-93FA-D1DD10061BC8}.Debug|x64.Build.0 = Debug|Any CPU
+		{F0660265-FBF0-46B2-93FA-D1DD10061BC8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F0660265-FBF0-46B2-93FA-D1DD10061BC8}.Debug|x86.Build.0 = Debug|Any CPU
+		{F0660265-FBF0-46B2-93FA-D1DD10061BC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0660265-FBF0-46B2-93FA-D1DD10061BC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0660265-FBF0-46B2-93FA-D1DD10061BC8}.Release|ARM.ActiveCfg = Release|Any CPU
+		{F0660265-FBF0-46B2-93FA-D1DD10061BC8}.Release|ARM.Build.0 = Release|Any CPU
+		{F0660265-FBF0-46B2-93FA-D1DD10061BC8}.Release|x64.ActiveCfg = Release|Any CPU
+		{F0660265-FBF0-46B2-93FA-D1DD10061BC8}.Release|x64.Build.0 = Release|Any CPU
+		{F0660265-FBF0-46B2-93FA-D1DD10061BC8}.Release|x86.ActiveCfg = Release|Any CPU
+		{F0660265-FBF0-46B2-93FA-D1DD10061BC8}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -289,5 +308,6 @@ Global
 		{FB908ECA-4D03-4E0A-BF7A-3FD4B24DEB40} = {1D085917-2042-4217-9194-4630D6020DB6}
 		{0D00570D-559E-4FA1-8905-D576FBEC30AC} = {D9C280EE-1970-4388-AE3D-4B7B5D0B009C}
 		{9462438D-21B2-49CB-95E8-1BEE4F876D56} = {0D00570D-559E-4FA1-8905-D576FBEC30AC}
+		{F0660265-FBF0-46B2-93FA-D1DD10061BC8} = {5136F238-9F89-46F6-9026-5B2A9D4F88A8}
 	EndGlobalSection
 EndGlobal

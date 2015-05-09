@@ -36,16 +36,16 @@
     <Preliminary>False</Preliminary>
     <NamingMethod>Guid</NamingMethod>
     <HelpTitle>Navegar</HelpTitle>
-    <CopyrightHref>http://navegar.codeplex.com</CopyrightHref>
+    <CopyrightHref>https://github.com/mplessis/navegar/blob/master/LICENSE</CopyrightHref>
     <ContentPlacement>AboveNamespaces</ContentPlacement>
     <VisibleItems>InheritedMembers, Protected, SealedProtected</VisibleItems>
     <MissingTags>None</MissingTags>
     <ApiFilter>
       <Filter entryType="Namespace" fullName="Navegar.UAP.Win81" isExposed="True">
-        <Filter entryType="Class" fullName="Navegar.UAP.Win81.EventHandler" filterName="EventHandler" isExposed="False" />
-        <Filter entryType="Class" fullName="Navegar.UAP.Win81.Navigation" filterName="Navigation" isExposed="False" />
-        <Filter entryType="Class" fullName="Navegar.UAP.Win81.TypeExtensions" filterName="TypeExtensions" isExposed="False" />
-      </Filter>
+  <Filter entryType="Class" fullName="Navegar.UAP.Win81.EventHandler" filterName="EventHandler" isExposed="False" />
+  <Filter entryType="Class" fullName="Navegar.UAP.Win81.Navigation" filterName="Navigation" isExposed="False" />
+  <Filter entryType="Class" fullName="Navegar.UAP.Win81.TypeExtensions" filterName="TypeExtensions" isExposed="False" />
+</Filter>
     </ApiFilter>
     <ComponentConfigurations />
     <HelpAttributes />
