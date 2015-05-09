@@ -6,8 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:converters="using:Navegar.UAP.Exemple.CRM.Converters"
     x:Class="Navegar.UAP.Exemple.CRM.Views.ClientPage"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    mc:Ignorable="d">
 	<Page.Resources>
 		<converters:StringFormatConverter x:Key="StringFormatConverter"/>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -39,7 +38,7 @@
         		Label="Fermer" FontFamily="Global User Interface" Visibility="{Binding IsWindowsApp, Converter={StaticResource BooleanToVisibilityConverter}}"/>
         </CommandBar>
     </Page.BottomAppBar>
-	<Grid>
+    <Grid Background="{StaticResource BackgroundPage}">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="120"/>
 			<RowDefinition Height="1"/>
@@ -72,7 +71,7 @@
 				<TextBox Text="{Binding ClientCurrent.Ville, Mode=TwoWay}" />
 				<TextBlock Text="Ville" Style="{StaticResource LabelTextBox}"/>
 			</StackPanel>
-			<TextBlock Grid.Column="1" HorizontalAlignment="Center" Margin="0" Grid.RowSpan="12" TextWrapping="Wrap" Text="{Binding ClientCurrent.ChiffreAffaire, ConverterParameter='{}{0} €', Converter={StaticResource StringFormatConverter}}" VerticalAlignment="Center" Foreground="#FF1A90C7" FontSize="40"/>
+            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Margin="0" Grid.RowSpan="12" TextWrapping="Wrap" Text="{Binding ClientCurrent.ChiffreAffaire, ConverterParameter='{}{0} €', Converter={StaticResource StringFormatConverter}}" VerticalAlignment="Center" Foreground="White" FontSize="40"/>
 		</Grid>
 	</Grid>
 </Page>

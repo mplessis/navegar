@@ -6,8 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:converters="using:Navegar.UAP.Exemple.CRM.Converters"
     x:Class="Navegar.UAP.Exemple.CRM.Views.ListCommandesPage"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    mc:Ignorable="d">
     <Page.Resources>
     	<converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <converters:StringFormatConverter x:Key="StringFormatConverter"/>
@@ -23,7 +22,7 @@
         		</Grid.ColumnDefinitions>
         		<TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="0" TextWrapping="Wrap" Text="{Binding NumeroCommande}" VerticalAlignment="Top" FontSize="18.667" FontWeight="Bold"/>
         		<TextBlock HorizontalAlignment="Left" Margin="0" Grid.Row="1" TextWrapping="Wrap" Text="{Binding NumeroClient}" VerticalAlignment="Top" FontSize="14.667"/>
-        		<TextBlock Grid.Column="1" HorizontalAlignment="Center" Margin="30,0,0,0" TextWrapping="Wrap" Text="{Binding TotalCommande, ConverterParameter=Total : \{0\} €, Converter={StaticResource StringFormatConverter}}" VerticalAlignment="Top" Grid.RowSpan="2" FontSize="24" Foreground="#FF1A90C7" FontWeight="Bold"/>
+        		<TextBlock Grid.Column="1" HorizontalAlignment="Center" Margin="30,0,0,0" TextWrapping="Wrap" Text="{Binding TotalCommande, ConverterParameter=Total : \{0\} €, Converter={StaticResource StringFormatConverter}}" VerticalAlignment="Top" Grid.RowSpan="2" FontSize="24" Foreground="White" FontWeight="Bold"/>
         	</Grid>
         </DataTemplate>
     </Page.Resources>
@@ -46,7 +45,7 @@
     <Page.DataContext>
         <Binding Path="ListCommandesPageViewModelInstance" Source="{StaticResource Locator}"/>
     </Page.DataContext>
-	<Grid>
+    <Grid Background="{StaticResource BackgroundPage}">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="120"/>
 			<RowDefinition Height="1"/>

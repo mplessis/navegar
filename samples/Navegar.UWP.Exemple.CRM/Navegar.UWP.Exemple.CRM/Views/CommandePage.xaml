@@ -6,8 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:converters="clr-namespace:Navegar.UWP.Exemple.CRM.Converters"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    mc:Ignorable="d">
     <Page.Resources>
         <converters:StringFormatConverter x:Key="StringFormatConverter"/>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -32,7 +31,7 @@
         		Label="Fermer" FontFamily="Global User Interface" Visibility="{Binding IsWindowsApp, Converter={StaticResource BooleanToVisibilityConverter}}"/>
         </CommandBar>
     </Page.BottomAppBar>
-    <Grid>
+    <Grid Background="{StaticResource BackgroundPage}">
         <Grid.RowDefinitions>
             <RowDefinition Height="120"/>
             <RowDefinition Height="1"/>

@@ -5,8 +5,10 @@
     xmlns:xaml="clr-namespace:Windows.UI.Xaml;assembly=Windows.Foundation.UniversalApiContract"
     xmlns:controls="clr-namespace:Windows.UI.Xaml.Controls;assembly=Windows.Foundation.UniversalApiContract">
 
+    <SolidColorBrush x:Name="BackgroundPage" Color="#407aae" />
+
     <Style x:Key="LabelTextBox" TargetType="TextBlock">
-        <Setter Property="Foreground" Value="#FF1A90C7" />
+        <Setter Property="Foreground" Value="white" />
         <Setter Property="FontSize" Value="21.333" />
         <Setter Property="Margin" Value="0,10,0,0" />
     </Style>

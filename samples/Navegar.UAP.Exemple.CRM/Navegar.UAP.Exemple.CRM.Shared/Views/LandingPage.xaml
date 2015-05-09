@@ -9,7 +9,7 @@
     <Page.DataContext>
         <Binding Path="LandingPageViewModelInstance" Source="{StaticResource Locator}"/>
     </Page.DataContext>
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{StaticResource BackgroundPage}">
         <Grid.RowDefinitions>
             <RowDefinition Height="120"/>
             <RowDefinition/>
