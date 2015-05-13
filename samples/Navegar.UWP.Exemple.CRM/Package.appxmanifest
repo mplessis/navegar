@@ -14,8 +14,8 @@
   <mp:PhoneIdentity PhoneProductId="ef907399-ee4d-4e79-8a06-5d372b215e23" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>Navegar.UWP.Exemple.CRM</DisplayName>
-    <PublisherDisplayName>mples</PublisherDisplayName>
+    <DisplayName>Navegar UWP Exemple CRM</DisplayName>
+    <PublisherDisplayName>mplessis - Kopigi</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
