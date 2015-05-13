@@ -4,18 +4,14 @@
     xmlns:local="using:Navegar.UAP.Exemple.CRM.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:converters="clr-namespace:Navegar.UWP.Exemple.CRM.Converters"
+    xmlns:converters="using:Navegar.UWP.Exemple.CRM.Converters"
     x:Class="Navegar.UAP.Exemple.CRM.Views.ClientPage"
     mc:Ignorable="d">
-	<Page.Resources>
-        <converters:StringFormatConverter x:Key="StringFormatConverter"/>
-        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-    </Page.Resources>
     <Page.DataContext>
         <Binding Path="ClientPageViewModelInstance" Source="{StaticResource Locator}"/>
     </Page.DataContext>
     <Page.BottomAppBar>
-        <CommandBar>
+        <CommandBar Background="{StaticResource BackgroundBottomAppBar}" IsOpen="True">
             <AppBarButton
         		HorizontalAlignment="Left"
         		VerticalAlignment="Top"

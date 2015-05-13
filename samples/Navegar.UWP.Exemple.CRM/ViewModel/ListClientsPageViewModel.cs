@@ -3,7 +3,7 @@ using GalaSoft.MvvmLight.Command;
 using Navegar.UWP.Exemple.CRM.Controllers;
 using Navegar.UWP.Exemple.CRM.POCO;
 
-namespace Navegar.UWP.Exemple.CRM.ViewModels
+namespace Navegar.UWP.Exemple.CRM.ViewModel
 {
     public class ListClientsPageViewModel : ViewModelServices
     {

@@ -8,7 +8,6 @@
     x:Class="Navegar.UAP.Exemple.CRM.Views.ListClientsPage"
     mc:Ignorable="d">
     <Page.Resources>
-    	<converters:StringFormatConverter x:Key="StringFormatConverter"/>
         <DataTemplate x:Key="ClientTemplate">
         	<Grid Margin="0,0,0,20">
         		<Grid.RowDefinitions>
@@ -29,7 +28,7 @@
         <Binding Path="ListClientsPageViewModelInstance" Source="{StaticResource Locator}"/>
     </Page.DataContext>
     <Page.BottomAppBar>
-        <CommandBar>
+        <CommandBar Background="{StaticResource BackgroundBottomAppBar}" IsOpen="True">
             <AppBarButton
         		HorizontalAlignment="Left"
         		VerticalAlignment="Top"

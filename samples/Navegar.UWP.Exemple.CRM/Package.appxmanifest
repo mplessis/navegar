@@ -7,15 +7,15 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="2ab27485-31f7-4586-ba56-c778cb7c488a"
-    Publisher="CN=Marc"
+    Name="ef907399-ee4d-4e79-8a06-5d372b215e23"
+    Publisher="CN=mples"
     Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="2ab27485-31f7-4586-ba56-c778cb7c488a" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="ef907399-ee4d-4e79-8a06-5d372b215e23" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>Navegar.UWP.Exemple.CRM</DisplayName>
-    <PublisherDisplayName>Marc</PublisherDisplayName>
+    <PublisherDisplayName>mples</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
@@ -36,7 +36,7 @@
         Square150x150Logo="Assets\Logo.png"
         Square44x44Logo="Assets\SmallLogo.png"
         Description="Navegar.UWP.Exemple.CRM"
-        BackgroundColor="#407aae">
+        BackgroundColor="#464646">
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
     </Application>

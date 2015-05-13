@@ -4,7 +4,7 @@
       <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Assets/Generic.xaml" />
       </ResourceDictionary.MergedDictionaries>
-      <vm:ViewModelLocator x:Key="Locator" xmlns:vm="using:Navegar.UAP.Exemple.CRM.ViewModel" />
-    </ResourceDictionary>
+            <vm:ViewModelLocator x:Key="Locator" xmlns:vm="using:Navegar.UAP.Exemple.CRM.ViewModel" />
+        </ResourceDictionary>
   </Application.Resources>
 </Application>

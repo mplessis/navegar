@@ -1,7 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using Navegar.UWP.Exemple.CRM.Controllers;
-using Navegar.UWP.Exemple.CRM.ViewModels;
+using Navegar.UWP.Exemple.CRM.ViewModel;
 using Navegar.UWP.Win10;
 using System;
 using System.Collections.Generic;

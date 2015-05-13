@@ -15,7 +15,7 @@
         <Binding Path="CommandePagePageViewModelInstance" Source="{StaticResource Locator}"/>
     </Page.DataContext>
     <Page.BottomAppBar>
-        <CommandBar>
+        <CommandBar Background="{StaticResource BackgroundBottomAppBar}" IsOpen="True">
             <AppBarButton
         		HorizontalAlignment="Left"
         		VerticalAlignment="Top"

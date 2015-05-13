@@ -27,7 +27,7 @@
         </DataTemplate>
     </Page.Resources>
     <Page.BottomAppBar>
-        <CommandBar>
+        <CommandBar Background="{StaticResource BackgroundBottomAppBar}" IsOpen="True">
             <AppBarButton
         		HorizontalAlignment="Left"
         		VerticalAlignment="Top"

@@ -3,7 +3,7 @@ using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using Navegar.UWP.Win10;
 
-namespace Navegar.UWP.Exemple.CRM.ViewModels
+namespace Navegar.UWP.Exemple.CRM.ViewModel
 {
     public class ViewModelServices : ViewModelBase
     {

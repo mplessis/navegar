@@ -15,9 +15,9 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" HorizontalAlignment="Center" Margin="0" TextWrapping="Wrap" Text="Navegar CRM Exemple" VerticalAlignment="Center" FontSize="32" TextAlignment="Center"/>
-        <StackPanel HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Width="300" Grid.Row="1">
+        <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10,0,10,0" Grid.Row="1" Padding="10">
             <TextBlock  Margin="0" TextWrapping="Wrap" FontSize="24" Text="Utilisateur :"/>
-            <ComboBox ItemsSource="{Binding Users}" SelectedItem="{Binding UserCurrent, Mode=TwoWay}" DisplayMemberPath="UserName" Margin="0,5,0,0" Height="50" FontFamily="Global User Interface"/>
+            <ComboBox ItemsSource="{Binding Users}" SelectedItem="{Binding UserCurrent, Mode=TwoWay}" DisplayMemberPath="UserName" Margin="0,5,0,0" Height="50" HorizontalAlignment="Stretch" FontFamily="Global User Interface"/>
             <TextBlock  Margin="0,30,0,0" TextWrapping="Wrap" FontSize="24" Text="Mot de passe :"/>
             <PasswordBox  Margin="0,5,0,0" Password="{Binding UserCurrent.Password, Mode=TwoWay}" FontFamily="Global User Interface" Height="50"/>
             <Button Content="SE CONNECTER" HorizontalAlignment="Stretch" Margin="0,60,0,0" VerticalAlignment="Stretch" Height="50" Command="{Binding ConnectCommand}"/>

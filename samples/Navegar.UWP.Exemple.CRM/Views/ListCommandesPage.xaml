@@ -8,8 +8,6 @@
     x:Class="Navegar.UAP.Exemple.CRM.Views.ListCommandesPage"
     mc:Ignorable="d">
     <Page.Resources>
-    	<converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-        <converters:StringFormatConverter x:Key="StringFormatConverter"/>
         <DataTemplate x:Key="CommandeTemplate">
         	<Grid Margin="0,0,0,20">
         		<Grid.RowDefinitions>
@@ -27,7 +25,7 @@
         </DataTemplate>
     </Page.Resources>
     <Page.BottomAppBar>
-        <CommandBar>
+        <CommandBar Background="{StaticResource BackgroundBottomAppBar}" IsOpen="True">
             <AppBarButton
         		HorizontalAlignment="Left"
         		VerticalAlignment="Top"

@@ -8,14 +8,12 @@
     xmlns:converters="clr-namespace:Navegar.UWP.Exemple.CRM.Converters"
     mc:Ignorable="d">
     <Page.Resources>
-        <converters:StringFormatConverter x:Key="StringFormatConverter"/>
-        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </Page.Resources>
     <Page.DataContext>
         <Binding Path="CommandePagePageViewModelInstance" Source="{StaticResource Locator}"/>
     </Page.DataContext>
     <Page.BottomAppBar>
-        <CommandBar>
+        <CommandBar Background="{StaticResource BackgroundBottomAppBar}" IsOpen="True">
             <AppBarButton
         		HorizontalAlignment="Left"
         		VerticalAlignment="Top"
