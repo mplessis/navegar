@@ -95,10 +95,7 @@ namespace Navegar.UWP.Exemple.CRM
                 SimpleIoc.Default.GetInstance<INavigation>().NavigationCanceledOnPreviewNavigate += OnNavigationCanceledOnPreviewNavigate;
 
                 //Si et seulement si il y a un bouton retour (physique ou virtuel) sur le device
-                if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.Phone.UI.Input.HardwareButtons"))
-                {
-                    SimpleIoc.Default.GetInstance<INavigation>().BackButtonPressed += BackButtonPressed;
-                }
+                SimpleIoc.Default.GetInstance<INavigation>().BackButtonPressed += BackButtonPressed;
 
                 //Navigation vers la premiére page
                 if (string.IsNullOrEmpty(SimpleIoc.Default.GetInstance<INavigation>().NavigateTo<LandingPageViewModel>(true)))

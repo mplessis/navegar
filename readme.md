@@ -11,6 +11,17 @@ Afin d'intégrer Navegar à votre application vous devez installer le package Nu
 
     PM> Install-Package Navegar 
 
+##Nouveautés :
+
+V4 Release Candidate :
+
+- Ajout du support pour Windows 10 en Universal Window Platform
+- Support de la présence d'un bouton de retour suivant les nouvelles capacités de détection du SDK Windows 10 : 
+<code class="language-csharp">
+Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.Phone.UI.Input.HardwareButtons")
+</code>
+- Solution pour Visual Studio 2015 RC avec le projet pour la librairie pour Windows 10 et l'application exemple pour Windows 10 (la solution VS 2013 est toujours présente avec le support pour Windows 8.1)
+
 ##Tutoriaux
 
 Voici différents tutoriaux vous permettant de vous familiariser avec la librairie :
