@@ -21,6 +21,7 @@ V4 Release Candidate :
 <code class="language-csharp">
 Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.Phone.UI.Input.HardwareButtons")
 </code>
+
 - Solution pour Visual Studio 2015 RC avec le projet pour la librairie pour Windows 10 et l'application exemple pour Windows 10 (la solution VS 2013 est toujours présente avec le support pour Windows 8.1)
 
 ##Tutoriaux
