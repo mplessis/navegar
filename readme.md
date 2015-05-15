@@ -16,7 +16,8 @@ Afin d'intégrer Navegar à votre application vous devez installer le package Nu
 V4 Release Candidate :
 
 - Ajout du support pour Windows 10 en Universal Window Platform
-- Support de la présence d'un bouton de retour suivant les nouvelles capacités de détection du SDK Windows 10 : 
+- Support de la présence d'un bouton de retour suivant les nouvelles capacités de détection du SDK Windows 10 :
+
 <code class="language-csharp">
 Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.Phone.UI.Input.HardwareButtons")
 </code>
