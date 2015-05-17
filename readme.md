@@ -1,5 +1,7 @@
 ![Logo Navegar](http://www.kopigi.fr/navegar/navegar.png)
 
+English version [here](https://github.com/mplessis/navegar/blob/master/readme.us.md)
+
 Navegar vous permet de gérer une navigation, au sein de vos applications Universal Apps en utilisant l'approche ViewModel First et non l'approche View First intégrée dans le Framework WinRT, le tout basé sur MVVMLight et SimpleIoc, vous pouvez donc passé d'une page à une autre simplement depuis vos ViewModels.
 
 Navegar permet également, sur le même principe, une navigation inspirée des applications Windows 8 mais pour les applications WPF.
