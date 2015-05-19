@@ -147,7 +147,7 @@ namespace Navegar.UWP.Win10
             get { return _backButtonPressed; }
             set
             {
-                if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.Phone.UI.Input.HardwareButtons"))
+                if (HasBackButton)
                 {
                     if (value != null)
                     {
@@ -168,6 +168,11 @@ namespace Navegar.UWP.Win10
             }
         }
 
+        /// <summary>
+        /// Indique si le device a un bouton de retour physique ou virtuel
+        /// </summary>
+        /// <returns>True si un bouton est présent, sinon false</returns>
+        public bool HasBackButton => Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.Phone.UI.Input.HardwareButtons");
 
         /// <summary>
         /// Permet de référencer la Frame Principale généré au lancement de l'application, pour la suite de la navigation
@@ -178,7 +183,7 @@ namespace Navegar.UWP.Win10
             _navigationStateInitial = rootFrame.GetNavigationState();
             _rootFrame = rootFrame;
 
-            if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.Phone.UI.Input.HardwareButtons"))
+            if (HasBackButton)
             {
                 //Gestion du bouton de retour physique ou virtuel du device
                 Windows.Phone.UI.Input.HardwareButtons.BackPressed += HardwareButtonsBackPressed;

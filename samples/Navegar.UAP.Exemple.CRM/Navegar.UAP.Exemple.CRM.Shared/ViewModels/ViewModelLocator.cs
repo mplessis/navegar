@@ -27,38 +27,38 @@ namespace Navegar.UAP.Exemple.CRM.ViewModel
             }
 
             //Association des ViewModels et des Views associées
-            SimpleIoc.Default.GetInstance<INavigation>().RegisterView<LandingPageViewModel, LandingPage>();
-            SimpleIoc.Default.GetInstance<INavigation>().RegisterView<ClientPageViewModel, ClientPage>();
-            SimpleIoc.Default.GetInstance<INavigation>().RegisterView<ListClientsPageViewModel, ListClientsPage>();
-            SimpleIoc.Default.GetInstance<INavigation>().RegisterView<CommandePageViewModel, CommandePage>();
-            SimpleIoc.Default.GetInstance<INavigation>().RegisterView<ListCommandesPageViewModel, ListCommandesPage>();
+            ServiceLocator.Current.GetInstance<INavigation>().RegisterView<LandingPageViewModel, LandingPage>();
+            ServiceLocator.Current.GetInstance<INavigation>().RegisterView<ClientPageViewModel, ClientPage>();
+            ServiceLocator.Current.GetInstance<INavigation>().RegisterView<ListClientsPageViewModel, ListClientsPage>();
+            ServiceLocator.Current.GetInstance<INavigation>().RegisterView<CommandePageViewModel, CommandePage>();
+            ServiceLocator.Current.GetInstance<INavigation>().RegisterView<ListCommandesPageViewModel, ListCommandesPage>();
         }
 
         #region ViewModel Instance
 
         public LandingPageViewModel LandingPageViewModelInstance
         {
-            get { return SimpleIoc.Default.GetInstance<INavigation>().GetViewModelInstance<LandingPageViewModel>(); }
+            get { return ServiceLocator.Current.GetInstance<INavigation>().GetViewModelInstance<LandingPageViewModel>(); }
         }
 
         public ClientPageViewModel ClientPageViewModelInstance
         {
-            get { return SimpleIoc.Default.GetInstance<INavigation>().GetViewModelInstance<ClientPageViewModel>(); }
+            get { return ServiceLocator.Current.GetInstance<INavigation>().GetViewModelInstance<ClientPageViewModel>(); }
         }
 
         public ListClientsPageViewModel ListClientsPageViewModelInstance
         {
-            get { return SimpleIoc.Default.GetInstance<INavigation>().GetViewModelInstance<ListClientsPageViewModel>(); }
+            get { return ServiceLocator.Current.GetInstance<INavigation>().GetViewModelInstance<ListClientsPageViewModel>(); }
         }
 
         public CommandePageViewModel CommandePagePageViewModelInstance
         {
-            get { return SimpleIoc.Default.GetInstance<INavigation>().GetViewModelInstance<CommandePageViewModel>(); }
+            get { return ServiceLocator.Current.GetInstance<INavigation>().GetViewModelInstance<CommandePageViewModel>(); }
         }
 
         public ListCommandesPageViewModel ListCommandesPageViewModelInstance
         {
-            get { return SimpleIoc.Default.GetInstance<INavigation>().GetViewModelInstance<ListCommandesPageViewModel>(); }
+            get { return ServiceLocator.Current.GetInstance<INavigation>().GetViewModelInstance<ListCommandesPageViewModel>(); }
         }
 
         #endregion

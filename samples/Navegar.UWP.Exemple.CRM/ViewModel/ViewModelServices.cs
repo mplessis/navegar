@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
+using Microsoft.Practices.ServiceLocation;
 using Navegar.UWP.Win10;
 
 namespace Navegar.UWP.Exemple.CRM.ViewModel
@@ -14,24 +15,17 @@ namespace Navegar.UWP.Exemple.CRM.ViewModel
         /// </summary>
         public INavigation NavigationService
         {
-            get { return SimpleIoc.Default.GetInstance<INavigation>(); }
+            get { return ServiceLocator.Current.GetInstance<INavigation>(); }
         }
 
         /// <summary>
-        /// Indique si l'application est de type Windows et non Windows Phone
+        /// Indique si l'application a un bouton back (physique ou virtuel)
         /// </summary>
-        private bool _isWindowsApp;
+        public bool IsWindowsApp => NavigationService.HasBackButton;
 
-        public bool IsWindowsApp
-        {
-            get { return _isWindowsApp; }
-            set
-            {
-                _isWindowsApp = value;
-                RaisePropertyChanged(() => IsWindowsApp);
-            }
-        }
-
+        /// <summary>
+        /// Commande de retour arriére pour les device sans bouton
+        /// </summary>
         public RelayCommand CancelCommand { get; set; }
 
         #endregion
@@ -39,17 +33,14 @@ namespace Navegar.UWP.Exemple.CRM.ViewModel
 
         public ViewModelServices()
         {
-#if WINDOWS_APP
-            IsWindowsApp = true;
             CancelCommand = new RelayCommand(Cancel, CanCancel);
-#endif
         }
 
         #region relaycommand
 
         /// <summary>
         /// Permet de revenir en arriére
-        /// Cette fonction n'est utile que pour la version WINDOWS_APP puisque la version WINDOWS_PHONE_APP utilise le backbutton avec l'implémentation livré dans Navegar
+        /// Cette fonction n'est utile que pour les versions qui n'ont pas de bouton back (physique ou virtuel) puisque les autres utilisent le backbutton avec l'implémentation livré dans Navegar
         /// ou bien une surcharge de cette implémentation (voir l'exemple dans le fichier App.xaml.cs)
         /// </summary>
         private void Cancel()

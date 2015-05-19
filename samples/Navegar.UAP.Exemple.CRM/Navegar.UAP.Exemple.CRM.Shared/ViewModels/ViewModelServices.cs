@@ -4,6 +4,7 @@ using System.Text;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
+using Microsoft.Practices.ServiceLocation;
 using Navegar.UAP.Win81;
 
 namespace Navegar.UAP.Exemple.CRM.ViewModels
@@ -17,7 +18,7 @@ namespace Navegar.UAP.Exemple.CRM.ViewModels
         /// </summary>
         public INavigation NavigationService
         {
-            get { return SimpleIoc.Default.GetInstance<INavigation>(); }
+            get { return ServiceLocator.Current.GetInstance<INavigation>(); }
         }
 
         /// <summary>
