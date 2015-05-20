@@ -14,6 +14,10 @@ For install Navegar inside your application :
 
 ##Changelog :
 
+V4.0.2 Release Candidate :
+
+- Windows 10 version : add HasBackButton property indicating that device has a back button
+
 V4 Release Candidate :
 
 - Add support for Universal Window Platform on Windows 10
