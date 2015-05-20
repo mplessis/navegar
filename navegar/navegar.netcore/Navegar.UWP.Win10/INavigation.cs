@@ -94,12 +94,6 @@ namespace Navegar.UWP.Win10
         T GetViewModelInstance<T>() where T : ViewModelBase;
 
         /// <summary>
-        /// Indique si le device a un bouton de retour physique ou virtuel
-        /// </summary>
-        /// <returns>True si un bouton est présent, sinon false</returns>
-        bool HasBackButton { get; }
-
-        /// <summary>
         /// Naviguer vers l'historique (ViewModel précédent) depuis le ViewModel en cours, si une navigation arriére est possible
         /// </summary>
         void GoBack();
@@ -114,6 +108,12 @@ namespace Navegar.UWP.Win10
         /// Paramétres pour la fonction appelée
         /// </param>
         void GoBack(string functionToLoad, params object[] parametersFunction);
+
+        /// <summary>
+        /// Indique si le device a un bouton de retour physique ou virtuel
+        /// </summary>
+        /// <returns>True si un bouton est présent, sinon false</returns>
+        bool HasBackButton { get; }
 
         /// <summary>
         /// Permet de référencer la Frame Principale généré au lancement de l'application, pour la suite de la navigation
