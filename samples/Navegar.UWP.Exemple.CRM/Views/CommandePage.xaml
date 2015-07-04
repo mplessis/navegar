@@ -21,12 +21,6 @@
         		Icon="Save"
         		Label="Enregistrer" FontFamily="Global User Interface">
             </AppBarButton>
-            <AppBarButton
-        		HorizontalAlignment="Left"
-        		VerticalAlignment="Top"
-        		Command="{Binding CancelCommand}"
-        		Icon="Cancel"
-        		Label="Fermer" FontFamily="Global User Interface" Visibility="{Binding IsWindowsApp, Converter={StaticResource BooleanToVisibilityConverter}}"/>
         </CommandBar>
     </Page.BottomAppBar>
     <Grid Background="{StaticResource BackgroundPage}">

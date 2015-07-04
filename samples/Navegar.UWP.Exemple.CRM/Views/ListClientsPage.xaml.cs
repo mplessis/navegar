@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Practices.ServiceLocation;
+using Navegar.UWP.Win10;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -34,6 +36,7 @@ namespace Navegar.UAP.Exemple.CRM.Views
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            ServiceLocator.Current.GetInstance<INavigation>().ShowVirtualBackButton(false);
         }
     }
 }

@@ -214,12 +214,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\navegar\navegar.netcore\Navegar.UWP.Win10\Navegar.UWP.Win10.csproj">
-      <Project>{fb908eca-4d03-4e0a-bf7a-3fd4b24deb40}</Project>
-      <Name>Navegar.UWP.Win10</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <SDKReference Include="WindowsDesktop, Version=10.0.10069.0">
       <Name>Microsoft Desktop Extension SDK for Universal App Platform</Name>
     </SDKReference>
@@ -229,6 +223,12 @@
     <SDKReference Include="WindowsMobile, Version=10.0.0.1">
       <Name>Microsoft Mobile Extension SDK for Universal App Platform</Name>
     </SDKReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\navegar\navegar.netcore\Navegar.UWP.Win10\Navegar.UWP.Win10.csproj">
+      <Project>{fb908eca-4d03-4e0a-bf7a-3fd4b24deb40}</Project>
+      <Name>Navegar.UWP.Win10</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

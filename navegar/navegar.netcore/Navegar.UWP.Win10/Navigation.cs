@@ -174,6 +174,9 @@ namespace Navegar.UWP.Win10
         /// Evenement de navigation arriére avec le bouton virtuel
         /// Permet de définir soit même une fonction gérant ce retour sans utiliser celui par défaut de Navegar
         /// </summary>
+        /// <remarks>
+        /// Supporté uniquement sur la version desktop de Windows 10
+        /// </remarks>
         public System.EventHandler<Windows.UI.Core.BackRequestedEventArgs> BackVirtualButtonPressed
         {
             get { return _backVirtualButtonPressed; }
@@ -211,6 +214,9 @@ namespace Navegar.UWP.Win10
         /// Indique si le device a un bouton de retour virtuel affiché
         /// </summary>
         /// <returns>True si un bouton est présent, sinon false</returns>
+        /// <remarks>
+        /// Supporté uniquement sur la version desktop de Windows 10
+        /// </remarks>
         public bool HasVirtualBackButtonShow => Windows.UI.Core.SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility == Windows.UI.Core.AppViewBackButtonVisibility.Visible;
 
         /// <summary>
@@ -510,6 +516,7 @@ namespace Navegar.UWP.Win10
         /// <param name="force">permet de forcer l'affichage même si le device posséde un bouton physique</param>
         /// <remarks>
         /// Si le device utilisé posséde un bouton physique cette fonction n'affiche pas de bouton, sauf à forcer l'affichage avec le paramétre
+        /// Supporté uniquement sur la version desktop de Windows 10
         /// </remarks>
         public void ShowVirtualBackButton(bool visible = true, bool force = false)
         {
