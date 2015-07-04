@@ -47,10 +47,16 @@ namespace Navegar.UWP.Win10
         event EventHandler NavigationCanceledOnPreviewNavigate;
 
         /// <summary>
-        /// Evenement de navigation arriére avec le bouton physique ou virtuel
+        /// Evenement de navigation arriére avec le bouton physique
         /// Permet de définir soit même une fonction gérant ce retour sans utiliser celui par défaut de Navegar
         /// </summary>
         System.EventHandler<Windows.Phone.UI.Input.BackPressedEventArgs> BackButtonPressed { get; set; }
+
+        /// <summary>
+        /// Evenement de navigation arriére avec le bouton virtuel
+        /// Permet de définir soit même une fonction gérant ce retour sans utiliser celui par défaut de Navegar
+        /// </summary>
+        System.EventHandler<Windows.UI.Core.BackRequestedEventArgs> BackVirtualButtonPressed { get; set; }
 
         /// <summary>
         /// Déterminer si un historique est possible depuis le ViewModel en cours
@@ -110,10 +116,16 @@ namespace Navegar.UWP.Win10
         void GoBack(string functionToLoad, params object[] parametersFunction);
 
         /// <summary>
-        /// Indique si le device a un bouton de retour physique ou virtuel
+        /// Indique si le device a un bouton de retour physique
         /// </summary>
         /// <returns>True si un bouton est présent, sinon false</returns>
         bool HasBackButton { get; }
+
+        /// <summary>
+        /// Indique si le device a un bouton de retour virtuel affiché
+        /// </summary>
+        /// <returns>True si un bouton est présent, sinon false</returns>
+        bool HasVirtualBackButtonShow { get; }
 
         /// <summary>
         /// Permet de référencer la Frame Principale généré au lancement de l'application, pour la suite de la navigation
@@ -230,5 +242,15 @@ namespace Navegar.UWP.Win10
         void RegisterView<TViewModel, TView>() 
             where TViewModel : ViewModelBase 
             where TView : Page;
+
+        /// <summary>
+        /// Perrmet d'afficher le bouton virtuel dans la barre de titre de l'application
+        /// </summary>
+        /// <param name="visible">indique si l'on doit rendre le bouton visible ou non</param>
+        /// <param name="force">permet de forcer l'affichage même si le device posséde un bouton physique</param>
+        /// <remarks>
+        /// Si le device utilisé posséde un bouton physique cette fonction n'affiche pas de bouton, sauf à forcer l'affichage avec le paramétre
+        /// </remarks>
+        void ShowVirtualBackButton(bool visible = true, bool force=false);
     }
 }

@@ -168,11 +168,50 @@ namespace Navegar.UWP.Win10
             }
         }
 
+        private System.EventHandler<Windows.UI.Core.BackRequestedEventArgs> _backVirtualButtonPressed;
+
+        /// <summary>
+        /// Evenement de navigation arriére avec le bouton virtuel
+        /// Permet de définir soit même une fonction gérant ce retour sans utiliser celui par défaut de Navegar
+        /// </summary>
+        public System.EventHandler<Windows.UI.Core.BackRequestedEventArgs> BackVirtualButtonPressed
+        {
+            get { return _backVirtualButtonPressed; }
+            set
+            {
+                if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.Core.SystemNavigationManager"))
+                {
+                    if (value != null)
+                    {
+                        Windows.UI.Core.SystemNavigationManager.GetForCurrentView().BackRequested -= VirtualBackPressed;
+                        Windows.UI.Core.SystemNavigationManager.GetForCurrentView().BackRequested += value;
+                    }
+                    else
+                    {
+                        Windows.UI.Core.SystemNavigationManager.GetForCurrentView().BackRequested -= _backVirtualButtonPressed;
+                        Windows.UI.Core.SystemNavigationManager.GetForCurrentView().BackRequested += VirtualBackPressed;
+
+                    }
+                    _backVirtualButtonPressed = value;
+                }
+                else
+                {
+                    _backVirtualButtonPressed = null;
+                }
+            }
+        }
+
         /// <summary>
         /// Indique si le device a un bouton de retour physique ou virtuel
         /// </summary>
         /// <returns>True si un bouton est présent, sinon false</returns>
         public bool HasBackButton => Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.Phone.UI.Input.HardwareButtons");
+
+        /// <summary>
+        /// Indique si le device a un bouton de retour virtuel affiché
+        /// </summary>
+        /// <returns>True si un bouton est présent, sinon false</returns>
+        public bool HasVirtualBackButtonShow => Windows.UI.Core.SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility == Windows.UI.Core.AppViewBackButtonVisibility.Visible;
 
         /// <summary>
         /// Permet de référencer la Frame Principale généré au lancement de l'application, pour la suite de la navigation
@@ -185,8 +224,14 @@ namespace Navegar.UWP.Win10
 
             if (HasBackButton)
             {
-                //Gestion du bouton de retour physique ou virtuel du device
+                //Gestion du bouton de retour physique du device
                 Windows.Phone.UI.Input.HardwareButtons.BackPressed += HardwareButtonsBackPressed;
+            }
+
+            if(Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.Core.SystemNavigationManager"))
+            {
+                //Gestion du bouton de retour vituel du device
+                Windows.UI.Core.SystemNavigationManager.GetForCurrentView().BackRequested += VirtualBackPressed;
             }
         }
 
@@ -456,6 +501,25 @@ namespace Navegar.UWP.Win10
         {
             ClearNavigation();
             GC.Collect();
+        }
+
+        /// <summary>
+        /// Perrmet d'afficher le bouton virtuel dans la barre de titre de l'application
+        /// </summary>
+        /// <param name="visible">indique si l'on doit rendre le bouton visible ou non</param>
+        /// <param name="force">permet de forcer l'affichage même si le device posséde un bouton physique</param>
+        /// <remarks>
+        /// Si le device utilisé posséde un bouton physique cette fonction n'affiche pas de bouton, sauf à forcer l'affichage avec le paramétre
+        /// </remarks>
+        public void ShowVirtualBackButton(bool visible = true, bool force = false)
+        {
+            if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.Core.SystemNavigationManager"))
+            {
+                if(!HasBackButton || force)
+                {
+                    Windows.UI.Core.SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = visible ? Windows.UI.Core.AppViewBackButtonVisibility.Visible : Windows.UI.Core.AppViewBackButtonVisibility.Collapsed;
+                }
+            }
         }
 
         #region private
@@ -755,11 +819,25 @@ namespace Navegar.UWP.Win10
         }
 
         /// <summary>
-        /// Fonction par défaut du retour en arriére par le bouton phyique ou virtuel du device
+        /// Fonction par défaut du retour en arriére par le bouton phyique du device
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void HardwareButtonsBackPressed(object sender, Windows.Phone.UI.Input.BackPressedEventArgs e)
+        {
+            if (CanGoBack())
+            {
+                GoBack();
+                e.Handled = true;
+            }
+        }
+
+        /// <summary>
+        /// Fonction par défaut du retour en arriére par le bouton virtuel du device
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void VirtualBackPressed(object sender, Windows.UI.Core.BackRequestedEventArgs e)
         {
             if (CanGoBack())
             {
