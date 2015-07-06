@@ -15,6 +15,11 @@ Afin d'intégrer Navegar à votre application vous devez installer le package Nu
 
 ##Nouveautés :
 
+V4.0.3 Release Candidate :
+
+- Version Windows 10 : gestion du bouton de retour virtuel dans la barre de titre des applications UWP en version desktop. Avec la fonction ShowVirtualBackButton (affichage du bouton) et l'événement BackVirtualButtonPressed (pour personnaliser le retour arrière dans l'application)
+- Version Windows 10 : ajout d'une propriété HasVirtualBackButtonShow indiquant si le bouton de retour virtuel est actuellement affiché
+
 V4.0.2 Release Candidate :
 
 - Version Windows 10 : ajout d'une propriété HasBackButton indiquant si le device posséde un bouton de retour
