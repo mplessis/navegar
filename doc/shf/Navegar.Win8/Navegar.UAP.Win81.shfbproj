@@ -27,7 +27,7 @@
     <SccLocalPath>
     </SccLocalPath>
     <DocumentationSources>
-      <DocumentationSource sourceFile="..\..\NavegarLib\Navegar.Win81\Navegar.UAP.Win81.csproj" />
+      <DocumentationSource sourceFile="..\..\..\navegar\navegar.netcore\Navegar.Win81\Navegar.UAP.Win81.csproj" />
     </DocumentationSources>
     <SyntaxFilters>C#</SyntaxFilters>
     <SdkLinkTarget>Blank</SdkLinkTarget>
@@ -42,10 +42,10 @@
     <MissingTags>None</MissingTags>
     <ApiFilter>
       <Filter entryType="Namespace" fullName="Navegar.UAP.Win81" isExposed="True">
-  <Filter entryType="Class" fullName="Navegar.UAP.Win81.EventHandler" filterName="EventHandler" isExposed="False" />
-  <Filter entryType="Class" fullName="Navegar.UAP.Win81.Navigation" filterName="Navigation" isExposed="False" />
-  <Filter entryType="Class" fullName="Navegar.UAP.Win81.TypeExtensions" filterName="TypeExtensions" isExposed="False" />
-</Filter>
+        <Filter entryType="Class" fullName="Navegar.UAP.Win81.EventHandler" filterName="EventHandler" isExposed="False" />
+        <Filter entryType="Class" fullName="Navegar.UAP.Win81.Navigation" filterName="Navigation" isExposed="False" />
+        <Filter entryType="Class" fullName="Navegar.UAP.Win81.TypeExtensions" filterName="TypeExtensions" isExposed="False" />
+      </Filter>
     </ApiFilter>
     <ComponentConfigurations />
     <HelpAttributes />

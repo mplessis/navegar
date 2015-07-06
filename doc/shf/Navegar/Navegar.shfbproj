@@ -27,7 +27,7 @@
     <SccLocalPath>
     </SccLocalPath>
     <DocumentationSources>
-      <DocumentationSource sourceFile="..\..\NavegarLib\Navegar.WPF45\Navegar.WPF45.csproj" />
+      <DocumentationSource sourceFile="..\..\..\navegar\navegar.net\Navegar.WPF451\Navegar.WPF451.csproj" />
     </DocumentationSources>
     <SyntaxFilters>C#</SyntaxFilters>
     <SdkLinkTarget>Blank</SdkLinkTarget>
@@ -58,7 +58,7 @@
     <BuildAssemblerVerbosity>OnlyWarningsAndErrors</BuildAssemblerVerbosity>
     <HelpFileFormat>Website</HelpFileFormat>
     <IndentHtml>False</IndentHtml>
-    <FrameworkVersion>.NET Framework 4.5</FrameworkVersion>
+    <FrameworkVersion>.NET Framework 4.5.1</FrameworkVersion>
     <KeepLogFile>True</KeepLogFile>
     <DisableCodeBlockComponent>False</DisableCodeBlockComponent>
     <CppCommentsFixup>False</CppCommentsFixup>

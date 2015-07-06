@@ -27,7 +27,7 @@
       <Argument Key="maxVersionParts" Value="" xmlns="" />
     </TransformComponentArguments>
     <DocumentationSources>
-      <DocumentationSource sourceFile="..\..\..\navegar\navegar.netcore\Navegar.UWP.Win10\Navegar.UWP.Win10.csproj" xmlns="" />
+      <DocumentationSource sourceFile="..\..\..\navegar\navegar.netcore\Navegar.UWP.Win10\Navegar.UWP.Win10.csproj" />
     </DocumentationSources>
     <BuildAssemblerVerbosity>OnlyWarningsAndErrors</BuildAssemblerVerbosity>
     <HelpFileFormat>Website</HelpFileFormat>

@@ -35,7 +35,7 @@
     <SccLocalPath>
     </SccLocalPath>
     <DocumentationSources>
-      <DocumentationSource sourceFile="..\..\NavegarLib\Navegar.WP81\Navegar.UAP.WP81.csproj" />
+      <DocumentationSource sourceFile="..\..\..\navegar\navegar.netcore\Navegar.WP81\Navegar.UAP.WP81.csproj" />
     </DocumentationSources>
     <BuildAssemblerVerbosity>OnlyErrors</BuildAssemblerVerbosity>
     <HelpFileFormat>Website</HelpFileFormat>
