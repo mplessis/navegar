@@ -14,6 +14,11 @@ For install Navegar inside your application :
 
 ##Changelog :
 
+V4.0.3 Release Candidate :
+
+- Windows 10 version : Add implementation for back button virtuel in title bar of UWP app desktop. ShowVirtualBackButton function (showing button) and BackVirtualButtonPressed event (to customize back in your application)
+- Version Windows 10 : add HasVirtualBackButtonShow property indicating that current page has a back button virtual visible
+- 
 V4.0.2 Release Candidate :
 
 - Windows 10 version : add HasBackButton property indicating that device has a back button
