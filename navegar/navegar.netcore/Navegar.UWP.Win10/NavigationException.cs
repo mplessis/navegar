@@ -5,7 +5,7 @@
 // <author>Marc PLESSIS</author>
 // <date>08/05/2105</date>
 // <project>Navegar.UWP.Win10</project>
-// <web>http://www.kopigi.fr</web>
+// <web>http://navegar.kopigi.fr</web>
 // <license>
 // The MIT License (MIT)
 // 

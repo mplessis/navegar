@@ -5,7 +5,7 @@
 // <author>Marc PLESSIS</author>
 // <date>26/10/2013</date>
 // <project>Navegar</project>
-// <web>http://www.kopigi.fr</web>
+// <web>http://navegar.kopigi.fr</web>
 // <license>
 // The MIT License (MIT)
 // 

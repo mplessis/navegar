@@ -5,11 +5,11 @@
 // <author>Marc PLESSIS</author>
 // <date>08/05/2105</date>
 // <project>Navegar.UWP.Win10</project>
-// <web>http://www.kopigi.fr</web>
+// <web>http://navegar.kopigi.fr</web>
 // <license>
 // The MIT License (MIT)
 // 
-// Copyright (c) 2015 Marc Plessis
+// Copyright (c) 2015 Marc Plessisqsfqs
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 // 

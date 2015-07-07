@@ -143,4 +143,4 @@ Afin de revenir vers le premier ViewModel il vous faut ajouter un bouton qui vou
         SimpleIoc.Default.GetInstance<INavigation>().GoBack();
     }
 
-Voila votre navigation est maintenant en place de façon simple. Pour plus de détails sur les fonctionnalités de la fonction NavigateTo et GoBack vous pouvez consulter [la documentation de code en ligne](http://www.kopigi.fr/navegar/documentation/wpf).
+Voila votre navigation est maintenant en place de façon simple. Pour plus de détails sur les fonctionnalités de la fonction NavigateTo et GoBack vous pouvez consulter [la documentation de code en ligne](http://navegar.kopigi.fr/navegar/documentation/wpf).
