@@ -25,6 +25,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
@@ -109,6 +110,7 @@ namespace Navegar.XamarinForms
         private Page _rootFrame;
         private readonly Dictionary<Type, bool> _historyNavigation = new Dictionary<Type, bool>(); //La valeur indique si il s'agit d'une navigation modale ou non
         private readonly Dictionary<Type, Type> _viewsRegister = new Dictionary<Type, Type>();
+        private readonly Dictionary<Type, Action> _viewsActionOnBackButtonRegister = new Dictionary<Type, Action>(); 
 
         #endregion
 
@@ -123,14 +125,128 @@ namespace Navegar.XamarinForms
         public PreNavigateDelegate<ViewModelBase> PreviewNavigate { get; set; }
 
         /// <summary>
+        /// Déclenche l'événement d'annulation de navigation
+        /// </summary>
+        public void CancelNavigation()
+        {
+            if (NavigationCanceledOnPreviewNavigate != null)
+            {
+                NavigationCanceledOnPreviewNavigate(this, EventArgs.Empty);
+            }
+        }
+
+        /// <summary>
+        /// Déterminer si un historique est possible depuis le ViewModel en cours
+        /// </summary>
+        /// <returns>
+        /// <c>true</c> si la navigation est possible, sinon <c>false</c>
+        /// </returns>
+        public bool CanGoBack()
+        {
+            return _currentViewModel != null && _historyInstances.ContainsKey(_currentViewModel);
+        }
+
+        /// <summary>
+        /// Permet de vider l'historique de navigation
+        /// </summary>
+        public void Clear()
+        {
+            ClearNavigation();
+        }
+
+        /// <summary>
+        /// Permet de connaitre le type du ViewModel au niveau n-1 de l'historique de navigation
+        /// </summary>
+        /// <returns>Type du ViewModel</returns>
+        public Type GetTypeViewModelToBack()
+        {
+            if (CanGoBack())
+            {
+                if (_historyInstances.ContainsKey(_currentViewModel))
+                {
+                    Type viewModelFrom;
+                    if (_historyInstances.TryGetValue(_currentViewModel, out viewModelFrom))
+                    {
+                        return viewModelFrom;
+                    }
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Récupére l'instance du ViewModel
+        /// </summary>
+        /// <typeparam name="T">
+        /// Type du ViewModel
+        /// </typeparam>
+        /// <returns>
+        /// Instance du ViewModel
+        /// </returns>
+        public T GetViewModelInstance<T>() where T : ViewModelBase
+        {
+            if (_factoriesInstances.ContainsKey(typeof(T)))
+            {
+                string key;
+                var result = _factoriesInstances.TryGetValue(typeof(T), out key);
+                if (result)
+                {
+                    return SimpleIoc.Default.GetInstance<T>(key);
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Naviguer vers l'historique (ViewModel précédent) depuis le ViewModel en cours, si une navigation arriére est possible
+        /// </summary>
+        public void GoBack()
+        {
+            if (CanGoBack())
+            {
+                if (_historyInstances.ContainsKey(_currentViewModel))
+                {
+                    Type viewModelFrom;
+                    if (_historyInstances.TryGetValue(_currentViewModel, out viewModelFrom))
+                    {
+                        Navigate(viewModelFrom, null, null);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Naviguer vers l'historique (ViewModel précédent) depuis le ViewModel en cours, si une navigation arriére est possible
+        /// </summary>
+        /// /// <param name="functionToLoad">
+        /// Permet de spécifier un nom de fonction à appeler aprés le chargement du viewModel ciblé
+        /// </param>
+        /// <param name="parametersFunction">
+        /// Paramétres pour la fonction appelée
+        /// </param>
+        public void GoBack(string functionToLoad, params object[] parametersFunction)
+        {
+            if (CanGoBack())
+            {
+                if (_historyInstances.ContainsKey(_currentViewModel))
+                {
+                    Type viewModelFrom;
+                    if (_historyInstances.TryGetValue(_currentViewModel, out viewModelFrom))
+                    {
+                        Navigate(viewModelFrom, functionToLoad, parametersFunction);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// Permet de référencer la page principale générée au lancement de l'application, pour la suite de la navigation
         /// </summary>
         public Page InitializeRootFrame<TViewModelFirst, TViewFirst>() where TViewModelFirst : ViewModelBase where TViewFirst : ContentPage
         {
-            var instanceNew = (TViewFirst)Activator.CreateInstance<TViewFirst>();
-            instanceNew.BindingContext = (TViewModelFirst) Activator.CreateInstance<TViewModelFirst>();
-            _rootFrame = instanceNew;
-            return new NavigationPage(instanceNew);
+           _rootFrame = (TViewFirst)Activator.CreateInstance<TViewFirst>();
+           _rootFrame.BindingContext = (TViewModelFirst) Activator.CreateInstance<TViewModelFirst>();
+            return new NavigationPage(_rootFrame);
         }
 
         /// <summary>
@@ -250,101 +366,6 @@ namespace Navegar.XamarinForms
             return await Navigate<TTo>(typeof(TTo), currentInstance.GetType(), parametersViewModel, functionToLoad, parametersFunction, newInstance);
         }
 
-        /// <summary>
-        /// Déterminer si un historique est possible depuis le ViewModel en cours
-        /// </summary>
-        /// <returns>
-        /// <c>true</c> si la navigation est possible, sinon <c>false</c>
-        /// </returns>
-        public bool CanGoBack()
-        {
-            return _currentViewModel != null && _historyInstances.ContainsKey(_currentViewModel);
-        }
-
-        /// <summary>
-        /// Naviguer vers l'historique (ViewModel précédent) depuis le ViewModel en cours, si une navigation arriére est possible
-        /// </summary>
-        public void GoBack ()
-        {
-            if (CanGoBack()) 
-            {
-                if(_historyInstances.ContainsKey(_currentViewModel))
-                {
-                    Type viewModelFrom;
-                    if(_historyInstances.TryGetValue(_currentViewModel, out viewModelFrom))
-                    {
-                        Navigate(viewModelFrom, null, null);
-                    }   
-                }
-            }
-        }
-
-        /// <summary>
-        /// Naviguer vers l'historique (ViewModel précédent) depuis le ViewModel en cours, si une navigation arriére est possible
-        /// </summary>
-        /// /// <param name="functionToLoad">
-        /// Permet de spécifier un nom de fonction à appeler aprés le chargement du viewModel ciblé
-        /// </param>
-        /// <param name="parametersFunction">
-        /// Paramétres pour la fonction appelée
-        /// </param>
-        public void GoBack(string functionToLoad, params object[] parametersFunction)
-        {
-            if (CanGoBack())
-            {
-                if (_historyInstances.ContainsKey(_currentViewModel))
-                {
-                    Type viewModelFrom;
-                    if (_historyInstances.TryGetValue(_currentViewModel, out viewModelFrom))
-                    {
-                        Navigate(viewModelFrom, functionToLoad, parametersFunction);    
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Permet de connaitre le type du ViewModel au niveau n-1 de l'historique de navigation
-        /// </summary>
-        /// <returns>Type du ViewModel</returns>
-        public Type GetTypeViewModelToBack()
-        {
-            if (CanGoBack())
-            {
-                if (_historyInstances.ContainsKey(_currentViewModel))
-                {
-                    Type viewModelFrom;
-                    if (_historyInstances.TryGetValue(_currentViewModel, out viewModelFrom))
-                    {
-                        return viewModelFrom;
-                    }
-                }
-            }
-            return null;
-        }
-
-        /// <summary>
-        /// Récupére l'instance du ViewModel
-        /// </summary>
-        /// <typeparam name="T">
-        /// Type du ViewModel
-        /// </typeparam>
-        /// <returns>
-        /// Instance du ViewModel
-        /// </returns>
-        public T GetViewModelInstance<T>() where T : ViewModelBase
-        {
-            if (_factoriesInstances.ContainsKey(typeof(T)))
-            {
-                string key;
-                var result = _factoriesInstances.TryGetValue(typeof(T), out key);
-                if (result)
-                {
-                    return SimpleIoc.Default.GetInstance<T>(key);
-                }
-            }
-            return null;
-        }
 
         /// <summary>
         /// Permet d'associer un type pour la vue à un type pour le modéle de vue
@@ -357,6 +378,21 @@ namespace Navegar.XamarinForms
             {
                 _viewsRegister.Add(typeof(TViewModel), typeof(TView));
                 SimpleIoc.Default.Register<TView>();
+            }
+        }
+
+        /// <summary>
+        /// Permet de faire un override de OnBackButtonPressed pour la page associée au ViewModel.
+        /// Attention il faut que page hérite de <see cref="NavegarContentPage"/> pour que cela soit pris en compte.
+        /// Si votre page hérite bien de <see cref="NavegarContentPage"/> mais que vous ne définissez de fonction personnalisée, celle par défaut de Navegar sera appliquée
+        /// </summary>
+        /// <typeparam name="TViewModel">ViewModel associé</typeparam>
+        /// <param name="func">Fonction personnalisée pour le OnBackButtonPressed</param>
+        public void RegisterBackPressedAction<TViewModel>(Action func) where TViewModel : ViewModelBase
+        {
+            if (!_viewsActionOnBackButtonRegister.ContainsKey(typeof(TViewModel)))
+            {
+                _viewsActionOnBackButtonRegister.Add(typeof(TViewModel), func);
             }
         }
 
@@ -375,25 +411,6 @@ namespace Navegar.XamarinForms
                 }
             }
             return null;
-        }
-
-        /// <summary>
-        /// Déclenche l'événement d'annulation de navigation
-        /// </summary>
-        public void CancelNavigation()
-        {
-            if (NavigationCanceledOnPreviewNavigate != null)
-            {
-                NavigationCanceledOnPreviewNavigate(this, EventArgs.Empty);
-            }
-        }
-
-        /// <summary>
-        /// Permet de vider l'historique de navigation
-        /// </summary>
-        public void Clear()
-        {
-            ClearNavigation();
         }
 
         public void Dispose()
@@ -659,7 +676,18 @@ namespace Navegar.XamarinForms
                 }
 
                 var contentPage = (ContentPage)SimpleIoc.Default.GetInstance(typePage, key);
+
+                //Définition du BindingContext
                 contentPage.BindingContext = instanceToNavigate;
+
+                //Association de l'override éventuel du OnBackButtonPressed de la page
+                if (contentPage is NavegarContentPage)
+                {
+                    var func = GetActionOnBackButton(instanceToNavigate.GetType());
+                    ((NavegarContentPage) contentPage).OnBackPressed = func ?? HardwareButtonsBackPressed;
+                }
+
+                //Navigation
                 if (!modal)
                 {
                     await _rootFrame.Navigation.PushAsync(contentPage);
@@ -729,6 +757,32 @@ namespace Navegar.XamarinForms
             }
             _factoriesInstancesView.Clear();
             _rootFrame.Navigation.PopToRootAsync();
+        }
+
+        /// <summary>
+        /// Permet de écupérer la fonction à associer à la page pour OnBackButtonPressed
+        /// </summary>
+        /// <param name="viewModel">Le Viewmodel associé</param>
+        /// <returns></returns>
+        private Action GetActionOnBackButton(Type viewModel)
+        {
+            Action func;
+            if (_viewsActionOnBackButtonRegister.TryGetValue(viewModel, out func))
+            {
+                return func;
+            }
+            return null;
+        } 
+
+        /// <summary>
+        /// Fonction par défaut du retour en arriére par le bouton phyique ou virtuel du device
+        /// </summary>
+        protected void HardwareButtonsBackPressed()
+        {
+            if (CanGoBack())
+            {
+                GoBack();
+            }
         }
         #endregion
     }

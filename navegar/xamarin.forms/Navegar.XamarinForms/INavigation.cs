@@ -214,5 +214,17 @@ namespace Navegar.XamarinForms
         void RegisterView<TViewModel, TView>() 
             where TViewModel : ViewModelBase 
             where TView : ContentPage;
+
+        /// <summary>
+        /// Permet de faire un override de OnBackButtonPressed pour la page associée au ViewModel.
+        /// Attention il faut que page hérite de <see cref="NavegarContentPage"/> pour que cela soit pris en compte.
+        /// Si votre page hérite bien de <see cref="NavegarContentPage"/> mais que vous ne définissez de fonction personnalisée, celle par défaut de Navegar sera appliquée
+        /// </summary>
+        /// <typeparam name="TViewModel">ViewModel associé</typeparam>
+        /// <param name="func">Fonction personnalisée pour le OnBackButtonPressed</param>
+        /// <remarks>
+        /// Votre fonction doit retourner false pour permetre de continuer la naigation arriére, sinon elle sera stoppée.
+        /// </remarks>
+        void RegisterBackPressedAction<TViewModel>(Action func) where TViewModel : ViewModelBase;
     }
 }

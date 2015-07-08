@@ -8,7 +8,7 @@ using Xamarin.Forms;
 
 namespace Navegar.XamarinForms.Exemple.CRM.Views
 {
-    public partial class ListCommandesPage : ContentPage
+    public partial class ListCommandesPage : NavegarContentPage
     {
         public ListCommandesPage()
         {

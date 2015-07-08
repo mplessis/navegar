@@ -27,7 +27,7 @@ namespace Navegar.XamarinForms.Exemple.CRM.ViewModel
 
         private async void GoPage()
         {
-            await ServiceLocator.Current.GetInstance<INavigation>().NavigateTo<ListCommandesPageViewModel>(new object[] {}, "OnLoad", new object[] {}, true);
+            await ServiceLocator.Current.GetInstance<INavigation>().NavigateTo<ListCommandesPageViewModel>(this, new object[] {}, "OnLoad", new object[] {}, true);
         }
     }
 }

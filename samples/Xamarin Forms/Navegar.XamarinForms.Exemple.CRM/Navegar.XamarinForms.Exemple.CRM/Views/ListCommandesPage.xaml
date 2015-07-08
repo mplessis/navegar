@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<xamarinForms:NavegarContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xamarinForms="clr-namespace:Navegar.XamarinForms;assembly=Navegar.XamarinForms"
              x:Class="Navegar.XamarinForms.Exemple.CRM.Views.ListCommandesPage">
 	<Label Text="{Binding MainText2}" VerticalOptions="Center" HorizontalOptions="Center" />
-</ContentPage>
+</xamarinForms:NavegarContentPage>

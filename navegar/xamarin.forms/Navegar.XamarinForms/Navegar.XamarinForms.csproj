@@ -39,6 +39,7 @@
     <Compile Include="FunctionToLoadNavigationException.cs" />
     <Compile Include="HistoryNavigationException.cs" />
     <Compile Include="INavigation.cs" />
+    <Compile Include="NavegarContentPage.cs" />
     <Compile Include="Navigation.cs" />
     <Compile Include="NavigationException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
