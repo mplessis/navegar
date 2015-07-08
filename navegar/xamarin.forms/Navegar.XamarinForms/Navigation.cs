@@ -41,13 +41,6 @@ namespace Navegar.XamarinForms
     public delegate bool PreNavigateDelegate<T>(T currentViewModelInstance, Type currentViewModel, Type viewModelToNavigate) where T : ViewModelBase;
 
     /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="args"></param>
-    public delegate void EventHandler(object sender, EventArgs args);
-
-    /// <summary>
     /// Implémentation de la classe de navigation
     /// </summary>
     /// <example>

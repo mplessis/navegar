@@ -23,7 +23,6 @@ using System;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 using Xamarin.Forms;
-using EventHandler = Navegar.XamarinForms.EventHandler;
 
 namespace Navegar.XamarinForms
 {    
