@@ -25,6 +25,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using Xamarin.Forms;
@@ -62,40 +63,29 @@ namespace Navegar.XamarinForms
     ///
     ///    //Enregistrer la classe de navigation dans l'IOC et les ViewModels
     ///    SimpleIoc.Default.Register&lt;INavigation, Navigation&gt;();
-    ///    SimpleIoc.Default.Register&lt;MainViewModel&gt;();
     ///
     ///    //Association des vues avec leur modéle de vue
     ///    SimpleIoc.Default.GetInstance&lt;INavigation&gt;().RegisterView&lt;BlankPage1ViewModel, BlankPage1&gt;();
     ///    SimpleIoc.Default.GetInstance&lt;INavigation&gt;().RegisterView&lt;BlankPage2ViewModel, BlankPage2&gt;();
     ///  }
-    ///
-    ///  public MainViewModel Main
-    ///  {
-    ///     get { return SimpleIoc.Default.GetInstance&lt;MainViewModel&gt;(); }
-    ///  }
-    ///
-    ///  public BlankPage1ViewModel BlankPage1ViewModel
-    ///  {
-    ///     get { return SimpleIoc.Default.GetInstance&lt;INavigation&gt;().GetViewModelInstance&lt;BlankPage1ViewModel&gt;(); }
-    ///  }
-    ///
-    ///  public BlankPage2ViewModel BlankPage2ViewModel
-    ///  {
-    ///     get { return SimpleIoc.Default.GetInstance&lt;INavigation&gt;().GetViewModelInstance&lt;BlankPage2ViewModel&gt;(); }
-    ///  }
+    /// 
+    /// Dans App.cs (dans le connstructeur)
+    /// 
+    /// //Définition de la page de demarrage de l'application
+    /// MainPage = ServiceLocator.Current.GetInstance&lt;INavigation&gt;().InitializeRootFrame&lt;LandingPageViewModel, LandingPage&gt;();
     /// 
     /// 
     /// Dans MainViewModel.cs :
     /// 
     ///    //Pour aller vers un autre ViewModel
-    ///    SimpleIoc.Default.GetInstance&lt;INavigation&gt;().NavigateTo&lt;FirstViewModel&gt;();
+    ///    await SimpleIoc.Default.GetInstance&lt;INavigation&gt;().NavigateTo&lt;FirstViewModel&gt;();
     /// 
     /// 
     /// 
     /// Dans BlankPage1ViewModel.cs :
     /// 
     ///    //Pour aller vers SecondViewModel.cs, en supposant que le constructeur prenne un argument et que l'on veuille revenir vers FirstViewModel
-    ///    SimpleIoc.Default.GetInstance&lt;INavigation&gt;().NavigateTo&lt;BlankPage2ViewModel&gt;(this, new object[] { Data }, true);
+    ///    await SimpleIoc.Default.GetInstance&lt;INavigation&gt;().NavigateTo&lt;BlankPage2ViewModel&gt;(this, new object[] { Data }, true);
     /// 
     /// 
     /// 
@@ -117,7 +107,7 @@ namespace Navegar.XamarinForms
         private readonly Dictionary<Type, Type> _historyInstances = new Dictionary<Type, Type>();
         private Type _currentViewModel;
         private Page _rootFrame;
-        private readonly Dictionary<Type, string> _historyNavigation = new Dictionary<Type, string>();
+        private readonly Dictionary<Type, bool> _historyNavigation = new Dictionary<Type, bool>(); //La valeur indique si il s'agit d'une navigation modale ou non
         private readonly Dictionary<Type, Type> _viewsRegister = new Dictionary<Type, Type>();
 
         #endregion
@@ -155,9 +145,9 @@ namespace Navegar.XamarinForms
         /// <returns>
         /// Retourne la clé unique pour SimpleIoc, de l'instance du viewmodel vers lequel la navigation a eu lieu
         /// </returns>
-        public string NavigateTo<TTo>(params object[] parametersViewModel) where TTo : class
+        public async Task<string> NavigateTo<TTo>(params object[] parametersViewModel) where TTo : class
         {
-            return Navigate<TTo>(typeof(TTo), null, parametersViewModel, null, null);
+            return await Navigate<TTo>(typeof(TTo), null, parametersViewModel, null, null);
         }
 
         /// <summary>
@@ -175,9 +165,9 @@ namespace Navegar.XamarinForms
         /// <returns>
         /// Retourne la clé unique pour SimpleIoc, de l'instance du viewmodel vers lequel la navigation a eu lieu
         /// </returns>
-        public string NavigateTo<TTo>(bool newInstance, params object[] parametersViewModel) where TTo : class
+        public async Task<string> NavigateTo<TTo>(bool newInstance, params object[] parametersViewModel) where TTo : class
         {
-            return Navigate<TTo>(typeof(TTo), null, parametersViewModel, null, null, newInstance);
+            return await Navigate<TTo>(typeof(TTo), null, parametersViewModel, null, null, newInstance);
         }
 
         /// <summary>
@@ -202,9 +192,9 @@ namespace Navegar.XamarinForms
         /// <returns>
         /// Retourne la clé unique pour SimpleIoc, de l'instance du viewmodel vers lequel la navigation a eu lieu
         /// </returns>  
-        public string NavigateTo<TTo>(object[] parametersViewModel, string functionToLoad, object[] parametersFunction, bool newInstance = false) where TTo : class
+        public async Task<string> NavigateTo<TTo>(object[] parametersViewModel, string functionToLoad, object[] parametersFunction, bool newInstance = false) where TTo : class
         {
-            return Navigate<TTo>(typeof(TTo), null, parametersViewModel, functionToLoad, parametersFunction, newInstance);
+            return await Navigate<TTo>(typeof(TTo), null, parametersViewModel, functionToLoad, parametersFunction, newInstance);
         }
 
         /// <summary>
@@ -225,9 +215,9 @@ namespace Navegar.XamarinForms
         /// <returns>
         /// Retourne la clé unique pour SimpleIoc, de l'instance du viewmodel vers lequel la navigation a eu lieu
         /// </returns>
-        public string NavigateTo<TTo>(ViewModelBase currentInstance, object[] parametersViewModel, bool newInstance = false) where TTo : class
+        public async Task<string> NavigateTo<TTo>(ViewModelBase currentInstance, object[] parametersViewModel, bool newInstance = false) where TTo : class
         {
-            return Navigate<TTo>(typeof(TTo), currentInstance.GetType(), parametersViewModel, null, null, newInstance);
+            return await Navigate<TTo>(typeof(TTo), currentInstance.GetType(), parametersViewModel, null, null, newInstance);
         }
 
         /// <summary>
@@ -255,9 +245,9 @@ namespace Navegar.XamarinForms
         /// <returns>
         /// Retourne la clé unique pour SimpleIoc, de l'instance du viewmodel vers lequel la navigation a eu lieu
         /// </returns>
-        public string NavigateTo<TTo>(ViewModelBase currentInstance, object[] parametersViewModel, string functionToLoad, object[] parametersFunction, bool newInstance = false) where TTo : class
+        public async Task<string> NavigateTo<TTo>(ViewModelBase currentInstance, object[] parametersViewModel, string functionToLoad, object[] parametersFunction, bool newInstance = false) where TTo : class
         {
-            return Navigate<TTo>(typeof(TTo), currentInstance.GetType(), parametersViewModel, functionToLoad, parametersFunction, newInstance);
+            return await Navigate<TTo>(typeof(TTo), currentInstance.GetType(), parametersViewModel, functionToLoad, parametersFunction, newInstance);
         }
 
         /// <summary>
@@ -426,7 +416,7 @@ namespace Navegar.XamarinForms
         /// <param name="parametersFunction">
         /// Paramétres pour la fonction appelée
         /// </param>
-        private void Navigate(Type viewModelToName, string functionToLoad, object[] parametersFunction)
+        private async void Navigate(Type viewModelToName, string functionToLoad, object[] parametersFunction)
         {
             if (viewModelToName != null)
             {
@@ -442,7 +432,14 @@ namespace Navegar.XamarinForms
                     var instance = (ViewModelBase)SimpleIoc.Default.GetInstance(viewModelToName, key);
                     if (instance != null)
                     {
-                        var result = SetGoBack();
+                        //On récupére l'historique de navigation pour savoir si il s'agit d'une navigation hiérarchique ou modale
+                        bool isModal;
+                        if (!_historyNavigation.TryGetValue(viewModelToName, out isModal))
+                        {
+                            isModal = false;
+                        }
+
+                        var result = await SetGoBack(isModal);
                         if (result)
                         {
                             _currentViewModel = viewModelToName;
@@ -498,10 +495,13 @@ namespace Navegar.XamarinForms
         /// <param name="newInstance">
         /// Indique si l'on génére une nouvelle instance obligatoirement
         /// </param>
+        /// <param name="modal">
+        /// Indique si l'on souhaite que la navigation soit modale
+        /// </param>
         /// <returns>
         /// Retourne la clé unique pour SimpleIoc, de l'instance du viewmodel vers lequel la navigation a eu lieu
         /// </returns>
-        private string Navigate<TTo>(Type viewModelToName, Type viewModelFromName, object[] parametersViewModel, string functionToLoad, object[] parametersFunction, bool newInstance = false) where TTo : class
+        private async Task<string> Navigate<TTo>(Type viewModelToName, Type viewModelFromName, object[] parametersViewModel, string functionToLoad, object[] parametersFunction, bool newInstance = false, bool modal = false) where TTo : class
         {
             try
             {
@@ -550,7 +550,7 @@ namespace Navegar.XamarinForms
                     }
 
                     //Gestion de l'historique de navigation
-                    SetNavigationHistory(viewModelFromName);
+                    SetNavigationHistory(viewModelFromName, modal);
                 }
 
                 //Génération d'une instance du viewmodel
@@ -589,7 +589,7 @@ namespace Navegar.XamarinForms
                     var typePage = GetPageRegisterWithViewModel(_currentViewModel);
                     if (typePage != null)
                     {
-                        SetCurrentView(instance, typePage);
+                        SetCurrentView(instance, typePage, modal);
                     }
                 }
 
@@ -638,11 +638,14 @@ namespace Navegar.XamarinForms
         /// <param name="instanceToNavigate">
         /// Instance de la vue qui est devenue la vue courante
         /// </param>
-        private void SetCurrentView(ViewModelBase instanceToNavigate, Type typePage)
+        /// <param name="modal">
+        /// Indique si l'on souhaite que la navigation soit modale
+        /// </param>
+        private async void SetCurrentView(ViewModelBase instanceToNavigate, Type typePage, bool modal = false)
         {
             try
             {
-                var key = string.Empty;
+                string key;
                 if (!_factoriesInstancesView.ContainsKey(typePage))
                 {
                     var instanceNew = Activator.CreateInstance(typePage);
@@ -657,7 +660,15 @@ namespace Navegar.XamarinForms
 
                 var contentPage = (ContentPage)SimpleIoc.Default.GetInstance(typePage, key);
                 contentPage.BindingContext = instanceToNavigate;
-                _rootFrame.Navigation.PushAsync(contentPage);
+                if (!modal)
+                {
+                    await _rootFrame.Navigation.PushAsync(contentPage);
+                }
+                else
+                {
+                    await _rootFrame.Navigation.PushModalAsync(contentPage);
+                }
+                
             }
             catch (Exception e)
             {
@@ -669,21 +680,29 @@ namespace Navegar.XamarinForms
         /// Permet de gérer l'état de navigation à l'instant T pour un ViewModel
         /// </summary>
         /// <param name="viewModelFromName">ViewModel pris en compte</param>
-        private void SetNavigationHistory(Type viewModelFromName)
+        /// <param name="modal">Indique que la navigation est modale</param>
+        private void SetNavigationHistory(Type viewModelFromName, bool modal = false)
         {
             if (!_historyNavigation.ContainsKey(viewModelFromName))
             {
-                //_historyNavigation.Add(viewModelFromName, _rootFrame.Navigation.NavigationStack);
+                _historyNavigation.Add(viewModelFromName, modal);
             }
         }
 
         /// <summary>
         /// Permet de revenir en arriére dans la pile de navigation des pages
         /// </summary>
-        private bool SetGoBack()
+        private async Task<bool> SetGoBack(bool isModal = false)
         {
             //On revient en arriére
-            _rootFrame.Navigation.PopAsync();
+            if (!isModal)
+            {
+                await _rootFrame.Navigation.PopAsync();
+            }
+            else
+            {
+                await _rootFrame.Navigation.PopModalAsync();
+            }
             return true;
         }
 
@@ -709,6 +728,7 @@ namespace Navegar.XamarinForms
                 SimpleIoc.Default.Unregister(instanceSimple);
             }
             _factoriesInstancesView.Clear();
+            _rootFrame.Navigation.PopToRootAsync();
         }
         #endregion
     }

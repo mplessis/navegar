@@ -16,9 +16,9 @@ namespace Navegar.XamarinForms.Exemple.CRM.ViewModel
             GoPageCommand = new RelayCommand(GoPage);
         }
 
-        private void GoPage()
+        private async void GoPage()
         {
-            ServiceLocator.Current.GetInstance<INavigation>().NavigateTo<ListClientsPageViewModel>(true);
+            await ServiceLocator.Current.GetInstance<INavigation>().NavigateTo<ListClientsPageViewModel>(true);
         }
     }
 }

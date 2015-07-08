@@ -20,6 +20,7 @@
 //  </license>
 
 using System;
+using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 using Xamarin.Forms;
 using EventHandler = Navegar.XamarinForms.EventHandler;
@@ -116,7 +117,7 @@ namespace Navegar.XamarinForms
         /// <returns>
         /// Retourne la clé unique pour SimpleIoc, de l'instance du viewmodel vers lequel la navigation a eu lieu
         /// </returns>
-        string NavigateTo<TTo>(params object[] parametersViewModel) where TTo : class;
+        Task<string> NavigateTo<TTo>(params object[] parametersViewModel) where TTo : class;
 
         /// <summary>
         /// Naviguer vers un ViewModel sans historiser le ViewModel actuel en demandant une nouvelle instance du ViewModel ciblé
@@ -133,7 +134,7 @@ namespace Navegar.XamarinForms
         /// <returns>
         /// Retourne la clé unique pour SimpleIoc, de l'instance du viewmodel vers lequel la navigation a eu lieu
         /// </returns>
-        string NavigateTo<TTo>(bool newInstance, params object[] parametersViewModel) where TTo : class;
+        Task<string> NavigateTo<TTo>(bool newInstance, params object[] parametersViewModel) where TTo : class;
 
         /// <summary>
         /// Naviguer vers un ViewModel sans historiser le ViewModel actuel
@@ -157,7 +158,7 @@ namespace Navegar.XamarinForms
         /// <returns>
         /// Retourne la clé unique pour SimpleIoc, de l'instance du viewmodel vers lequel la navigation a eu lieu
         /// </returns>
-        string NavigateTo<TTo>(object[] parametersViewModel, string functionToLoad, object[] parametersFunction, bool newInstance = false) where TTo : class;
+        Task<string> NavigateTo<TTo>(object[] parametersViewModel, string functionToLoad, object[] parametersFunction, bool newInstance = false) where TTo : class;
 
         /// <summary>
         /// Navigeur vers un ViewModel, avec un ViewModel en historique précédent
@@ -177,7 +178,7 @@ namespace Navegar.XamarinForms
         /// <returns>
         /// Retourne la clé unique pour SimpleIoc, de l'instance du viewmodel vers lequel la navigation a eu lieu
         /// </returns>
-        string NavigateTo<TTo>(ViewModelBase currentInstance, object[] parametersViewModel, bool newInstance = false) where TTo : class;
+        Task<string> NavigateTo<TTo>(ViewModelBase currentInstance, object[] parametersViewModel, bool newInstance = false) where TTo : class;
 
         /// <summary>
         /// Navigeur vers un ViewModel, avec un ViewModel en historique précédent. 
@@ -204,7 +205,7 @@ namespace Navegar.XamarinForms
         /// <returns>
         /// Retourne la clé unique pour SimpleIoc, de l'instance du viewmodel vers lequel la navigation a eu lieu
         /// </returns>
-        string NavigateTo<TTo>(ViewModelBase currentInstance, object[] parametersViewModel, string functionToLoad, object[] parametersFunction, bool newInstance = false)
+        Task<string> NavigateTo<TTo>(ViewModelBase currentInstance, object[] parametersViewModel, string functionToLoad, object[] parametersFunction, bool newInstance = false)
             where TTo : class;
 
         /// <summary>
