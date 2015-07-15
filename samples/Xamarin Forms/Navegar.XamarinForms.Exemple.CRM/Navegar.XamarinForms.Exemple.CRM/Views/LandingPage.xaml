@@ -1,6 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:Navegar.XamarinForms.Exemple.CRM.Controls;assembly=Navegar.XamarinForms.Exemple.CRM"
              x:Class="Navegar.XamarinForms.Exemple.CRM.Views.LandingPage">
-    <Button Text="Vers Page 2" Command="{Binding GoPageCommand}"></Button>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Color x:Key="BackgroundPage">#407aae</Color>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <Grid BackgroundColor="{StaticResource BackgroundPage}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="120"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" HorizontalOptions="Center" Text="Navegar CRM Exemple" VerticalOptions="Center" FontSize="32" />
+        <StackLayout HorizontalOptions="Center" VerticalOptions="Center" Grid.Row="1" Padding="5">
+            <Label FontSize="24" Text="Utilisateur :"/>
+            <controls:BindablePicker ItemsSource="{Binding Users}" SelectedItem="{Binding UserCurrent, Mode=TwoWay}"/>
+            <Label FontSize="24" Text="Mot de passe :"/>
+            <Entry Text="{Binding UserCurrent.Password, Mode=TwoWay}" IsPassword="True" />
+            <Button Text="SE CONNECTER" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Command="{Binding ConnectCommand}"/>
+        </StackLayout>
+    </Grid>
 </ContentPage>

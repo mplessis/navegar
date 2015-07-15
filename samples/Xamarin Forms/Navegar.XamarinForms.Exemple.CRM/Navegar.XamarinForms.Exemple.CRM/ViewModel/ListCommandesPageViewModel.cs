@@ -4,43 +4,94 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using Microsoft.Practices.ServiceLocation;
+using Navegar.XamarinForms.Exemple.CRM.Controllers;
+using Navegar.XamarinForms.Exemple.CRM.POCO;
 
 namespace Navegar.XamarinForms.Exemple.CRM.ViewModel
 {
-    public class ListCommandesPageViewModel : ViewModelBase
+    public class ListCommandesPageViewModel : ViewModelServices
     {
-        private string _maintText2;
+        private Client _clientCurrent;
 
-        public string MainText2
+        #region properties
+
+        private List<Commande> _commandes;
+        public List<Commande> Commandes
         {
-            get
-            {
-                return _maintText2;
-            }
+            get { return _commandes; }
             set
             {
-                _maintText2 = value;
-                RaisePropertyChanged(() => MainText2);
+                _commandes = value;
+                RaisePropertyChanged(() => Commandes);
             }
         }
 
-        public ListCommandesPageViewModel()
+        private Commande _selectedCommande;
+        public Commande SelectedCommande
         {
-            ServiceLocator.Current.GetInstance<INavigation>().RegisterBackPressedAction<ListCommandesPageViewModel>(OnBackPressed);
-        }
-
-        public void OnLoad()
-        {
-            MainText2 = "new text";
-        }
-
-        private void OnBackPressed()
-        {
-            if (ServiceLocator.Current.GetInstance<INavigation>().CanGoBack())
+            get { return _selectedCommande; }
+            set
             {
-                ServiceLocator.Current.GetInstance<INavigation>().GoBack();
+                _selectedCommande = value;
+                if (value != null)
+                {
+                    OpenCommande(value);
+                }
+                RaisePropertyChanged(() => SelectedCommande);
             }
         }
+
+        public RelayCommand AddCommand { get; set; }
+        #endregion
+
+        #region cstor
+
+        public ListCommandesPageViewModel(Client client)
+        {
+            AddCommand = new RelayCommand(Add);
+            _clientCurrent = client;
+        }
+
+        #region 
+
+        private void Add()
+        {
+            var cde = new Commande
+            {
+                Id = CommandesController.GetNextIdCde(),
+                NumeroClient = _clientCurrent != null ? _clientCurrent.NumeroClient : String.Empty
+            };
+            OpenCommande(cde);
+        }
+
+        #endregion
+
+
+        #endregion
+
+        #region public
+
+        public void LoadDatas()
+        {
+            Commandes = CommandesController.Initialize().Where(c => c.NumeroClient == _clientCurrent.NumeroClient).ToList();
+        }
+        #endregion
+
+        #region private
+
+        /// <summary>
+        /// Permet de naviguer la page de gestion de la commande
+        /// </summary>
+        private void OpenCommande(Commande commande)
+        {
+            //Navigation vers la page CommandePage
+            //this sert à indiquer que le ViewModel actuel (et donc par extension la page) sera ajouté à l'historique de navigation, afin que Navegar puisse savoir qu'il doit revenir vers cette page au Back
+            //new object[]{commande} permet de passer l'objet client au constructeur du ViewModel CommandePageViewModel
+            //true indique que l'on souhaite une nouvelle instance du ViewModel CommandePageViewModel
+            NavigationService.NavigateTo<CommandePageViewModel>(this, new object[] { commande }, true);
+        }
+        #endregion
     }
 }

@@ -2,6 +2,50 @@
 <xamarinForms:NavegarContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:xamarinForms="clr-namespace:Navegar.XamarinForms;assembly=Navegar.XamarinForms"
+             xmlns:converters="clr-namespace:Navegar.XamarinForms.Exemple.CRM.Converters;assembly=Navegar.XamarinForms.Exemple.CRM"
              x:Class="Navegar.XamarinForms.Exemple.CRM.Views.ListCommandesPage">
-	<Label Text="{Binding MainText2}" VerticalOptions="Center" HorizontalOptions="Center" />
+    <xamarinForms:NavegarContentPage.Resources>
+        <ResourceDictionary>
+            <Color x:Key="BackgroundPage">#407aae</Color>
+            <converters:StringFormatConverter x:Key="StringFormatConverter"/>
+            <DataTemplate x:Key="CommandeTemplate">
+                <ViewCell>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Label HorizontalOptions="Start" Text="{Binding NumeroCommande}" VerticalOptions="Start" FontSize="18.667" FontAttributes="Bold"/>
+                        <Label HorizontalOptions="Start" Grid.Row="1" Text="{Binding NumeroClient}" VerticalOptions="Start" FontSize="14.667"/>
+                        <Label Grid.Column="1" HorizontalOptions="Center" Text="{Binding TotalCommande, ConverterParameter=Total : \{0\} €, Converter={StaticResource StringFormatConverter}}" VerticalOptions="Start" Grid.RowSpan="2" FontSize="24" TextColor="#FFFFFF" FontAttributes="Bold"/>
+                    </Grid>
+                </ViewCell>
+            </DataTemplate>
+        </ResourceDictionary>
+    </xamarinForms:NavegarContentPage.Resources>
+    <xamarinForms:NavegarContentPage.ToolbarItems>
+        <ToolbarItem Text="Ajouter" Command="{Binding AddCommand}">
+            <ToolbarItem.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource" WinPhone="Toolkit.Content/ApplicationBar.Add.png" />
+            </ToolbarItem.Icon>
+        </ToolbarItem>
+        <ToolbarItem Text="Fermer" Command="{Binding CancelCommand}">
+            <ToolbarItem.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource" WinPhone="Toolkit.Content/ApplicationBar.Cancel.png" />
+            </ToolbarItem.Icon>
+        </ToolbarItem>
+    </xamarinForms:NavegarContentPage.ToolbarItems>
+    <Grid BackgroundColor="{StaticResource BackgroundPage}" Padding="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="120"/>
+            <RowDefinition Height="1"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Text="Liste des commandes" VerticalOptions="Center" FontSize="32" HorizontalOptions="Start"/>
+        <ListView x:Name="listView" Grid.Row="2" ItemsSource="{Binding Commandes}" SelectedItem="{Binding SelectedCommande, Mode=TwoWay}" ItemTemplate="{StaticResource CommandeTemplate}"/>
+    </Grid>
 </xamarinForms:NavegarContentPage>

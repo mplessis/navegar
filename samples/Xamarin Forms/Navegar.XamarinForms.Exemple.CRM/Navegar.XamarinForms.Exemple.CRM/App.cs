@@ -20,6 +20,7 @@ namespace Navegar.XamarinForms.Exemple.CRM
 
             //Définition de la page de demarrage de l'application
             MainPage = ServiceLocator.Current.GetInstance<INavigation>().InitializeRootFrame<LandingPageViewModel, LandingPage>();
+            MainPage.BackgroundColor = Color.FromHex("407aae");
         }
 
         protected override void OnStart()
