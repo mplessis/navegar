@@ -237,8 +237,8 @@ namespace Navegar.XamarinForms
         /// </summary>
         public Page InitializeRootFrame<TViewModelFirst, TViewFirst>() where TViewModelFirst : ViewModelBase where TViewFirst : ContentPage
         {
-           _rootFrame = (TViewFirst)Activator.CreateInstance<TViewFirst>();
-           _rootFrame.BindingContext = (TViewModelFirst) Activator.CreateInstance<TViewModelFirst>();
+            _rootFrame = (TViewFirst)Activator.CreateInstance<TViewFirst>();
+            _rootFrame.BindingContext = (TViewModelFirst) Activator.CreateInstance<TViewModelFirst>();
             return new NavigationPage(_rootFrame);
         }
 
