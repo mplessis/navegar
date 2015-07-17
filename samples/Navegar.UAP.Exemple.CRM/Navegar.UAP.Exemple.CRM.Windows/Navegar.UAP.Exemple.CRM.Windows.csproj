@@ -127,9 +127,13 @@
     <Content Include="Assets\StoreLogo.scale-100.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\navegar\navegar.netcore\Navegar.Win81\Navegar.UAP.Win81.csproj">
+    <ProjectReference Include="..\..\..\navegar\libs\Navegar.Libs\Navegar.Libs.csproj">
+      <Project>{e24bfa63-fb8c-47ce-b7d8-ec9e4c078eab}</Project>
+      <Name>Navegar.Libs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\navegar\plateformes\navegar.netcore\Navegar.Win81\Navegar.Plateformes.NetCore.UAP.Win81.csproj">
       <Project>{3b7d8f57-4e7a-4553-9908-1fc372d5c29e}</Project>
-      <Name>Navegar.UAP.Win81</Name>
+      <Name>Navegar.Plateformes.NetCore.UAP.Win81</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

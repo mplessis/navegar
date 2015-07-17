@@ -225,9 +225,9 @@
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\navegar\navegar.netcore\Navegar.UWP.Win10\Navegar.UWP.Win10.csproj">
+    <ProjectReference Include="..\..\navegar\plateformes\navegar.netcore\Navegar.UWP.Win10\Navegar.Plateformes.NetCore.UWP.Win10.csproj">
       <Project>{fb908eca-4d03-4e0a-bf7a-3fd4b24deb40}</Project>
-      <Name>Navegar.UWP.Win10</Name>
+      <Name>Navegar.Plateformes.NetCore.UWP.Win10</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

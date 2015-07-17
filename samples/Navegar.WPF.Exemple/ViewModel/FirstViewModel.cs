@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
+using Navegar.Libs.Interfaces;
 
 namespace Navegar.WPF.Exemple.ViewModel
 {
@@ -29,7 +30,7 @@ namespace Navegar.WPF.Exemple.ViewModel
         //permet de charger le second viewmodel
         private void NextViewModel()
         {
-            SimpleIoc.Default.GetInstance<INavigation>()
+            SimpleIoc.Default.GetInstance<INavigationWpf>()
                      .NavigateTo<SecondViewModel>(this, null, "LoadData", new object[]{ Data }, true);
         }
     }

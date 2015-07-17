@@ -104,9 +104,13 @@
     <Content Include="Assets\WideLogo.scale-240.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\navegar\navegar.netcore\Navegar.WP81\Navegar.UAP.WP81.csproj">
+    <ProjectReference Include="..\..\..\navegar\libs\Navegar.Libs\Navegar.Libs.csproj">
+      <Project>{e24bfa63-fb8c-47ce-b7d8-ec9e4c078eab}</Project>
+      <Name>Navegar.Libs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\navegar\plateformes\navegar.netcore\Navegar.WP81\Navegar.Plateformes.NetCore.UAP.WP81.csproj">
       <Project>{91ddfd14-6990-4042-9fd4-6e83265d701b}</Project>
-      <Name>Navegar.UAP.WP81</Name>
+      <Name>Navegar.Plateformes.NetCore.UAP.WP81</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

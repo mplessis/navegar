@@ -1,5 +1,4 @@
 ﻿using Microsoft.Practices.ServiceLocation;
-using Navegar.UWP.Win10;
 using System;
 using System.Collections.Generic;
 using System.IO;

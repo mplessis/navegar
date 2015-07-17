@@ -25,9 +25,9 @@ using GalaSoft.MvvmLight.Ioc;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=234227
 using GalaSoft.MvvmLight.Views;
+using Navegar.Libs.Interfaces;
 using Navegar.UAP.Exemple.CRM.Controllers;
 using Navegar.UAP.Exemple.CRM.ViewModels;
-using Navegar.UAP.Win81;
 
 namespace Navegar.UAP.Exemple.CRM
 {
@@ -133,16 +133,10 @@ namespace Navegar.UAP.Exemple.CRM
         /// Permet de surcharger le retour arriére, du bouton physique ou virtuel du téléphone. 
         /// Fonction implémentée dans Navegar, cette surcharge n'est pas indispensable, elle vous permet simplement plus de liberté par rapport au métier de votre application
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="backPressedEventArgs"></param>
-        private void BackButtonPressed(object sender, BackPressedEventArgs backPressedEventArgs)
+        private bool BackButtonPressed()
         {
             if (SimpleIoc.Default.GetInstance<INavigation>().CanGoBack())
             {
-                //A ajouter absolument à  partir du moment où l'on sait que l'on peut revenir en arriére
-                //Sinon l'application se ferme
-                backPressedEventArgs.Handled = true;
-
                 //Lorsque l'on revient d'une commande on rafraichi la liste des commandes sur la page de liste
                 if (SimpleIoc.Default.GetInstance<INavigation>().GetTypeViewModelToBack() ==
                     typeof (ListCommandesPageViewModel))
@@ -154,7 +148,11 @@ namespace Navegar.UAP.Exemple.CRM
                 {
                     SimpleIoc.Default.GetInstance<INavigation>().GoBack();
                 }
+                //A ajouter absolument à  partir du moment où l'on sait que l'on peut revenir en arriére
+                //Sinon l'application se ferme
+                return true;
             }
+            return false;
         }
 #endif
 

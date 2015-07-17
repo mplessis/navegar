@@ -2,7 +2,6 @@
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
-using Navegar.UWP.Win10;
 
 namespace Navegar.UWP.Exemple.CRM.ViewModel
 {
