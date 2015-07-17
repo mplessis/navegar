@@ -20,6 +20,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Navegar.Libs.Interfaces;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=402347&clcid=0x409
 
@@ -96,7 +97,6 @@ namespace Navegar.UWP.Exemple.CRM
 
                 //Si et seulement si il y a un bouton retour (physique ou virtuel) sur le device
                 ServiceLocator.Current.GetInstance<INavigation>().BackButtonPressed += BackButtonPressed;
-                ServiceLocator.Current.GetInstance<INavigation>().BackVirtualButtonPressed += BackVirtualButtonPressed;
 
                 //Navigation vers la premiére page
                 if (string.IsNullOrEmpty(ServiceLocator.Current.GetInstance<INavigation>().NavigateTo<LandingPageViewModel>(true)))
@@ -152,36 +152,27 @@ namespace Navegar.UWP.Exemple.CRM
         /// Permet de surcharger le retour arriére, du bouton physique du device. 
         /// Fonction implémentée dans Navegar, cette surcharge n'est pas indispensable, elle vous permet simplement plus de liberté par rapport au métier de votre application
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="backPressedEventArgs"></param>
-        private void BackButtonPressed(object sender, BackPressedEventArgs backPressedEventArgs)
+        private bool BackButtonPressed()
         {
             if (ServiceLocator.Current.GetInstance<INavigation>().CanGoBack())
             {
-                GoBackNavigate();
+                //Lorsque l'on revient d'une commande on rafraichi la liste des commandes sur la page de liste
+                if (ServiceLocator.Current.GetInstance<INavigation>().GetTypeViewModelToBack() ==
+                    typeof(ListCommandesPageViewModel))
+                {
+                    //Permet de relancer la fonction LoadDatas aprés la navigation arriére vers la liste des commandes
+                    ServiceLocator.Current.GetInstance<INavigation>().GoBack("LoadDatas", new object[] { });
+                }
+                else
+                {
+                    ServiceLocator.Current.GetInstance<INavigation>().GoBack();
+                }
 
                 //A ajouter absolument à  partir du moment où l'on sait que l'on peut revenir en arriére
                 //Sinon l'application se ferme
-                backPressedEventArgs.Handled = true;
+                return true;
             }
-        }
-
-        /// <summary>
-        /// Permet de surcharger le retour arriére, du bouton virtuel du device. 
-        /// Fonction implémentée dans Navegar, cette surcharge n'est pas indispensable, elle vous permet simplement plus de liberté par rapport au métier de votre application
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="backPressedEventArgs"></param>
-        private void BackVirtualButtonPressed(object sender, Windows.UI.Core.BackRequestedEventArgs backRequestedEventArgs)
-        {
-            if (ServiceLocator.Current.GetInstance<INavigation>().CanGoBack())
-            {
-                GoBackNavigate();
-
-                //A ajouter absolument à  partir du moment où l'on sait que l'on peut revenir en arriére
-                //Sinon l'application se ferme
-                backRequestedEventArgs.Handled = true;
-            }
+            return false;
         }
 
         /// <summary>
@@ -210,24 +201,6 @@ namespace Navegar.UWP.Exemple.CRM
                 return UsersController.IsConnected;
             }
             return true;
-        }
-
-        /// <summary>
-        /// Gére les traitements métiers du retour arriére
-        /// </summary>
-        private void GoBackNavigate()
-        {
-            //Lorsque l'on revient d'une commande on rafraichi la liste des commandes sur la page de liste
-            if (ServiceLocator.Current.GetInstance<INavigation>().GetTypeViewModelToBack() ==
-                typeof(ListCommandesPageViewModel))
-            {
-                //Permet de relancer la fonction LoadDatas aprés la navigation arriére vers la liste des commandes
-                ServiceLocator.Current.GetInstance<INavigation>().GoBack("LoadDatas", new object[] { });
-            }
-            else
-            {
-                ServiceLocator.Current.GetInstance<INavigation>().GoBack();
-            }
         }
     }
 }

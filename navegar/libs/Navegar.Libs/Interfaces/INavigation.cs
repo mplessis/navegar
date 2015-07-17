@@ -63,16 +63,6 @@ namespace Navegar.Libs.Interfaces
         /// </summary>
         Func<bool> BackButtonPressed { get; set; }
 
-        /// <summary>
-        /// Evenement de navigation arriére avec le bouton virtuel
-        /// Permet de définir soit même une fonction gérant ce retour sans utiliser celui par défaut de Navegar
-        /// </summary>
-        /// <remarks>
-        /// Spécifique à la plateforme .netcore UWP (Windows 10)
-        /// Léve une exception <exception cref="NotImplementedException" /> si la fonction n'est pas implémentée sur la plateforme courante
-        /// </remarks>
-        Func<bool> BackVirtualButtonPressed { get; set; }
-
         #endregion
 
         /// <summary>

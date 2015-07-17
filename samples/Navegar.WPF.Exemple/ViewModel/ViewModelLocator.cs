@@ -1,8 +1,7 @@
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
 using Navegar.Libs.Interfaces;
-using Navegar.Plateformes.NET;
-using Navegar.Plateformes.NET.WPF;
+using Navegar.Plateformes.Net.WPF;
 
 namespace Navegar.WPF.Exemple.ViewModel
 {

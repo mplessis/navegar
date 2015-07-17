@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="Navegar.UAP.Exemple.CRM.Views.CommandePage"
+    x:Class="Navegar.UWP.Exemple.CRM.Views.CommandePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Navegar.UAP.Exemple.CRM.Views"
