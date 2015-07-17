@@ -2,6 +2,8 @@ using System;
 using System.Windows.Threading;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
+using Navegar.Libs.Class;
+using Navegar.Libs.Interfaces;
 
 namespace Navegar.WPF.Exemple.ViewModel
 {
@@ -49,7 +51,7 @@ namespace Navegar.WPF.Exemple.ViewModel
         private void LoadAccueil(object sender, EventArgs e)
         {
             _timerLoadAccueil.Stop();
-            SimpleIoc.Default.GetInstance<INavigation>().NavigateTo<FirstViewModel>();
+            SimpleIoc.Default.GetInstance<INavigationWpf>().NavigateTo<FirstViewModel>();
         }
     }
 }

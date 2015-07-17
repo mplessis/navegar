@@ -3,7 +3,6 @@ using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
 using Navegar.UWP.Exemple.CRM.Controllers;
 using Navegar.UWP.Exemple.CRM.ViewModel;
-using Navegar.UWP.Win10;
 using System;
 using System.Collections.Generic;
 using System.IO;

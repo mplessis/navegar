@@ -5,7 +5,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
-using Navegar.UAP.Win81;
+using Navegar.Libs.Interfaces;
 
 namespace Navegar.UAP.Exemple.CRM.ViewModels
 {

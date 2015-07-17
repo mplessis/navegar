@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
+using Navegar.Libs.Interfaces;
 
 namespace Navegar.WPF.Exemple.ViewModel
 {
@@ -39,19 +40,19 @@ namespace Navegar.WPF.Exemple.ViewModel
 
         private bool CanGoBack()
         {
-            return SimpleIoc.Default.GetInstance<INavigation>().CanGoBack();
+            return SimpleIoc.Default.GetInstance<INavigationWpf>().CanGoBack();
         }
 
         //Permet de revenir sur le premier ViewModel
         private void GoBack()
         {
-            if (SimpleIoc.Default.GetInstance<INavigation>().GetTypeViewModelToBack() == typeof(FirstViewModel))
+            if (SimpleIoc.Default.GetInstance<INavigationWpf>().GetTypeViewModelToBack() == typeof(FirstViewModel))
             {
-                SimpleIoc.Default.GetInstance<INavigation>().GoBack("SetIsRetour", new object[] { true });    
+                SimpleIoc.Default.GetInstance<INavigationWpf>().GoBack("SetIsRetour", new object[] { true });    
             }
             else
             {
-                SimpleIoc.Default.GetInstance<INavigation>().GoBack();
+                SimpleIoc.Default.GetInstance<INavigationWpf>().GoBack();
             }
         }
     }
