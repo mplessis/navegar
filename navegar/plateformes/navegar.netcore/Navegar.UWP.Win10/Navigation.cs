@@ -28,23 +28,15 @@ using System.Reflection;
 using Windows.UI.Xaml.Controls;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
+using Navegar.Libs.Class;
+using Navegar.Libs.Enums;
+using Navegar.Libs.Exceptions;
+using Navegar.Libs.Interfaces;
 
 #endregion
 
 namespace Navegar.Plateformes.NetCore.UWP.Win10
 {
-    /// <summary>
-    /// Permet d'exécuter une action avant la navigation
-    /// </summary>
-    public delegate bool PreNavigateDelegate<T>(T currentViewModelInstance, Type currentViewModel, Type viewModelToNavigate) where T : ViewModelBase;
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="args"></param>
-    public delegate void EventHandler(object sender, EventArgs args);
-
     /// <summary>
     /// Implémentation de la classe de navigation
     /// </summary>
@@ -120,6 +112,8 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
         private readonly Dictionary<Type, string> _historyNavigation = new Dictionary<Type, string>();
         private readonly Dictionary<Type, Type> _viewsRegister = new Dictionary<Type, Type>();
 
+        private Func<bool> _backButtonPressedAction;
+
         #endregion
 
         /// <summary>
@@ -132,9 +126,35 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
         /// </summary>
         public PreNavigateDelegate<ViewModelBase> PreviewNavigate { get; set; }
 
+        #region Surcharge de la navigation arriére
 
-        private System.EventHandler<Windows.Phone.UI.Input.BackPressedEventArgs> _backButtonPressed;
+        /// <summary>
+        /// Indique si le device a un bouton de retour physique ou virtuel
+        /// </summary>
+        /// <returns>True si un bouton est présent, sinon false</returns>
+        public BackButtonTypeEnum HasBackButton
+        {
+            get
+            {
+                if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.Phone.UI.Input.HardwareButtons"))
+                {
+                    return BackButtonTypeEnum.Physical;
+                }
+                else
+                {
+                    if (Windows.UI.Core.SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility == Windows.UI.Core.AppViewBackButtonVisibility.Visible)
+                    {
+                        return BackButtonTypeEnum.Virtual;
+                    }
+                    else
+                    {
+                        return BackButtonTypeEnum.None;
+                    }
+                }
+            }
+        }
 
+        private Func<bool> _backButtonPressed;
         /// <summary>
         /// Evenement de navigation arriére avec le bouton physique ou virtuel
         /// Permet de définir soit même une fonction gérant ce retour sans utiliser celui par défaut de Navegar
@@ -142,93 +162,85 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
         /// <remarks>
         /// Si aucun bouton physique ou virtuel n'est présent sur le device, la valeur est égale à null
         /// </remarks>
-        public System.EventHandler<Windows.Phone.UI.Input.BackPressedEventArgs> BackButtonPressed
+        public Func<bool> BackButtonPressed
         {
             get { return _backButtonPressed; }
             set
             {
-                if (HasBackButton)
+                if (HasBackButton == BackButtonTypeEnum.Physical)
                 {
+                    _backButtonPressedAction = value;
                     if (value != null)
                     {
                         Windows.Phone.UI.Input.HardwareButtons.BackPressed -= HardwareButtonsBackPressed;
-                        Windows.Phone.UI.Input.HardwareButtons.BackPressed += value;
+                        Windows.Phone.UI.Input.HardwareButtons.BackPressed += HardwareButtonBackPressedOverride;
                     }
                     else
                     {
-                        Windows.Phone.UI.Input.HardwareButtons.BackPressed -= _backButtonPressed;
+                        Windows.Phone.UI.Input.HardwareButtons.BackPressed -= HardwareButtonBackPressedOverride;
                         Windows.Phone.UI.Input.HardwareButtons.BackPressed += HardwareButtonsBackPressed;
                     }
                     _backButtonPressed = value;
                 }
                 else
                 {
-                    _backButtonPressed = null;
-                }
-            }
-        }
-
-        private System.EventHandler<Windows.UI.Core.BackRequestedEventArgs> _backVirtualButtonPressed;
-
-        /// <summary>
-        /// Evenement de navigation arriére avec le bouton virtuel
-        /// Permet de définir soit même une fonction gérant ce retour sans utiliser celui par défaut de Navegar
-        /// </summary>
-        /// <remarks>
-        /// Supporté uniquement sur la version desktop de Windows 10
-        /// </remarks>
-        public System.EventHandler<Windows.UI.Core.BackRequestedEventArgs> BackVirtualButtonPressed
-        {
-            get { return _backVirtualButtonPressed; }
-            set
-            {
-                if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.Core.SystemNavigationManager"))
-                {
-                    if (value != null)
+                    if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.Core.SystemNavigationManager"))
                     {
-                        Windows.UI.Core.SystemNavigationManager.GetForCurrentView().BackRequested -= VirtualBackPressed;
-                        Windows.UI.Core.SystemNavigationManager.GetForCurrentView().BackRequested += value;
+                        if (value != null)
+                        {
+                            Windows.UI.Core.SystemNavigationManager.GetForCurrentView().BackRequested -= VirtualBackPressed;
+                            Windows.UI.Core.SystemNavigationManager.GetForCurrentView().BackRequested += VirtualBackPressedOverride;
+                        }
+                        else
+                        {
+                            Windows.UI.Core.SystemNavigationManager.GetForCurrentView().BackRequested -= VirtualBackPressedOverride;
+                            Windows.UI.Core.SystemNavigationManager.GetForCurrentView().BackRequested += VirtualBackPressed;
+
+                        }
+                        _backButtonPressed = value;
                     }
                     else
                     {
-                        Windows.UI.Core.SystemNavigationManager.GetForCurrentView().BackRequested -= _backVirtualButtonPressed;
-                        Windows.UI.Core.SystemNavigationManager.GetForCurrentView().BackRequested += VirtualBackPressed;
-
+                        _backButtonPressed = null;
+                        _backButtonPressedAction = null;
                     }
-                    _backVirtualButtonPressed = value;
-                }
-                else
-                {
-                    _backVirtualButtonPressed = null;
                 }
             }
         }
 
         /// <summary>
-        /// Indique si le device a un bouton de retour physique ou virtuel
+        /// Permet de faire un override de OnBackButtonPressed pour la page associée au ViewModel.
+        /// Attention il faut que page hérite de NavegarContentPage pour que cela soit pris en compte.
+        /// Si votre page hérite bien de NavegarContentPage mais que vous ne définissez de fonction personnalisée, celle par défaut de Navegar sera appliquée
         /// </summary>
-        /// <returns>True si un bouton est présent, sinon false</returns>
-        public bool HasBackButton => Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.Phone.UI.Input.HardwareButtons");
-
-        /// <summary>
-        /// Indique si le device a un bouton de retour virtuel affiché
-        /// </summary>
-        /// <returns>True si un bouton est présent, sinon false</returns>
+        /// <typeparam name="TViewModel">ViewModel associé</typeparam>
+        /// <param name="func">Fonction personnalisée pour le OnBackButtonPressed</param>
         /// <remarks>
-        /// Supporté uniquement sur la version desktop de Windows 10
+        /// Votre fonction doit retourner false pour permetre de continuer la naigation arriére, sinon elle sera stoppée.
+        /// Spécifique à la plateforme Xamarin.Forms
+        /// Léve une exception <exception cref="NotImplementedException" /> si la fonction n'est pas implémentée sur la plateforme courante
         /// </remarks>
-        public bool HasVirtualBackButtonShow => Windows.UI.Core.SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility == Windows.UI.Core.AppViewBackButtonVisibility.Visible;
+        public void RegisterBackPressedAction<TViewModel>(Action func) where TViewModel : ViewModelBase
+        {
+            throw new NotImplementedForCurrentPlatformException();
+        }
+        #endregion
 
         /// <summary>
         /// Permet de référencer la Frame Principale généré au lancement de l'application, pour la suite de la navigation
         /// </summary>
         /// <param name="rootFrame">Frame de navigation principale</param>
-        public void InitializeRootFrame(Frame rootFrame)
+        public void InitializeRootFrame(object rootFrame)
         {
-            _navigationStateInitial = rootFrame.GetNavigationState();
-            _rootFrame = rootFrame;
+            if (!(rootFrame is Frame))
+            {
+                throw new TypeObjectIsNotIncorrectException("Frame");
+            }
 
-            if (HasBackButton)
+            _navigationStateInitial = ((Frame)rootFrame).GetNavigationState();
+            _rootFrame = (Frame)rootFrame;
+
+            if (HasBackButton == BackButtonTypeEnum.Physical)
             {
                 //Gestion du bouton de retour physique du device
                 Windows.Phone.UI.Input.HardwareButtons.BackPressed += HardwareButtonsBackPressed;
@@ -239,6 +251,11 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
                 //Gestion du bouton de retour vituel du device
                 Windows.UI.Core.SystemNavigationManager.GetForCurrentView().BackRequested += VirtualBackPressed;
             }
+        }
+
+        public object InitializeRootFrame<TViewModelFirst, TViewFirst>() where TViewModelFirst : ViewModelBase
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -388,6 +405,25 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
         }
 
         /// <summary>
+        /// Déclenche l'événement d'annulation de navigation
+        /// </summary>
+        public void CancelNavigation()
+        {
+            if (NavigationCanceledOnPreviewNavigate != null)
+            {
+                NavigationCanceledOnPreviewNavigate(this, EventArgs.Empty);
+            }
+        }
+
+        /// <summary>
+        /// Permet de vider l'historique de navigation
+        /// </summary>
+        public void Clear()
+        {
+            ClearNavigation();
+        }
+
+        /// <summary>
         /// Naviguer vers l'historique (ViewModel précédent) depuis le ViewModel en cours, si une navigation arriére est possible
         /// </summary>
         /// /// <param name="functionToLoad">
@@ -455,19 +491,6 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
         }
 
         /// <summary>
-        /// Permet d'associer un type pour la vue à un type pour le modéle de vue
-        /// </summary>
-        public void RegisterView<TViewModel, TView>()
-            where TViewModel : ViewModelBase
-            where TView : Page
-        {
-            if (!_viewsRegister.ContainsKey(typeof(TViewModel)))
-            {
-                _viewsRegister.Add(typeof(TViewModel), typeof(TView));
-            }
-        }
-
-        /// <summary>
         /// Permet de retrouver l'instance du ViewModel courant
         /// </summary>
         /// <returns>ViewModel courant</returns>
@@ -485,28 +508,15 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
         }
 
         /// <summary>
-        /// Déclenche l'événement d'annulation de navigation
+        /// Permet d'associer un type pour la vue à un type pour le modéle de vue
         /// </summary>
-        public void CancelNavigation()
+        public void RegisterView<TViewModel, TView>()
+            where TViewModel : ViewModelBase
         {
-            if (NavigationCanceledOnPreviewNavigate != null)
+            if (!_viewsRegister.ContainsKey(typeof(TViewModel)))
             {
-                NavigationCanceledOnPreviewNavigate(this, EventArgs.Empty);
+                _viewsRegister.Add(typeof(TViewModel), typeof(TView));
             }
-        }
-
-        /// <summary>
-        /// Permet de vider l'historique de navigation
-        /// </summary>
-        public void Clear()
-        {
-            ClearNavigation();
-        }
-
-        public void Dispose()
-        {
-            ClearNavigation();
-            GC.Collect();
         }
 
         /// <summary>
@@ -522,11 +532,17 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
         {
             if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.Core.SystemNavigationManager"))
             {
-                if(!HasBackButton || force)
+                if((HasBackButton == BackButtonTypeEnum.None && HasBackButton != BackButtonTypeEnum.Virtual) || force)
                 {
                     Windows.UI.Core.SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = visible ? Windows.UI.Core.AppViewBackButtonVisibility.Visible : Windows.UI.Core.AppViewBackButtonVisibility.Collapsed;
                 }
             }
+        }
+
+        public void Dispose()
+        {
+            ClearNavigation();
+            GC.Collect();
         }
 
         #region private
@@ -840,6 +856,16 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
         }
 
         /// <summary>
+        /// Surcharge de la fonction de retour arriére sur le bouton physique, définie par l'utilisateur
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void HardwareButtonBackPressedOverride(object sender, Windows.Phone.UI.Input.BackPressedEventArgs e)
+        {
+            e.Handled = _backButtonPressedAction();
+        }
+
+        /// <summary>
         /// Fonction par défaut du retour en arriére par le bouton virtuel du device
         /// </summary>
         /// <param name="sender"></param>
@@ -851,6 +877,16 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
                 GoBack();
                 e.Handled = true;
             }
+        }
+
+        /// <summary>
+        /// Surcharge de la fonction de retour arriére sur le bouton virtuel, définie par l'utilisateur
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void VirtualBackPressedOverride(object sender, Windows.UI.Core.BackRequestedEventArgs e)
+        {
+            e.Handled = _backButtonPressedAction();
         }
         #endregion
     }

@@ -13,10 +13,12 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Navegar.Libs.Enums;
+using Navegar.Libs.Interfaces;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
-namespace Navegar.UAP.Exemple.CRM.Views
+namespace Navegar.UWP.Exemple.CRM.Views
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
@@ -35,7 +37,7 @@ namespace Navegar.UAP.Exemple.CRM.Views
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if(ServiceLocator.Current.GetInstance<INavigation>().HasVirtualBackButtonShow)
+            if(ServiceLocator.Current.GetInstance<INavigation>().HasBackButton == BackButtonTypeEnum.Virtual)
             {
                 ServiceLocator.Current.GetInstance<INavigation>().ShowVirtualBackButton(false);
             }

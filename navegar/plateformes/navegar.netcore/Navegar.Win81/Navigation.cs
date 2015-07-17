@@ -132,20 +132,19 @@ namespace Navegar.Plateformes.NetCore.UAP.Win81
         #region Surcharge de la navigation arriére
 
         /// <summary>
-        /// Permet de faire un override de OnBackButtonPressed pour la page associée au ViewModel.
-        /// Attention il faut que page hérite de NavegarContentPage pour que cela soit pris en compte.
-        /// Si votre page hérite bien de NavegarContentPage mais que vous ne définissez de fonction personnalisée, celle par défaut de Navegar sera appliquée
+        /// Indique si le device a un bouton de retour physique
         /// </summary>
-        /// <typeparam name="TViewModel">ViewModel associé</typeparam>
-        /// <param name="func">Fonction personnalisée pour le OnBackButtonPressed</param>
-        /// <remarks>
-        /// Votre fonction doit retourner false pour permetre de continuer la naigation arriére, sinon elle sera stoppée.
-        /// Spécifique à la plateforme Xamarin.Forms
-        /// Léve une exception <exception cref="NotImplementedException" /> si la fonction n'est pas implémentée sur la plateforme courante
-        /// </remarks>
-        public void RegisterBackPressedAction<TViewModel>(Action func) where TViewModel : ViewModelBase
+        /// <returns>True si un bouton est présent, sinon false</returns>
+        public BackButtonTypeEnum HasBackButton
         {
-            throw new NotImplementedForCurrentPlatformException();
+            get
+            {
+#if WINDOWS_PHONE_APP
+                return BackButtonTypeEnum.Physical;
+#else
+                return BackButtonTypeEnum.None;
+#endif
+            }
         }
 
         /// <summary>
@@ -190,14 +189,21 @@ namespace Navegar.Plateformes.NetCore.UAP.Win81
         }
 
         /// <summary>
-        /// Evenement de navigation arriére avec le bouton virtuel
-        /// Permet de définir soit même une fonction gérant ce retour sans utiliser celui par défaut de Navegar
+        /// Permet de faire un override de OnBackButtonPressed pour la page associée au ViewModel.
+        /// Attention il faut que page hérite de NavegarContentPage pour que cela soit pris en compte.
+        /// Si votre page hérite bien de NavegarContentPage mais que vous ne définissez de fonction personnalisée, celle par défaut de Navegar sera appliquée
         /// </summary>
+        /// <typeparam name="TViewModel">ViewModel associé</typeparam>
+        /// <param name="func">Fonction personnalisée pour le OnBackButtonPressed</param>
         /// <remarks>
-        /// Spécifique à la plateforme .netcore UWP (Windows 10)
+        /// Votre fonction doit retourner false pour permetre de continuer la naigation arriére, sinon elle sera stoppée.
+        /// Spécifique à la plateforme Xamarin.Forms
         /// Léve une exception <exception cref="NotImplementedException" /> si la fonction n'est pas implémentée sur la plateforme courante
         /// </remarks>
-        public Func<bool> BackVirtualButtonPressed { get; set; }
+        public void RegisterBackPressedAction<TViewModel>(Action func) where TViewModel : ViewModelBase
+        {
+            throw new NotImplementedForCurrentPlatformException();
+        }
 
         #endregion
 
@@ -444,22 +450,6 @@ namespace Navegar.Plateformes.NetCore.UAP.Win81
                         Navigate(viewModelFrom, functionToLoad, parametersFunction);    
                     }
                 }
-            }
-        }
-
-        /// <summary>
-        /// Indique si le device a un bouton de retour physique
-        /// </summary>
-        /// <returns>True si un bouton est présent, sinon false</returns>
-        public BackButtonTypeEnum HasBackButton
-        {
-            get
-            {
-#if WINDOWS_PHONE_APP
-                return BackButtonTypeEnum.Physical;
-#else
-                return BackButtonTypeEnum.None;
-#endif
             }
         }
 
