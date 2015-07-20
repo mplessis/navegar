@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using CommonMobiles.ViewModels;
 using Microsoft.Practices.ServiceLocation;
 using Navegar.XamarinForms.Exemple.CRM.ViewModel;
 using Navegar.XamarinForms.Exemple.CRM.Views;

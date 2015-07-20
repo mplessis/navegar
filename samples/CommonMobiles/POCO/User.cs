@@ -23,5 +23,10 @@
                 RaisePropertyChanged(() => Password);
             }
         }
+
+        public override string ToString()
+        {
+            return UserName;
+        }
     }
 }
