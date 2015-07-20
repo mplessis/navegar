@@ -41,66 +41,6 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
     /// <summary>
     /// Implémentation de la classe de navigation
     /// </summary>
-    /// <example>
-    ///   On réalise la navigation suivante :
-    /// 
-    ///   MainViewModel -&gt; FirstViewModel &lt;-&gt; SecondViewModel
-    ///  
-    ///   <code>
-    /// Dans le ViewModelLocator.cs :
-    /// 
-    /// public ViewModelLocator()
-    /// {
-    ///    ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
-    ///
-    ///    //Enregistrer la classe de navigation dans l'IOC et les ViewModels
-    ///    SimpleIoc.Default.Register&lt;INavigation, Navigation&gt;();
-    ///    SimpleIoc.Default.Register&lt;MainViewModel&gt;();
-    ///
-    ///    //Association des vues avec leur modéle de vue
-    ///    SimpleIoc.Default.GetInstance&lt;INavigation&gt;().RegisterView&lt;BlankPage1ViewModel, BlankPage1&gt;();
-    ///    SimpleIoc.Default.GetInstance&lt;INavigation&gt;().RegisterView&lt;BlankPage2ViewModel, BlankPage2&gt;();
-    ///  }
-    ///
-    ///  public MainViewModel Main
-    ///  {
-    ///     get { return SimpleIoc.Default.GetInstance&lt;MainViewModel&gt;(); }
-    ///  }
-    ///
-    ///  public BlankPage1ViewModel BlankPage1ViewModel
-    ///  {
-    ///     get { return SimpleIoc.Default.GetInstance&lt;INavigation&gt;().GetViewModelInstance&lt;BlankPage1ViewModel&gt;(); }
-    ///  }
-    ///
-    ///  public BlankPage2ViewModel BlankPage2ViewModel
-    ///  {
-    ///     get { return SimpleIoc.Default.GetInstance&lt;INavigation&gt;().GetViewModelInstance&lt;BlankPage2ViewModel&gt;(); }
-    ///  }
-    /// 
-    /// 
-    /// Dans MainViewModel.cs :
-    /// 
-    ///    //Pour aller vers un autre ViewModel
-    ///    SimpleIoc.Default.GetInstance&lt;INavigation&gt;().NavigateTo&lt;FirstViewModel&gt;();
-    /// 
-    /// 
-    /// 
-    /// Dans BlankPage1ViewModel.cs :
-    /// 
-    ///    //Pour aller vers SecondViewModel.cs, en supposant que le constructeur prenne un argument et que l'on veuille revenir vers FirstViewModel
-    ///    SimpleIoc.Default.GetInstance&lt;INavigation&gt;().NavigateTo&lt;BlankPage2ViewModel&gt;(this, new object[] { Data }, true);
-    /// 
-    /// 
-    /// 
-    /// Dans BlankPage2ViewModel.cs :
-    /// 
-    ///    //Pour revenir vers BlankPage1ViewModel :
-    ///    if(SimpleIoc.Default.GetInstance&lt;INavigation&gt;().CanGoBack())
-    ///    {
-    ///       SimpleIoc.Default.GetInstance&lt;INavigation&gt;().GoBack();
-    ///    }
-    ///   </code>
-    /// </example>
     public class Navigation : NavigationBase
     {
         #region fields

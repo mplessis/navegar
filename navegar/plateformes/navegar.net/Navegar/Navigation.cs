@@ -33,69 +33,10 @@ using Navegar.Libs.Interfaces;
 
 namespace Navegar.Plateformes.Net.WPF
 {
-#if MEF
-    using System.ComponentModel.Composition;
-#endif
 
     /// <summary>
     /// Implémentation de la classe de navigation
     /// </summary>
-    /// <example>
-    ///   On réalise la navigation suivante :
-    /// 
-    ///   MainViewModel -&gt; FirstViewModel &lt;-&gt; SecondViewModel
-    ///  
-    ///   <code>
-    /// Dans le ViewModelLocator.cs :
-    /// 
-    ///    public ViewModelLocator()
-    ///    {
-    ///       ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
-    ///
-    ///       //1. Enregistrer la classe de navigation dans l'IOC
-    ///       SimpleIoc.Default.Register&lt;INavigation, Navigation&gt;();
-    ///
-    ///       //2. Générer le viewmodel principal, le type du viewmodel peut être n'importe lequel
-    ///       SimpleIoc.Default.GetInstance&lt;INavigation&gt;().GenerateMainViewModelInstance&lt;MainViewModel&gt;();
-    ///    }
-    ///
-    ///    public MainViewModel Main
-    ///    {
-    ///        //3. Retrouve le viewmodel principal
-    ///        get
-    ///        {
-    ///            return SimpleIoc.Default.GetInstance&lt;INavigation&gt;().GetMainViewModelInstance&lt;MainViewModel&gt;();
-    ///        }
-    ///    }
-    ///
-    /// 
-    /// 
-    /// Dans MainViewModel.cs :
-    /// 
-    ///    //Pour aller vers un autre ViewModel
-    ///    SimpleIoc.Default.GetInstance&lt;INavigation&gt;().NavigateTo&lt;FirstViewModel&gt;();
-    /// 
-    /// 
-    /// 
-    /// Dans FirstViewModel.cs :
-    /// 
-    ///    //Pour aller vers SecondViewModel.cs, en supposant que le constructeur prenne un argument et que l'on veuille revenir vers FirstViewModel
-    ///    SimpleIoc.Default.GetInstance&lt;INavigation&gt;().NavigateTo&lt;SecondViewModel&gt;(this, new object[] { Data }, true);
-    /// 
-    /// 
-    /// 
-    /// Dans SecondViewModel.cs :
-    /// 
-    ///    //Pour revenir vers FirstViewModel :
-    ///    if(SimpleIoc.Default.GetInstance&lt;INavigation&gt;().CanGoBack())
-    ///    {
-    ///       SimpleIoc.Default.GetInstance&lt;INavigation&gt;().GoBack();
-    ///    }
-    ///   </code>
-    /// </example>
-#if MEF
-    [Export(typeof(INavigation))]
-#endif
     public class Navigation : INavigationWpf
     {
         #region fields
