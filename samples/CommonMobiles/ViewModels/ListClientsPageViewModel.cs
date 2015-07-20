@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using CommonMobiles.Controllers;
+using CommonMobiles.POCO;
 using GalaSoft.MvvmLight.Command;
-using Navegar.UAP.Exemple.CRM.Controlers;
-using Navegar.UAP.Exemple.CRM.Controllers;
-using Navegar.UAP.Exemple.CRM.POCO;
 
-namespace Navegar.UAP.Exemple.CRM.ViewModels
+namespace CommonMobiles.ViewModels
 {
     public class ListClientsPageViewModel : ViewModelServices
     {

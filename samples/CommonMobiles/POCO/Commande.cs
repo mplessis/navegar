@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Navegar.UAP.Exemple.CRM.POCO
+﻿namespace CommonMobiles.POCO
 {
     public class Commande : PocoBase
     {

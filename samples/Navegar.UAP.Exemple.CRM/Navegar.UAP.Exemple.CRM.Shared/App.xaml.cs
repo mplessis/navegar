@@ -20,14 +20,14 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
+using CommonMobiles.Controllers;
+using CommonMobiles.ViewModels;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=234227
 using GalaSoft.MvvmLight.Views;
 using Navegar.Libs.Interfaces;
-using Navegar.UAP.Exemple.CRM.Controllers;
-using Navegar.UAP.Exemple.CRM.ViewModels;
 
 namespace Navegar.UAP.Exemple.CRM
 {

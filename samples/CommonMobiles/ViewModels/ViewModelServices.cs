@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using GalaSoft.MvvmLight;
+﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
+using Navegar.Libs.Enums;
 using Navegar.Libs.Interfaces;
 
-namespace Navegar.UAP.Exemple.CRM.ViewModels
+namespace CommonMobiles.ViewModels
 {
     public class ViewModelServices : ViewModelBase
     {
@@ -43,17 +40,18 @@ namespace Navegar.UAP.Exemple.CRM.ViewModels
 
         public ViewModelServices()
         {
-#if WINDOWS_APP
-            IsWindowsApp = true;
-            CancelCommand = new RelayCommand(Cancel, CanCancel);
-#endif
+            if (NavigationService.HasBackButton == BackButtonTypeEnum.None)
+            {
+                IsWindowsApp = true;
+                CancelCommand = new RelayCommand(Cancel, CanCancel);
+            }
         }
 
         #region relaycommand
 
         /// <summary>
         /// Permet de revenir en arriére
-        /// Cette fonction n'est utile que pour la version WINDOWS_APP puisque la version WINDOWS_PHONE_APP utilise le backbutton avec l'implémentation livré dans Navegar
+        /// Cette fonction n'est utile que pour les versions sans bouton physique
         /// ou bien une surcharge de cette implémentation (voir l'exemple dans le fichier App.xaml.cs)
         /// </summary>
         private void Cancel()

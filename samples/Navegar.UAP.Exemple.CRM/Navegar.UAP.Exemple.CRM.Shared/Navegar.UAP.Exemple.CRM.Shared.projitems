@@ -22,22 +22,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Controllers\ClientsController.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Controllers\CommandesController.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Controllers\UsersController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\StringFormatConverter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)POCO\Client.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)POCO\Commande.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)POCO\PocoBase.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)POCO\User.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\CommandePageViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\LandingPageViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ListClientsPageViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ListCommandesPageViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ClientPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ViewModelLocator.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ViewModelServices.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\ClientPage.xaml.cs">
       <DependentUpon>ClientPage.xaml</DependentUpon>
     </Compile>

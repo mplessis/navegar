@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using Windows.UI.Popups;
+using CommonMobiles.Controllers;
+using CommonMobiles.Messages;
+using CommonMobiles.POCO;
 using GalaSoft.MvvmLight.Command;
-using Navegar.UAP.Exemple.CRM.Controllers;
-using Navegar.UAP.Exemple.CRM.POCO;
+using GalaSoft.MvvmLight.Messaging;
 
-namespace Navegar.UAP.Exemple.CRM.ViewModels
+namespace CommonMobiles.ViewModels
 {
     public class LandingPageViewModel : ViewModelServices
     {
@@ -71,14 +69,12 @@ namespace Navegar.UAP.Exemple.CRM.ViewModels
                 }
                 else
                 {
-                    var message = new MessageDialog("Mot de passe incorrect", "Erreur");
-                    await message.ShowAsync();
+                    Messenger.Default.Send<MessageLogin>(new MessageLogin() { Message = "Mot de passe incorrect" });
                 }
             }
             else
             {
-                var message = new MessageDialog("Utilisateur inconnu", "Erreur");
-                await message.ShowAsync();
+                Messenger.Default.Send<MessageLogin>(new MessageLogin() { Message = "Utilisateur inconnu" });
             }
         }
         #endregion
