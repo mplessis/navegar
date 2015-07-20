@@ -126,6 +126,12 @@
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\libs\Navegar.Libs\Navegar.Libs.csproj">
+      <Project>{e24bfa63-fb8c-47ce-b7d8-ec9e4c078eab}</Project>
+      <Name>Navegar.Libs</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="GalaSoft.MvvmLight, Version=5.1.1.35049, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\MvvmLightLibs.5.1.1.0\lib\windows81\GalaSoft.MvvmLight.dll</HintPath>
       <Private>True</Private>
@@ -153,12 +159,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\libs\Navegar.Libs\Navegar.Libs.csproj">
-      <Project>{e24bfa63-fb8c-47ce-b7d8-ec9e4c078eab}</Project>
-      <Name>Navegar.Libs</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

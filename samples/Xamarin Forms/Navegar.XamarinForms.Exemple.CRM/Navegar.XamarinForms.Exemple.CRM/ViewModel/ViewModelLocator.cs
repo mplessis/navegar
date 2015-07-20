@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Views;
 using Microsoft.Practices.ServiceLocation;
+using Navegar.Libs.Interfaces;
 using Navegar.XamarinForms.Exemple.CRM.Views;
 
 namespace Navegar.XamarinForms.Exemple.CRM.ViewModel

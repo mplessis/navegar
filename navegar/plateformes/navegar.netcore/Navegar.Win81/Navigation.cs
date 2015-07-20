@@ -500,7 +500,7 @@ namespace Navegar.Plateformes.NetCore.UAP.Win81
         /// Permet d'associer un type pour la vue à un type pour le modéle de vue
         /// </summary>
         public void RegisterView<TViewModel, TView>()
-            where TViewModel : ViewModelBase
+            where TViewModel : ViewModelBase where TView : class
         {
             if (!_viewsRegister.ContainsKey(typeof(TViewModel)))
             {

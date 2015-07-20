@@ -23,23 +23,24 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
+using Navegar.Libs.Class;
+using Navegar.Libs.Enums;
+using Navegar.Libs.Exceptions;
+using Navegar.Libs.Interfaces;
 using Xamarin.Forms;
+using INavigation = Navegar.Libs.Interfaces.INavigation;
 
 #endregion
 
 namespace Navegar.XamarinForms
 {
-    /// <summary>
-    /// Permet d'exécuter une action avant la navigation
-    /// </summary>
-    public delegate bool PreNavigateDelegate<T>(T currentViewModelInstance, Type currentViewModel, Type viewModelToNavigate) where T : ViewModelBase;
-
     /// <summary>
     /// Implémentation de la classe de navigation
     /// </summary>
@@ -147,6 +148,59 @@ namespace Navegar.XamarinForms
             ClearNavigation();
         }
 
+        #region Surcharge de la navigation arriére
+
+        /// <summary>
+        /// Indique si le device a un bouton de retour physique ou virtuel
+        /// </summary>
+        /// <returns>True si un bouton est présent, sinon false</returns>
+        public BackButtonTypeEnum HasBackButton
+        {
+            get
+            {
+                return BackButtonTypeEnum.Virtual;
+            }
+        }
+
+        private Func<bool> _backButtonPressed;
+        /// <summary>
+        /// Evenement de navigation arriére avec le bouton physique ou virtuel
+        /// Permet de définir soit même une fonction gérant ce retour sans utiliser celui par défaut de Navegar
+        /// </summary>
+        /// <remarks>
+        /// Si aucun bouton physique ou virtuel n'est présent sur le device, la valeur est égale à null
+        /// </remarks>
+        public Func<bool> BackButtonPressed
+        {
+            get { throw new NotImplementedForCurrentPlatformException(); }
+            set
+            {
+                throw new NotImplementedForCurrentPlatformException();
+            }
+        }
+
+        /// <summary>
+        /// Permet de faire un override de OnBackButtonPressed pour la page associée au ViewModel.
+        /// Attention il faut que page hérite de NavegarContentPage pour que cela soit pris en compte.
+        /// Si votre page hérite bien de NavegarContentPage mais que vous ne définissez de fonction personnalisée, celle par défaut de Navegar sera appliquée
+        /// </summary>
+        /// <typeparam name="TViewModel">ViewModel associé</typeparam>
+        /// <param name="func">Fonction personnalisée pour le OnBackButtonPressed</param>
+        /// <remarks>
+        /// Votre fonction doit retourner false pour permetre de continuer la naigation arriére, sinon elle sera stoppée.
+        /// Spécifique à la plateforme Xamarin.Forms
+        /// Léve une exception <exception cref="NotImplementedException" /> si la fonction n'est pas implémentée sur la plateforme courante
+        /// </remarks>
+        public void RegisterBackPressedAction<TViewModel>(Action func) where TViewModel : ViewModelBase
+        {
+            if (!_viewsActionOnBackButtonRegister.ContainsKey(typeof(TViewModel)))
+            {
+                _viewsActionOnBackButtonRegister.Add(typeof(TViewModel), func);
+            }
+        }
+
+        #endregion
+
         /// <summary>
         /// Permet de connaitre le type du ViewModel au niveau n-1 de l'historique de navigation
         /// </summary>
@@ -233,11 +287,24 @@ namespace Navegar.XamarinForms
         }
 
         /// <summary>
+        /// Permet de référencer la Frame Principale généré au lancement de l'application, pour la suite de la navigation
+        /// </summary>
+        /// <param name="rootFrame">Frame de navigation principale</param>
+        /// <remarks>
+        /// Spécifique aux plateformes .netcore
+        /// Léve une exception <exception cref="NotImplementedException" /> si la fonction n'est pas implémentée sur la plateforme courante
+        /// </remarks>
+        public void InitializeRootFrame(object rootFrame)
+        {
+            throw new NotImplementedForCurrentPlatformException();
+        }
+
+        /// <summary>
         /// Permet de référencer la page principale générée au lancement de l'application, pour la suite de la navigation
         /// </summary>
-        public Page InitializeRootFrame<TViewModelFirst, TViewFirst>() where TViewModelFirst : ViewModelBase where TViewFirst : ContentPage
+        public object InitializeRootFrame<TViewModelFirst, TViewFirst>() where TViewModelFirst : ViewModelBase
         {
-            _rootFrame = (TViewFirst)Activator.CreateInstance<TViewFirst>();
+            _rootFrame = (ContentPage)Activator.CreateInstance(typeof(TViewFirst));
             _rootFrame.BindingContext = (TViewModelFirst) Activator.CreateInstance<TViewModelFirst>();
             return new NavigationPage(_rootFrame);
         }
@@ -254,9 +321,9 @@ namespace Navegar.XamarinForms
         /// <returns>
         /// Retourne la clé unique pour SimpleIoc, de l'instance du viewmodel vers lequel la navigation a eu lieu
         /// </returns>
-        public async Task<string> NavigateTo<TTo>(params object[] parametersViewModel) where TTo : class
+        public string NavigateTo<TTo>(params object[] parametersViewModel) where TTo : class
         {
-            return await Navigate<TTo>(typeof(TTo), null, parametersViewModel, null, null);
+            return Navigate<TTo>(typeof(TTo), null, parametersViewModel, null, null);
         }
 
         /// <summary>
@@ -274,9 +341,9 @@ namespace Navegar.XamarinForms
         /// <returns>
         /// Retourne la clé unique pour SimpleIoc, de l'instance du viewmodel vers lequel la navigation a eu lieu
         /// </returns>
-        public async Task<string> NavigateTo<TTo>(bool newInstance, params object[] parametersViewModel) where TTo : class
+        public string NavigateTo<TTo>(bool newInstance, params object[] parametersViewModel) where TTo : class
         {
-            return await Navigate<TTo>(typeof(TTo), null, parametersViewModel, null, null, newInstance);
+            return Navigate<TTo>(typeof(TTo), null, parametersViewModel, null, null, newInstance);
         }
 
         /// <summary>
@@ -301,9 +368,9 @@ namespace Navegar.XamarinForms
         /// <returns>
         /// Retourne la clé unique pour SimpleIoc, de l'instance du viewmodel vers lequel la navigation a eu lieu
         /// </returns>  
-        public async Task<string> NavigateTo<TTo>(object[] parametersViewModel, string functionToLoad, object[] parametersFunction, bool newInstance = false) where TTo : class
+        public string NavigateTo<TTo>(object[] parametersViewModel, string functionToLoad, object[] parametersFunction, bool newInstance = false) where TTo : class
         {
-            return await Navigate<TTo>(typeof(TTo), null, parametersViewModel, functionToLoad, parametersFunction, newInstance);
+            return Navigate<TTo>(typeof(TTo), null, parametersViewModel, functionToLoad, parametersFunction, newInstance);
         }
 
         /// <summary>
@@ -324,9 +391,9 @@ namespace Navegar.XamarinForms
         /// <returns>
         /// Retourne la clé unique pour SimpleIoc, de l'instance du viewmodel vers lequel la navigation a eu lieu
         /// </returns>
-        public async Task<string> NavigateTo<TTo>(ViewModelBase currentInstance, object[] parametersViewModel, bool newInstance = false) where TTo : class
+        public string NavigateTo<TTo>(ViewModelBase currentInstance, object[] parametersViewModel, bool newInstance = false) where TTo : class
         {
-            return await Navigate<TTo>(typeof(TTo), currentInstance.GetType(), parametersViewModel, null, null, newInstance);
+            return Navigate<TTo>(typeof(TTo), currentInstance.GetType(), parametersViewModel, null, null, newInstance);
         }
 
         /// <summary>
@@ -354,9 +421,9 @@ namespace Navegar.XamarinForms
         /// <returns>
         /// Retourne la clé unique pour SimpleIoc, de l'instance du viewmodel vers lequel la navigation a eu lieu
         /// </returns>
-        public async Task<string> NavigateTo<TTo>(ViewModelBase currentInstance, object[] parametersViewModel, string functionToLoad, object[] parametersFunction, bool newInstance = false) where TTo : class
+        public string NavigateTo<TTo>(ViewModelBase currentInstance, object[] parametersViewModel, string functionToLoad, object[] parametersFunction, bool newInstance = false) where TTo : class
         {
-            return await Navigate<TTo>(typeof(TTo), currentInstance.GetType(), parametersViewModel, functionToLoad, parametersFunction, newInstance);
+            return Navigate<TTo>(typeof(TTo), currentInstance.GetType(), parametersViewModel, functionToLoad, parametersFunction, newInstance);
         }
 
 
@@ -364,29 +431,28 @@ namespace Navegar.XamarinForms
         /// Permet d'associer un type pour la vue à un type pour le modéle de vue
         /// </summary>
         public void RegisterView<TViewModel, TView>()
-            where TViewModel : ViewModelBase
-            where TView : ContentPage
+            where TViewModel : ViewModelBase where TView : class
         {
             if (!_viewsRegister.ContainsKey(typeof(TViewModel)))
             {
-                _viewsRegister.Add(typeof(TViewModel), typeof(TView));
                 SimpleIoc.Default.Register<TView>();
+                _viewsRegister.Add(typeof(TViewModel), typeof(TView));
             }
         }
 
         /// <summary>
-        /// Permet de faire un override de OnBackButtonPressed pour la page associée au ViewModel.
-        /// Attention il faut que page hérite de <see cref="NavegarContentPage"/> pour que cela soit pris en compte.
-        /// Si votre page hérite bien de <see cref="NavegarContentPage"/> mais que vous ne définissez de fonction personnalisée, celle par défaut de Navegar sera appliquée
+        /// Perrmet d'afficher le bouton virtuel dans la barre de titre de l'application
         /// </summary>
-        /// <typeparam name="TViewModel">ViewModel associé</typeparam>
-        /// <param name="func">Fonction personnalisée pour le OnBackButtonPressed</param>
-        public void RegisterBackPressedAction<TViewModel>(Action func) where TViewModel : ViewModelBase
+        /// <param name="visible">indique si l'on doit rendre le bouton visible ou non</param>
+        /// <param name="force">permet de forcer l'affichage même si le device posséde un bouton physique</param>
+        /// <remarks>
+        /// Spécifique à la plateforme .netcore UWP (Windows 10)
+        /// Léve une exception <exception cref="NotImplementedException" /> si la fonction n'est pas implémentée sur la plateforme courante
+        /// Si le device utilisé posséde un bouton physique cette fonction n'affiche pas de bouton, sauf à forcer l'affichage avec le paramétre
+        /// </remarks>
+        public void ShowVirtualBackButton(bool visible = true, bool force = false)
         {
-            if (!_viewsActionOnBackButtonRegister.ContainsKey(typeof(TViewModel)))
-            {
-                _viewsActionOnBackButtonRegister.Add(typeof(TViewModel), func);
-            }
+            throw new NotImplementedForCurrentPlatformException();
         }
 
         /// <summary>
@@ -511,7 +577,7 @@ namespace Navegar.XamarinForms
         /// <returns>
         /// Retourne la clé unique pour SimpleIoc, de l'instance du viewmodel vers lequel la navigation a eu lieu
         /// </returns>
-        private async Task<string> Navigate<TTo>(Type viewModelToName, Type viewModelFromName, object[] parametersViewModel, string functionToLoad, object[] parametersFunction, bool newInstance = false, bool modal = false) where TTo : class
+        private string Navigate<TTo>(Type viewModelToName, Type viewModelFromName, object[] parametersViewModel, string functionToLoad, object[] parametersFunction, bool newInstance = false, bool modal = false) where TTo : class
         {
             try
             {
@@ -667,8 +733,8 @@ namespace Navegar.XamarinForms
                 {
                     _factoriesInstancesView.TryGetValue(typePage, out key);
                 }
-
-                var contentPage = (ContentPage)SimpleIoc.Default.GetInstance(typePage, key);
+                
+                var contentPage = (ContentPage) SimpleIoc.Default.GetInstance(typePage, key);
 
                 //Définition du BindingContext
                 contentPage.BindingContext = instanceToNavigate;

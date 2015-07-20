@@ -254,7 +254,7 @@ namespace Navegar.Libs.Interfaces
         /// Permet d'associer un type pour la vue à un type pour le modéle de vue
         /// </summary>
         void RegisterView<TViewModel, TView>()
-            where TViewModel : ViewModelBase;
+            where TViewModel : ViewModelBase where TView : class;
 
         /// <summary>
         /// Perrmet d'afficher le bouton virtuel dans la barre de titre de l'application
