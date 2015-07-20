@@ -25,6 +25,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
@@ -100,31 +101,15 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
     ///    }
     ///   </code>
     /// </example>
-    public class Navigation : INavigation
+    public class Navigation : NavigationBase
     {
         #region fields
 
-        private readonly Dictionary<Type, string> _factoriesInstances = new Dictionary<Type, string>();
-        private readonly Dictionary<Type, Type> _historyInstances = new Dictionary<Type, Type>();
-        private Type _currentViewModel;
         private Frame _rootFrame;
-        private string _navigationStateInitial;
-        private readonly Dictionary<Type, string> _historyNavigation = new Dictionary<Type, string>();
-        private readonly Dictionary<Type, Type> _viewsRegister = new Dictionary<Type, Type>();
 
         private Func<bool> _backButtonPressedAction;
 
         #endregion
-
-        /// <summary>
-        /// Permet d'indiquer que la navigation est annulée
-        /// </summary>
-        public event EventHandler NavigationCanceledOnPreviewNavigate;
-
-        /// <summary>
-        /// Permet d'exécuter une action avant la navigation
-        /// </summary>
-        public PreNavigateDelegate<ViewModelBase> PreviewNavigate { get; set; }
 
         #region Surcharge de la navigation arriére
 
@@ -132,7 +117,7 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
         /// Indique si le device a un bouton de retour physique ou virtuel
         /// </summary>
         /// <returns>True si un bouton est présent, sinon false</returns>
-        public BackButtonTypeEnum HasBackButton
+        public override BackButtonTypeEnum HasBackButton
         {
             get
             {
@@ -162,7 +147,7 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
         /// <remarks>
         /// Si aucun bouton physique ou virtuel n'est présent sur le device, la valeur est égale à null
         /// </remarks>
-        public Func<bool> BackButtonPressed
+        public override Func<bool> BackButtonPressed
         {
             get { return _backButtonPressed; }
             set
@@ -221,7 +206,7 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
         /// Spécifique à la plateforme Xamarin.Forms
         /// Léve une exception <exception cref="NotImplementedException" /> si la fonction n'est pas implémentée sur la plateforme courante
         /// </remarks>
-        public void RegisterBackPressedAction<TViewModel>(Action func) where TViewModel : ViewModelBase
+        public override void RegisterBackPressedAction<TViewModel>(Action func)
         {
             throw new NotImplementedForCurrentPlatformException();
         }
@@ -231,7 +216,7 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
         /// Permet de référencer la Frame Principale généré au lancement de l'application, pour la suite de la navigation
         /// </summary>
         /// <param name="rootFrame">Frame de navigation principale</param>
-        public void InitializeRootFrame(object rootFrame)
+        public override void InitializeRootFrame(object rootFrame)
         {
             if (!(rootFrame is Frame))
             {
@@ -261,265 +246,15 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
         /// Spécifique à la plateforme Xamarin.Forms
         /// Léve une exception <exception cref="NotImplementedException" /> si la fonction n'est pas implémentée sur la plateforme courante
         /// </remarks>
-        public object InitializeRootFrame<TViewModelFirst, TViewFirst>() where TViewModelFirst : ViewModelBase
+        public override object InitializeRootFrame<TViewModelFirst, TViewFirst>()
         {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Naviguer vers un ViewModel 
-        /// </summary>
-        /// <typeparam name="TTo">
-        /// Type du Viewmodel vers lequel la navigation est effectuée
-        /// </typeparam>
-        /// <param name="parametersViewModel">
-        /// Tableau des paramétres éventuels à transmettre au constructeur du ViewModel
-        /// </param>
-        /// <returns>
-        /// Retourne la clé unique pour SimpleIoc, de l'instance du viewmodel vers lequel la navigation a eu lieu
-        /// </returns>
-        public string NavigateTo<TTo>(params object[] parametersViewModel) where TTo : class
-        {
-            return Navigate<TTo>(typeof(TTo), null, parametersViewModel, null, null);
-        }
-
-        /// <summary>
-        /// Naviguer vers un ViewModel 
-        /// </summary>
-        /// <typeparam name="TTo">
-        /// Type du Viewmodel vers lequel la navigation est effectuée
-        /// </typeparam>
-        /// <param name="newInstance">
-        /// Indique si l'on génére une nouvelle instance obligatoirement
-        /// </param>
-        /// <param name="parametersViewModel">
-        /// Tableau des paramétres éventuels à transmettre au constructeur du ViewModel
-        /// </param>
-        /// <returns>
-        /// Retourne la clé unique pour SimpleIoc, de l'instance du viewmodel vers lequel la navigation a eu lieu
-        /// </returns>
-        public string NavigateTo<TTo>(bool newInstance, params object[] parametersViewModel) where TTo : class
-        {
-            return Navigate<TTo>(typeof(TTo), null, parametersViewModel, null, null, newInstance);
-        }
-
-        /// <summary>
-        /// Naviguer vers un ViewModel
-        /// Le paramètre <param name="functionToLoad"></param> permet de spécifier un nom de fonction à appeler aprés le chargement du viewModel ciblé
-        /// </summary>
-        /// <typeparam name="TTo">
-        /// Type du Viewmodel vers lequel la navigation est effectuée
-        /// </typeparam>
-        /// <param name="parametersViewModel">
-        /// Tableau des paramétres éventuels à transmettre au constructeur du ViewModel
-        /// </param>
-        /// <param name="functionToLoad">
-        /// Permet de spécifier un nom de fonction à appeler aprés le chargement du viewModel ciblé
-        /// </param>
-        /// <param name="parametersFunction">
-        /// Paramétres pour la fonction appelée
-        /// </param>
-        /// <param name="newInstance">
-        /// Indique si l'on génére une nouvelle instance obligatoirement
-        /// </param>     
-        /// <returns>
-        /// Retourne la clé unique pour SimpleIoc, de l'instance du viewmodel vers lequel la navigation a eu lieu
-        /// </returns>  
-        public string NavigateTo<TTo>(object[] parametersViewModel, string functionToLoad, object[] parametersFunction, bool newInstance = false) where TTo : class
-        {
-            return Navigate<TTo>(typeof(TTo), null, parametersViewModel, functionToLoad, parametersFunction, newInstance);
-        }
-
-        /// <summary>
-        /// Naviguer vers un ViewModel, avec un ViewModel en historique précédent
-        /// </summary>
-        /// <typeparam name="TTo">
-        /// Type du Viewmodel vers lequel la navigation est effectuée
-        /// </typeparam>
-        /// <param name="currentInstance">
-        /// Viewmodel depuis lequel la navigation est effectuée
-        /// </param>
-        /// <param name="parametersViewModel">
-        /// Tableau des paramétres éventuels à transmettre au constructeur du ViewModel
-        /// </param>
-        /// <param name="newInstance">
-        /// Indique si l'on génére une nouvelle instance obligatoirement
-        /// </param>
-        /// <returns>
-        /// Retourne la clé unique pour SimpleIoc, de l'instance du viewmodel vers lequel la navigation a eu lieu
-        /// </returns>
-        public string NavigateTo<TTo>(ViewModelBase currentInstance, object[] parametersViewModel, bool newInstance = false) where TTo : class
-        {
-            return Navigate<TTo>(typeof(TTo), currentInstance.GetType(), parametersViewModel, null, null, newInstance);
-        }
-
-        /// <summary>
-        /// Navigeur vers un ViewModel, avec un ViewModel en historique précédent. 
-        /// Le paramètre <param name="functionToLoad"></param> permet de spécifier un nom de fonction à appeler aprés le chargement du viewModel ciblé
-        /// </summary>
-        /// <typeparam name="TTo">
-        /// Type du Viewmodel vers lequel la navigation est effectuée
-        /// </typeparam>
-        /// <param name="currentInstance">
-        /// Viewmodel depuis lequel la navigation est effectuée
-        /// </param>
-        /// <param name="parametersViewModel">
-        /// Tableau des paramétres éventuels à transmettre au constructeur du ViewModel
-        /// </param>
-        /// <param name="functionToLoad">
-        /// Permet de spécifier un nom de fonction à appeler aprés le chargement du viewModel ciblé
-        /// </param>
-        /// <param name="parametersFunction">
-        /// Paramétres pour la fonction appelée
-        /// </param>
-        /// <param name="newInstance">
-        /// Indique si l'on génére une nouvelle instance obligatoirement
-        /// </param>
-        /// <returns>
-        /// Retourne la clé unique pour SimpleIoc, de l'instance du viewmodel vers lequel la navigation a eu lieu
-        /// </returns>
-        public string NavigateTo<TTo>(ViewModelBase currentInstance, object[] parametersViewModel, string functionToLoad, object[] parametersFunction, bool newInstance = false) where TTo : class
-        {
-            return Navigate<TTo>(typeof(TTo), currentInstance.GetType(), parametersViewModel, functionToLoad, parametersFunction, newInstance);
-        }
-
-        /// <summary>
-        /// Déterminer si un historique est possible depuis le ViewModel en cours
-        /// </summary>
-        /// <returns>
-        /// <c>true</c> si la navigation est possible, sinon <c>false</c>
-        /// </returns>
-        public bool CanGoBack()
-        {
-            return _currentViewModel != null && _historyInstances.ContainsKey(_currentViewModel) && CanGoBackFrame();
-        }
-
-        /// <summary>
-        /// Naviguer vers l'historique (ViewModel précédent) depuis le ViewModel en cours, si une navigation arriére est possible
-        /// </summary>
-        public void GoBack()
-        {
-            if (CanGoBack())
-            {
-                if (_historyInstances.ContainsKey(_currentViewModel) && CanGoBackFrame())
-                {
-                    Type viewModelFrom;
-                    if (_historyInstances.TryGetValue(_currentViewModel, out viewModelFrom))
-                    {
-                        Navigate(viewModelFrom, null, null);
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Déclenche l'événement d'annulation de navigation
-        /// </summary>
-        public void CancelNavigation()
-        {
-            if (NavigationCanceledOnPreviewNavigate != null)
-            {
-                NavigationCanceledOnPreviewNavigate(this, EventArgs.Empty);
-            }
-        }
-
-        /// <summary>
-        /// Permet de vider l'historique de navigation
-        /// </summary>
-        public void Clear()
-        {
-            ClearNavigation();
-        }
-
-        /// <summary>
-        /// Naviguer vers l'historique (ViewModel précédent) depuis le ViewModel en cours, si une navigation arriére est possible
-        /// </summary>
-        /// /// <param name="functionToLoad">
-        /// Permet de spécifier un nom de fonction à appeler aprés le chargement du viewModel ciblé
-        /// </param>
-        /// <param name="parametersFunction">
-        /// Paramétres pour la fonction appelée
-        /// </param>
-        public void GoBack(string functionToLoad, params object[] parametersFunction)
-        {
-            if (CanGoBack())
-            {
-                if (_historyInstances.ContainsKey(_currentViewModel) && CanGoBackFrame())
-                {
-                    Type viewModelFrom;
-                    if (_historyInstances.TryGetValue(_currentViewModel, out viewModelFrom))
-                    {
-                        Navigate(viewModelFrom, functionToLoad, parametersFunction);
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Permet de connaitre le type du ViewModel au niveau n-1 de l'historique de navigation
-        /// </summary>
-        /// <returns>Type du ViewModel</returns>
-        public Type GetTypeViewModelToBack()
-        {
-            if (CanGoBack())
-            {
-                if (_historyInstances.ContainsKey(_currentViewModel) && CanGoBackFrame())
-                {
-                    Type viewModelFrom;
-                    if (_historyInstances.TryGetValue(_currentViewModel, out viewModelFrom))
-                    {
-                        return viewModelFrom;
-                    }
-                }
-            }
-            return null;
-        }
-
-        /// <summary>
-        /// Récupére l'instance du ViewModel
-        /// </summary>
-        /// <typeparam name="T">
-        /// Type du ViewModel
-        /// </typeparam>
-        /// <returns>
-        /// Instance du ViewModel
-        /// </returns>
-        public T GetViewModelInstance<T>() where T : ViewModelBase
-        {
-            if (_factoriesInstances.ContainsKey(typeof(T)))
-            {
-                string key;
-                var result = _factoriesInstances.TryGetValue(typeof(T), out key);
-                if (result)
-                {
-                    return SimpleIoc.Default.GetInstance<T>(key);
-                }
-            }
-            return null;
-        }
-
-        /// <summary>
-        /// Permet de retrouver l'instance du ViewModel courant
-        /// </summary>
-        /// <returns>ViewModel courant</returns>
-        public ViewModelBase GetViewModelCurrent()
-        {
-            if (_factoriesInstances.ContainsKey(_currentViewModel))
-            {
-                string key;
-                if (_factoriesInstances.TryGetValue(_currentViewModel, out key))
-                {
-                    return (ViewModelBase)SimpleIoc.Default.GetInstance(_currentViewModel, key);
-                }
-            }
-            return null;
+            throw new NotImplementedForCurrentPlatformException();
         }
 
         /// <summary>
         /// Permet d'associer un type pour la vue à un type pour le modéle de vue
         /// </summary>
-        public void RegisterView<TViewModel, TView>()
-            where TViewModel : ViewModelBase where TView : class 
+        public override void RegisterView<TViewModel, TView>()
         {
             if (!_viewsRegister.ContainsKey(typeof(TViewModel)))
             {
@@ -536,7 +271,7 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
         /// Si le device utilisé posséde un bouton physique cette fonction n'affiche pas de bouton, sauf à forcer l'affichage avec le paramétre
         /// Supporté uniquement sur la version desktop de Windows 10
         /// </remarks>
-        public void ShowVirtualBackButton(bool visible = true, bool force = false)
+        public override void ShowVirtualBackButton(bool visible = true, bool force = false)
         {
             if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.Core.SystemNavigationManager"))
             {
@@ -544,10 +279,17 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
                 {
                     Windows.UI.Core.SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = visible ? Windows.UI.Core.AppViewBackButtonVisibility.Visible : Windows.UI.Core.AppViewBackButtonVisibility.Collapsed;
                 }
+                else
+                {
+                    if (!visible)
+                    {
+                        Windows.UI.Core.SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+                    }
+                }
             }
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
             ClearNavigation();
             GC.Collect();
@@ -567,7 +309,7 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
         /// <param name="parametersFunction">
         /// Paramétres pour la fonction appelée
         /// </param>
-        private void Navigate(Type viewModelToName, string functionToLoad, object[] parametersFunction)
+        protected override void Navigate(Type viewModelToName, string functionToLoad, object[] parametersFunction)
         {
             if (viewModelToName != null)
             {
@@ -642,7 +384,7 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
         /// <returns>
         /// Retourne la clé unique pour SimpleIoc, de l'instance du viewmodel vers lequel la navigation a eu lieu
         /// </returns>
-        private string Navigate<TTo>(Type viewModelToName, Type viewModelFromName, object[] parametersViewModel, string functionToLoad, object[] parametersFunction, bool newInstance = false) where TTo : class
+        protected override string Navigate<TTo>(Type viewModelToName, Type viewModelFromName, object[] parametersViewModel, string functionToLoad, object[] parametersFunction, bool newInstance = false)
         {
             try
             {
@@ -664,10 +406,7 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
 
                     if (!PreviewNavigate(currentInstance, viewModelFromName, viewModelToName))
                     {
-                        if (NavigationCanceledOnPreviewNavigate != null)
-                        {
-                            NavigationCanceledOnPreviewNavigate(this, EventArgs.Empty);
-                        }
+                        OnNavigationCancel();
                         return string.Empty;
                     }
                 }
@@ -764,7 +503,7 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
         /// <param name="instanceToNavigate">
         /// Instance de la vue qui est devenue la vue courante
         /// </param>
-        private void SetCurrentView(Type instanceToNavigate)
+        protected void SetCurrentView(Type instanceToNavigate)
         {
             try
             {
@@ -780,7 +519,7 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
         /// Permet de gérer l'état de navigation à l'instant T pour un ViewModel
         /// </summary>
         /// <param name="viewModelFromName">ViewModel pris en compte</param>
-        private void SetNavigationHistory(Type viewModelFromName)
+        protected override void SetNavigationHistory(Type viewModelFromName)
         {
             if (!_historyNavigation.ContainsKey(viewModelFromName))
             {
@@ -791,7 +530,7 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
         /// <summary>
         /// Permet de revenir en arriére dans la pile de navigation des pages
         /// </summary>
-        private bool SetGoBack(Type historyViewModel)
+        protected bool SetGoBack(Type historyViewModel)
         {
             //Sauvegarde de l'état actuel pour revenir en arriére si il le faut
             var navigationSave = _rootFrame.GetNavigationState();
@@ -827,7 +566,7 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
         /// Permet de savoir si l'on peut revenir en arriere au niveau des Frame
         /// </summary>
         /// <returns>Résultat de la demande</returns>
-        private bool CanGoBackFrame()
+        protected override bool CanGoBackFrame()
         {
             return _rootFrame.CanGoBack;
         }
@@ -835,7 +574,7 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
         /// <summary>
         /// Vide l'historique de navigation de la classe et de la Frame de WinRT
         /// </summary>
-        private void ClearNavigation()
+        protected override void ClearNavigation()
         {
             _historyInstances.Clear();
 
@@ -854,7 +593,7 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void HardwareButtonsBackPressed(object sender, Windows.Phone.UI.Input.BackPressedEventArgs e)
+        protected void HardwareButtonsBackPressed(object sender, Windows.Phone.UI.Input.BackPressedEventArgs e)
         {
             if (CanGoBack())
             {
@@ -868,7 +607,7 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void HardwareButtonBackPressedOverride(object sender, Windows.Phone.UI.Input.BackPressedEventArgs e)
+        protected void HardwareButtonBackPressedOverride(object sender, Windows.Phone.UI.Input.BackPressedEventArgs e)
         {
             e.Handled = _backButtonPressedAction();
         }
@@ -878,7 +617,7 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void VirtualBackPressed(object sender, Windows.UI.Core.BackRequestedEventArgs e)
+        protected void VirtualBackPressed(object sender, Windows.UI.Core.BackRequestedEventArgs e)
         {
             if (CanGoBack())
             {
@@ -892,7 +631,7 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void VirtualBackPressedOverride(object sender, Windows.UI.Core.BackRequestedEventArgs e)
+        protected void VirtualBackPressedOverride(object sender, Windows.UI.Core.BackRequestedEventArgs e)
         {
             e.Handled = _backButtonPressedAction();
         }
