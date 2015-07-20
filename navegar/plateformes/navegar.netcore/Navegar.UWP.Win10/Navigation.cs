@@ -186,6 +186,7 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
                 {
                     if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.Core.SystemNavigationManager"))
                     {
+                        _backButtonPressedAction = value;
                         if (value != null)
                         {
                             Windows.UI.Core.SystemNavigationManager.GetForCurrentView().BackRequested -= VirtualBackPressed;
@@ -253,6 +254,13 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
             }
         }
 
+        /// <summary>
+        /// Permet de référencer la page principale générée au lancement de l'application, pour la suite de la navigation
+        /// </summary>
+        /// <remarks>
+        /// Spécifique à la plateforme Xamarin.Forms
+        /// Léve une exception <exception cref="NotImplementedException" /> si la fonction n'est pas implémentée sur la plateforme courante
+        /// </remarks>
         public object InitializeRootFrame<TViewModelFirst, TViewFirst>() where TViewModelFirst : ViewModelBase
         {
             throw new NotImplementedException();
@@ -511,7 +519,7 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
         /// Permet d'associer un type pour la vue à un type pour le modéle de vue
         /// </summary>
         public void RegisterView<TViewModel, TView>()
-            where TViewModel : ViewModelBase
+            where TViewModel : ViewModelBase where TView : class 
         {
             if (!_viewsRegister.ContainsKey(typeof(TViewModel)))
             {

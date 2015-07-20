@@ -168,10 +168,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\navegar\plateformes\xamarin.forms\Navegar.XamarinForms\Navegar.XamarinForms.csproj">
-      <Project>{67f9d3a8-f71e-4428-913f-c37ae82cdb24}</Project>
-      <Name>Navegar.XamarinForms</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Navegar.XamarinForms.Exemple.CRM\Navegar.XamarinForms.Exemple.CRM.csproj">
       <Project>{25515a9b-a443-419d-8c66-4821b9bb8614}</Project>
       <Name>Navegar.XamarinForms.Exemple.CRM</Name>

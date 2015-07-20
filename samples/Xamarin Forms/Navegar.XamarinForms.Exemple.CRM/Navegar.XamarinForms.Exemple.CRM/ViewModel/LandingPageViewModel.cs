@@ -68,7 +68,7 @@ namespace Navegar.XamarinForms.Exemple.CRM.ViewModel
 
                     //Permet de naviguer vers la page ListClientsPage
                     //true indique que l'on souhaite lancer une nouvelle instance du ViewModel
-                    await NavigationService.NavigateTo<ListClientsPageViewModel>(true);
+                    NavigationService.NavigateTo<ListClientsPageViewModel>(true);
                 }
                 else
                 {

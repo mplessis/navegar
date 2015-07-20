@@ -163,11 +163,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Navegar.XamarinForms.Exemple.CRM\Navegar.XamarinForms.Exemple.CRM.csproj">
-      <Name>Navegar.XamarinForms.Exemple.CRM</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Reference Include="Microsoft.Phone.Controls.Toolkit, Version=8.0.1.0, Culture=neutral, PublicKeyToken=b772ad94eb9ca604, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\WPtoolkit.4.2013.08.16\lib\wp8\Microsoft.Phone.Controls.Toolkit.dll</HintPath>
       <Private>True</Private>
@@ -188,6 +183,12 @@
       <HintPath>..\..\..\..\packages\Xamarin.Forms.1.4.3.6374\lib\WP80\Xamarin.Forms.Xaml.dll</HintPath>
       <Private>True</Private>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Navegar.XamarinForms.Exemple.CRM\Navegar.XamarinForms.Exemple.CRM.csproj">
+      <Project>{25515a9b-a443-419d-8c66-4821b9bb8614}</Project>
+      <Name>Navegar.XamarinForms.Exemple.CRM</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />

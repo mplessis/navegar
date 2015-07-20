@@ -6,6 +6,7 @@ using Microsoft.Practices.ServiceLocation;
 using Navegar.XamarinForms.Exemple.CRM.ViewModel;
 using Navegar.XamarinForms.Exemple.CRM.Views;
 using Xamarin.Forms;
+using INavigation = Navegar.Libs.Interfaces.INavigation;
 
 namespace Navegar.XamarinForms.Exemple.CRM
 {
@@ -19,7 +20,7 @@ namespace Navegar.XamarinForms.Exemple.CRM
             Locator = new ViewModelLocator();
 
             //Définition de la page de demarrage de l'application
-            MainPage = ServiceLocator.Current.GetInstance<INavigation>().InitializeRootFrame<LandingPageViewModel, LandingPage>();
+            MainPage = (NavigationPage)ServiceLocator.Current.GetInstance<INavigation>().InitializeRootFrame<LandingPageViewModel, LandingPage>();
             MainPage.BackgroundColor = Color.FromHex("407aae");
         }
 
