@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CommonMobiles.Messages;
 using GalaSoft.MvvmLight.Messaging;
-using Navegar.XamarinForms.Exemple.CRM.Messages;
 using Xamarin.Forms;
 
 namespace Navegar.XamarinForms.Exemple.CRM.Views

@@ -36,24 +36,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
-    <Compile Include="Controllers\ClientsController.cs" />
-    <Compile Include="Controllers\CommandesController.cs" />
-    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controls\BindablePicker.cs" />
     <Compile Include="Converters\StringFormatConverter.cs" />
-    <Compile Include="Messages\MessageLogin.cs" />
-    <Compile Include="POCO\Client.cs" />
-    <Compile Include="POCO\Commande.cs" />
-    <Compile Include="ViewModel\CommandePageViewModel.cs" />
-    <Compile Include="POCO\PocoBase.cs" />
-    <Compile Include="POCO\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModel\ClientPageViewModel.cs" />
-    <Compile Include="ViewModel\LandingPageViewModel.cs" />
-    <Compile Include="ViewModel\ListClientsPageViewModel.cs" />
-    <Compile Include="ViewModel\ListCommandesPageViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
-    <Compile Include="ViewModel\ViewModelServices.cs" />
     <Compile Include="Views\ClientPage.xaml.cs">
       <DependentUpon>ClientPage.xaml</DependentUpon>
     </Compile>
@@ -137,6 +123,10 @@
     <ProjectReference Include="..\..\..\..\navegar\plateformes\xamarin.forms\Navegar.XamarinForms\Navegar.XamarinForms.csproj">
       <Project>{a2c20dac-5b27-4762-8d24-94be69f977ad}</Project>
       <Name>Navegar.XamarinForms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\CommonMobiles\CommonMobiles.csproj">
+      <Project>{de20f945-4ddb-41d6-9993-191dccd41b3e}</Project>
+      <Name>CommonMobiles</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
