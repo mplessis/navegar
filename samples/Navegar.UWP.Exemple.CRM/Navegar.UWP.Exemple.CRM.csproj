@@ -94,23 +94,10 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\ClientsController.cs" />
-    <Compile Include="Controllers\CommandesController.cs" />
-    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\StringFormatConverter.cs" />
-    <Compile Include="POCO\Client.cs" />
-    <Compile Include="POCO\Commande.cs" />
-    <Compile Include="POCO\PocoBase.cs" />
-    <Compile Include="POCO\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModel\ClientPageViewModel.cs" />
-    <Compile Include="ViewModel\CommandePageViewModel.cs" />
-    <Compile Include="ViewModel\LandingPageViewModel.cs" />
-    <Compile Include="ViewModel\ListClientsPageViewModel.cs" />
-    <Compile Include="ViewModel\ListCommandesPageViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
-    <Compile Include="ViewModel\ViewModelServices.cs" />
     <Compile Include="Views\ClientPage.xaml.cs">
       <DependentUpon>ClientPage.xaml</DependentUpon>
     </Compile>
@@ -232,6 +219,10 @@
     <ProjectReference Include="..\..\navegar\plateformes\navegar.netcore\Navegar.UWP.Win10\Navegar.Plateformes.NetCore.UWP.Win10.csproj">
       <Project>{fb908eca-4d03-4e0a-bf7a-3fd4b24deb40}</Project>
       <Name>Navegar.Plateformes.NetCore.UWP.Win10</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CommonMobiles\CommonMobiles.csproj">
+      <Project>{de20f945-4ddb-41d6-9993-191dccd41b3e}</Project>
+      <Name>CommonMobiles</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
