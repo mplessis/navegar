@@ -1,3 +1,4 @@
+using CommonMobiles.ViewModels;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
 using Navegar.Libs.Interfaces;

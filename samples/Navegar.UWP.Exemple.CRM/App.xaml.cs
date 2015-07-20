@@ -1,8 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
-using Navegar.UWP.Exemple.CRM.Controllers;
-using Navegar.UWP.Exemple.CRM.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,6 +18,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using CommonMobiles.Controllers;
+using CommonMobiles.ViewModels;
 using Navegar.Libs.Interfaces;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=402347&clcid=0x409
