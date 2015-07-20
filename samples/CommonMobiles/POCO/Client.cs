@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Navegar.UAP.Exemple.CRM.Controllers;
+﻿using CommonMobiles.Controllers;
 
-namespace Navegar.UAP.Exemple.CRM.POCO
+namespace CommonMobiles.POCO
 {
     public class Client : PocoBase
     {

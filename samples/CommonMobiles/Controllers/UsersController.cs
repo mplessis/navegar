@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Navegar.UAP.Exemple.CRM.POCO;
+﻿using System.Collections.Generic;
+using CommonMobiles.POCO;
 
-namespace Navegar.UAP.Exemple.CRM.Controllers
+namespace CommonMobiles.Controllers
 {
     public static class UsersController
     {

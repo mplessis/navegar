@@ -1,9 +1,9 @@
+using CommonMobiles.ViewModels;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
 using Navegar.Libs.Interfaces;
 using Navegar.Plateformes.NetCore.UAP.Win81;
-using Navegar.UAP.Exemple.CRM.ViewModels;
 using Navegar.UAP.Exemple.CRM.Views;
 
 namespace Navegar.UAP.Exemple.CRM.ViewModel

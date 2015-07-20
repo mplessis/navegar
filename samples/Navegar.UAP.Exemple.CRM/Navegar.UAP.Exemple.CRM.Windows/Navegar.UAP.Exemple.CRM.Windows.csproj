@@ -135,6 +135,10 @@
       <Project>{3b7d8f57-4e7a-4553-9908-1fc372d5c29e}</Project>
       <Name>Navegar.Plateformes.NetCore.UAP.Win81</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\CommonMobiles\CommonMobiles.csproj">
+      <Project>{de20f945-4ddb-41d6-9993-191dccd41b3e}</Project>
+      <Name>CommonMobiles</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="GalaSoft.MvvmLight, Version=5.1.1.35049, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
