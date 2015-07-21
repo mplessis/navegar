@@ -6,7 +6,7 @@
 // <date>08/05/2105</date>
 // <project>Navegar.UWP.Win10</project>
 // <web>http://navegar.kopigi.fr</web>
-// <license>
+// <license>bvvbnbnvbn
 // The MIT License (MIT)
 // 
 // Copyright (c) 2015 Marc Plessis
