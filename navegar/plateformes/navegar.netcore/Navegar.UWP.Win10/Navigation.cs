@@ -1,10 +1,11 @@
-﻿// <copyright file="Navigation.cs" company="Kopigi">
+﻿#region licence
+// <copyright file="Navigation.cs" company="Kopigi">
 // Copyright © Kopigi 2015
 // </copyright>
-//  ****************************************************************************
+// ****************************************************************************
 // <author>Marc PLESSIS</author>
-// <date>08/05/2105</date>
-// <project>Navegar.UWP.Win10</project>
+// <date>21/07/2015</date>
+// <project>Navegar.Plateformes.NetCore.UWP.Win10</project>
 // <web>http://navegar.kopigi.fr</web>
 // <license>
 // The MIT License (MIT)
@@ -17,8 +18,8 @@
 // 
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
-//  </license>
-
+// </license>
+#endregion
 #region using
 
 using System;
@@ -32,7 +33,6 @@ using GalaSoft.MvvmLight.Ioc;
 using Navegar.Libs.Class;
 using Navegar.Libs.Enums;
 using Navegar.Libs.Exceptions;
-using Navegar.Libs.Interfaces;
 
 #endregion
 
