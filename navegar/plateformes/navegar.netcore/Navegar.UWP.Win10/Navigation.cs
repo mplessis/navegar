@@ -163,7 +163,7 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
                 throw new TypeObjectIsNotIncorrectException("Frame");
             }
 
-            _navigationStateInitial = ((Frame)rootFrame).GetNavigationState();
+            NavigationStateInitial = ((Frame)rootFrame).GetNavigationState();
             _rootFrame = (Frame)rootFrame;
 
             if (HasBackButton == BackButtonTypeEnum.Physical)
@@ -192,13 +192,47 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
         }
 
         /// <summary>
+        /// Navigeur vers un ViewModel, avec un ViewModel en historique précédent. 
+        /// Le paramètre <param name="functionToLoad"></param> permet de spécifier un nom de fonction à appeler aprés le chargement du viewModel ciblé
+        /// </summary>
+        /// <typeparam name="TTo">
+        /// Type du Viewmodel vers lequel la navigation est effectuée
+        /// </typeparam>
+        /// <param name="currentInstance">
+        /// Viewmodel depuis lequel la navigation est effectuée
+        /// </param>
+        /// <param name="parametersViewModel">
+        /// Tableau des paramétres éventuels à transmettre au constructeur du ViewModel
+        /// </param>
+        /// <param name="functionToLoad">
+        /// Permet de spécifier un nom de fonction à appeler aprés le chargement du viewModel ciblé
+        /// </param>
+        /// <param name="parametersFunction">
+        /// Paramétres pour la fonction appelée
+        /// </param>
+        /// <param name="newInstance">
+        /// Indique si l'on génére une nouvelle instance obligatoirement
+        /// </param>
+        /// <returns>
+        /// Retourne la clé unique pour SimpleIoc, de l'instance du viewmodel vers lequel la navigation a eu lieu
+        /// </returns>
+        /// <remarks>
+        /// Supportée uniquement sur la plateforme Xamarin.Forms, dans les autres cas une exception <see cref="NotImplementedForCurrentPlatformException"/> sera levée
+        /// </remarks>
+        public override string NavigateModalTo<TTo>(ViewModelBase currentInstance, object[] parametersViewModel, string functionToLoad,
+            object[] parametersFunction, bool newInstance = false)
+        {
+            throw new NotImplementedForCurrentPlatformException();
+        }
+
+        /// <summary>
         /// Permet d'associer un type pour la vue à un type pour le modéle de vue
         /// </summary>
         public override void RegisterView<TViewModel, TView>()
         {
-            if (!_viewsRegister.ContainsKey(typeof(TViewModel)))
+            if (!ViewsRegister.ContainsKey(typeof(TViewModel)))
             {
-                _viewsRegister.Add(typeof(TViewModel), typeof(TView));
+                ViewsRegister.Add(typeof(TViewModel), typeof(TView));
             }
         }
 
@@ -255,9 +289,9 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
             {
                 string key = String.Empty;
 
-                if (_factoriesInstances.ContainsKey(viewModelToName))
+                if (FactoriesInstances.ContainsKey(viewModelToName))
                 {
-                    _factoriesInstances.TryGetValue(viewModelToName, out key);
+                    FactoriesInstances.TryGetValue(viewModelToName, out key);
                 }
 
                 if (!String.IsNullOrEmpty(key))
@@ -268,7 +302,7 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
                         var result = SetGoBack(viewModelToName);
                         if (result)
                         {
-                            _currentViewModel = viewModelToName;
+                            CurrentViewModel = viewModelToName;
 
                             //Gestion d'une fonction à appeler suite à la génération de l'instance
                             //La recherche de la méthode doit se faire sur le type de l'instance
@@ -321,112 +355,49 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
         /// <param name="newInstance">
         /// Indique si l'on génére une nouvelle instance obligatoirement
         /// </param>
+        /// <param name="isModal">
+        /// Indique que l'on souhaite une navigation modal, supportée uniquement par la plateforme Xamarin.Forms
+        /// </param>
         /// <returns>
         /// Retourne la clé unique pour SimpleIoc, de l'instance du viewmodel vers lequel la navigation a eu lieu
         /// </returns>
-        protected override string Navigate<TTo>(Type viewModelToName, Type viewModelFromName, object[] parametersViewModel, string functionToLoad, object[] parametersFunction, bool newInstance = false)
+        protected override string Navigate<TTo>(Type viewModelToName, Type viewModelFromName, object[] parametersViewModel, string functionToLoad, object[] parametersFunction, bool newInstance = false, bool isModal = false)
         {
             try
             {
-                //Pré-navigation
-                if (PreviewNavigate != null)
-                {
-                    ViewModelBase currentInstance = null;
-                    if (viewModelFromName != null)
-                    {
-                        if (_factoriesInstances.ContainsKey(viewModelToName))
-                        {
-                            string keyInstance;
-                            if (_factoriesInstances.TryGetValue(viewModelToName, out keyInstance))
-                            {
-                                currentInstance = (ViewModelBase)SimpleIoc.Default.GetInstance(viewModelToName, keyInstance);
-                            }
-                        }
-                    }
-
-                    if (!PreviewNavigate(currentInstance, viewModelFromName, viewModelToName))
-                    {
-                        OnNavigationCancel();
-                        return string.Empty;
-                    }
-                }
-
                 //Vérification du type de ViewModel demandé pour l'historique
                 if (!viewModelToName.GetTypeInfo().IsSubclassOf(typeof(ViewModelBase)))
                 {
                     throw new ViewModelHistoryTypeException(viewModelToName.ToString());
                 }
 
-                //Gestion de l'historique
-                if (viewModelFromName != null)
+                //Pré-navigation
+                if (!PreNavigateTo(viewModelFromName, viewModelToName))
                 {
-                    if (_historyInstances.ContainsKey(viewModelToName))
-                    {
-                        _historyInstances[viewModelToName] = viewModelFromName;
-                    }
-                    else
-                    {
-                        _historyInstances.Add(viewModelToName, viewModelFromName);
-                    }
-
-                    //Gestion de l'historique de navigation
-                    SetNavigationHistory(viewModelFromName);
+                    OnNavigationCancel();
+                    return string.Empty;
                 }
+
+                //Gestion de l'historique
+                HistoryNavigateTo(viewModelFromName, viewModelToName, isModal);
 
                 //Génération d'une instance du viewmodel
-                string key;
-                if (_factoriesInstances.ContainsKey(viewModelToName) && !newInstance)
-                {
-                    _factoriesInstances.TryGetValue(viewModelToName, out key);
-                }
-                else
-                {
-                    if (_factoriesInstances.ContainsKey(viewModelToName))
-                    {
-                        //Suppression de l'instance du viewModel dans le cache de SimpleIOC
-                        _factoriesInstances.TryGetValue(viewModelToName, out key);
-
-                        if (key != null)
-                        {
-                            _factoriesInstances.Remove(viewModelToName);
-                            SimpleIoc.Default.Unregister<TTo>(key);
-                        }
-                    }
-
-                    var instanceNew = Activator.CreateInstance(viewModelToName, parametersViewModel);
-                    key = Guid.NewGuid().ToString();
-                    SimpleIoc.Default.Register<TTo>(() => (TTo)instanceNew, key);
-                    _factoriesInstances.Add(viewModelToName, key);
-                }
+                var key = GenerateNewInstanceViewModelNavigateTo<TTo>(viewModelToName, parametersViewModel, newInstance);
 
                 var instance = (ViewModelBase)SimpleIoc.Default.GetInstance(viewModelToName, key);
                 if (instance != null)
                 {
                     Type instanceToNavigate;
-                    var result = _viewsRegister.TryGetValue(instance.GetType(), out instanceToNavigate);
+                    var result = ViewsRegister.TryGetValue(instance.GetType(), out instanceToNavigate);
                     if (result)
                     {
-                        _currentViewModel = viewModelToName;
+                        CurrentViewModel = viewModelToName;
                         SetCurrentView(instanceToNavigate);
                     }
                 }
 
                 //Gestion d'une fonction à appeler suite à la génération de l'instance
-                if (!string.IsNullOrEmpty(functionToLoad))
-                {
-                    var method = typeof(TTo).GetMethod(functionToLoad, parametersFunction);
-                    if (method != null)
-                    {
-                        method.Invoke(instance, parametersFunction);
-                    }
-                    else
-                    {
-                        var countParameters = parametersFunction != null
-                                                  ? ((IEnumerable<object>)parametersFunction).Count()
-                                                  : 0;
-                        throw new FunctionToLoadNavigationException(string.Format("{0} with {1} parameter(s)", functionToLoad, countParameters), typeof(TTo).Name);
-                    }
-                }
+                LoadFunctionViewModelNavigateTo<TTo>(instance, functionToLoad, parametersFunction);
 
                 return key;
             }
@@ -459,11 +430,12 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
         /// Permet de gérer l'état de navigation à l'instant T pour un ViewModel
         /// </summary>
         /// <param name="viewModelFromName">ViewModel pris en compte</param>
-        protected override void SetNavigationHistory(Type viewModelFromName)
+        /// <param name="isModal">Indique que la navigation est de type modale, supportée uniquement sur la plateforme Xamarin.Forms</param>
+        protected override void SetNavigationHistory(Type viewModelFromName, bool isModal = false)
         {
-            if (!_historyNavigation.ContainsKey(viewModelFromName))
+            if (!HistoryNavigation.ContainsKey(viewModelFromName))
             {
-                _historyNavigation.Add(viewModelFromName, _rootFrame.GetNavigationState());
+                HistoryNavigation.Add(viewModelFromName, _rootFrame.GetNavigationState());
             }
         }
 
@@ -477,9 +449,9 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
             string navigationState;
 
             //Chargement de l'état voulu
-            if (_historyNavigation.ContainsKey(historyViewModel))
+            if (HistoryNavigation.ContainsKey(historyViewModel))
             {
-                if (_historyNavigation.TryGetValue(historyViewModel, out navigationState))
+                if (HistoryNavigation.TryGetValue(historyViewModel, out navigationState))
                 {
                     _rootFrame.SetNavigationState(navigationState);
                 }
@@ -487,7 +459,7 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
                 //Vérification de la bonne cohérence
                 Type historyType;
                 var currentType = _rootFrame.CurrentSourcePageType;
-                var result = _viewsRegister.TryGetValue(historyViewModel, out historyType);
+                var result = ViewsRegister.TryGetValue(historyViewModel, out historyType);
                 if (result)
                 {
                     if (currentType != historyType)
@@ -516,16 +488,16 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
         /// </summary>
         protected override void ClearNavigation()
         {
-            _historyInstances.Clear();
+            HistoryInstances.Clear();
 
             //On vide les instances dans SimpleIoc
-            foreach (var instance in _factoriesInstances)
+            foreach (var instance in FactoriesInstances)
             {
                 var instanceSimple = SimpleIoc.Default.GetInstance(instance.Key, instance.Value);
                 SimpleIoc.Default.Unregister(instanceSimple);
             }
-            _factoriesInstances.Clear();
-            _rootFrame.SetNavigationState(_navigationStateInitial);
+            FactoriesInstances.Clear();
+            _rootFrame.SetNavigationState(NavigationStateInitial);
         }
 
         /// <summary>

@@ -16,12 +16,12 @@ namespace Navegar.Libs.Class
     {
         #region fields
 
-        protected readonly Dictionary<Type, string> _factoriesInstances = new Dictionary<Type, string>();
-        protected readonly Dictionary<Type, Type> _historyInstances = new Dictionary<Type, Type>();
-        protected Type _currentViewModel;
-        protected string _navigationStateInitial;
-        protected readonly Dictionary<Type, string> _historyNavigation = new Dictionary<Type, string>();
-        protected readonly Dictionary<Type, Type> _viewsRegister = new Dictionary<Type, Type>();
+        protected readonly Dictionary<Type, string> FactoriesInstances = new Dictionary<Type, string>();
+        protected readonly Dictionary<Type, Type> HistoryInstances = new Dictionary<Type, Type>();
+        protected Type CurrentViewModel;
+        protected string NavigationStateInitial;
+        protected readonly Dictionary<Type, string> HistoryNavigation = new Dictionary<Type, string>();
+        protected readonly Dictionary<Type, Type> ViewsRegister = new Dictionary<Type, Type>();
 
         #endregion
 
@@ -43,7 +43,7 @@ namespace Navegar.Libs.Class
         /// </returns>
         public bool CanGoBack()
         {
-            return _currentViewModel != null && _historyInstances.ContainsKey(_currentViewModel) && CanGoBackFrame();
+            return CurrentViewModel != null && HistoryInstances.ContainsKey(CurrentViewModel) && CanGoBackFrame();
         }
 
         /// <summary>
@@ -70,10 +70,10 @@ namespace Navegar.Libs.Class
         {
             if (CanGoBack())
             {
-                if (_historyInstances.ContainsKey(_currentViewModel) && CanGoBackFrame())
+                if (HistoryInstances.ContainsKey(CurrentViewModel) && CanGoBackFrame())
                 {
                     Type viewModelFrom;
-                    if (_historyInstances.TryGetValue(_currentViewModel, out viewModelFrom))
+                    if (HistoryInstances.TryGetValue(CurrentViewModel, out viewModelFrom))
                     {
                         return viewModelFrom;
                     }
@@ -93,10 +93,10 @@ namespace Navegar.Libs.Class
         /// </returns>
         public T GetViewModelInstance<T>() where T : ViewModelBase
         {
-            if (_factoriesInstances.ContainsKey(typeof(T)))
+            if (FactoriesInstances.ContainsKey(typeof(T)))
             {
                 string key;
-                var result = _factoriesInstances.TryGetValue(typeof(T), out key);
+                var result = FactoriesInstances.TryGetValue(typeof(T), out key);
                 if (result)
                 {
                     return SimpleIoc.Default.GetInstance<T>(key);
@@ -111,12 +111,12 @@ namespace Navegar.Libs.Class
         /// <returns>ViewModel courant</returns>
         public ViewModelBase GetViewModelCurrent()
         {
-            if (_factoriesInstances.ContainsKey(_currentViewModel))
+            if (FactoriesInstances.ContainsKey(CurrentViewModel))
             {
                 string key;
-                if (_factoriesInstances.TryGetValue(_currentViewModel, out key))
+                if (FactoriesInstances.TryGetValue(CurrentViewModel, out key))
                 {
-                    return (ViewModelBase)SimpleIoc.Default.GetInstance(_currentViewModel, key);
+                    return (ViewModelBase)SimpleIoc.Default.GetInstance(CurrentViewModel, key);
                 }
             }
             return null;
@@ -129,10 +129,10 @@ namespace Navegar.Libs.Class
         {
             if (CanGoBack())
             {
-                if (_historyInstances.ContainsKey(_currentViewModel) && CanGoBackFrame())
+                if (HistoryInstances.ContainsKey(CurrentViewModel) && CanGoBackFrame())
                 {
                     Type viewModelFrom;
-                    if (_historyInstances.TryGetValue(_currentViewModel, out viewModelFrom))
+                    if (HistoryInstances.TryGetValue(CurrentViewModel, out viewModelFrom))
                     {
                         Navigate(viewModelFrom, null, null);
                     }
@@ -153,10 +153,10 @@ namespace Navegar.Libs.Class
         {
             if (CanGoBack())
             {
-                if (_historyInstances.ContainsKey(_currentViewModel) && CanGoBackFrame())
+                if (HistoryInstances.ContainsKey(CurrentViewModel) && CanGoBackFrame())
                 {
                     Type viewModelFrom;
-                    if (_historyInstances.TryGetValue(_currentViewModel, out viewModelFrom))
+                    if (HistoryInstances.TryGetValue(CurrentViewModel, out viewModelFrom))
                     {
                         Navigate(viewModelFrom, functionToLoad, parametersFunction);
                     }
@@ -178,7 +178,7 @@ namespace Navegar.Libs.Class
         /// </returns>
         public string NavigateTo<TTo>(params object[] parametersViewModel) where TTo : class
         {
-            return Navigate<TTo>(typeof(TTo), null, parametersViewModel, null, null);
+            return Navigate<TTo>(typeof(TTo), null, parametersViewModel, null, null, false);
         }
 
         /// <summary>
@@ -281,6 +281,42 @@ namespace Navegar.Libs.Class
             return Navigate<TTo>(typeof(TTo), currentInstance.GetType(), parametersViewModel, functionToLoad, parametersFunction, newInstance);
         }
 
+        /// <summary>
+        /// Navigeur vers un ViewModel, avec un ViewModel en historique précédent. 
+        /// Le paramètre <param name="functionToLoad"></param> permet de spécifier un nom de fonction à appeler aprés le chargement du viewModel ciblé
+        /// </summary>
+        /// <typeparam name="TTo">
+        /// Type du Viewmodel vers lequel la navigation est effectuée
+        /// </typeparam>
+        /// <param name="currentInstance">
+        /// Viewmodel depuis lequel la navigation est effectuée
+        /// </param>
+        /// <param name="parametersViewModel">
+        /// Tableau des paramétres éventuels à transmettre au constructeur du ViewModel
+        /// </param>
+        /// <param name="functionToLoad">
+        /// Permet de spécifier un nom de fonction à appeler aprés le chargement du viewModel ciblé
+        /// </param>
+        /// <param name="parametersFunction">
+        /// Paramétres pour la fonction appelée
+        /// </param>
+        /// <param name="newInstance">
+        /// Indique si l'on génére une nouvelle instance obligatoirement
+        /// </param>
+        /// <param name="isModal">
+        /// Permet d'appeler la fenetre cible de la navigation en mode modal, ceci n'est supporté que sur la plateforme Xamarin.Forms
+        /// </param>
+        /// <returns>
+        /// Retourne la clé unique pour SimpleIoc, de l'instance du viewmodel vers lequel la navigation a eu lieu
+        /// </returns>
+        /// <remarks>
+        /// Supportée uniquement sur la plateforme Xamarin.Forms, dans les autres cas une exception <see cref="NotImplementedForCurrentPlatformException"/> sera levée
+        /// </remarks>
+        public abstract string NavigateModalTo<TTo>(ViewModelBase currentInstance, object[] parametersViewModel,
+            string functionToLoad,
+            object[] parametersFunction, bool newInstance = false)
+            where TTo : class;
+
         #region protected
 
         /// <summary>
@@ -321,17 +357,21 @@ namespace Navegar.Libs.Class
         /// <param name="newInstance">
         /// Indique si l'on génére une nouvelle instance obligatoirement
         /// </param>
+        /// <param name="isModal">
+        /// Indique que l'on souhaite une navigation modal, supportée uniquement par la plateforme Xamarin.Forms
+        /// </param>
         /// <returns>
         /// Retourne la clé unique pour SimpleIoc, de l'instance du viewmodel vers lequel la navigation a eu lieu
         /// </returns>
         protected abstract string Navigate<TTo>(Type viewModelToName, Type viewModelFromName, object[] parametersViewModel,
-            string functionToLoad, object[] parametersFunction, bool newInstance = false) where TTo : class;
+            string functionToLoad, object[] parametersFunction, bool newInstance = false, bool isModal = false) where TTo : class;
 
         /// <summary>
         /// Permet de gérer l'état de navigation à l'instant T pour un ViewModel
         /// </summary>
         /// <param name="viewModelFromName">ViewModel pris en compte</param>
-        protected abstract void SetNavigationHistory(Type viewModelFromName);
+        /// <param name="isModal">Indique que la navigation est de type modale, supportée uniquement sur la plateforme Xamarin.Forms</param>
+        protected abstract void SetNavigationHistory(Type viewModelFromName, bool isModal = false);
 
         /// <summary>
         /// Permet de savoir si l'on peut revenir en arriere au niveau des Frame
@@ -354,6 +394,126 @@ namespace Navegar.Libs.Class
                 NavigationCanceledOnPreviewNavigate(this, EventArgs.Empty);
             }
         }
+
+        /// <summary>
+        /// Gére le déclenchement éventuel de l'événement de PreNavigation pour la fonction Navigate&lt;TTo&gt;
+        /// </summary>
+        /// <param name="viewModelFromName">ViewModel d'où l'on vient</param>
+        /// <param name="viewModelToName">ViewModel vers lequel on va</param>
+        /// <returns>True continue la navigation, False déclenche l'annulation de la navigation</returns>
+        protected bool PreNavigateTo(Type viewModelFromName, Type viewModelToName)
+        {
+            if (PreviewNavigate != null)
+            {
+                ViewModelBase currentInstance = null;
+                if (viewModelFromName != null)
+                {
+                    if (FactoriesInstances.ContainsKey(viewModelToName))
+                    {
+                        string keyInstance;
+                        if (FactoriesInstances.TryGetValue(viewModelToName, out keyInstance))
+                        {
+                            currentInstance = (ViewModelBase)SimpleIoc.Default.GetInstance(viewModelToName, keyInstance);
+                        }
+                    }
+                }
+
+                if (!PreviewNavigate(currentInstance, viewModelFromName, viewModelToName))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Gére l'historisation de la navigation pour la fonction Navigate&lt;TTo&gt;
+        /// </summary>
+        /// <param name="viewModelFromName">ViewModel de départ</param>
+        /// <param name="viewModelToName">ViewModel de destination</param>
+        /// <param name="isModal">Indique si la navigation est modale, supportée uniquement par la plateforme Xamarin.Forms</param>
+        protected void HistoryNavigateTo(Type viewModelFromName, Type viewModelToName, bool isModal = false)
+        {
+            if (viewModelFromName != null)
+            {
+                if (HistoryInstances.ContainsKey(viewModelToName))
+                {
+                    HistoryInstances[viewModelToName] = viewModelFromName;
+                }
+                else
+                {
+                    HistoryInstances.Add(viewModelToName, viewModelFromName);
+                }
+
+                //Gestion de l'historique de navigation
+                SetNavigationHistory(viewModelFromName, isModal);
+            }
+        }
+
+        /// <summary>
+        /// Permet de générer une nouvelle instance du ViewModel vers leque on va
+        /// </summary>
+        /// <typeparam name="TTo">Type du ViewModel de destination</typeparam>
+        /// <param name="viewModelToName">ViewModel de destination</param>
+        /// <param name="parametersViewModel">Paramètres du ViewModel</param>
+        /// <param name="newInstance">Indique si l'on souhaite une nouvelle instance</param>
+        /// <returns>La clé identifiant l'instane dans l'IOC</returns>
+        protected string GenerateNewInstanceViewModelNavigateTo<TTo>(Type viewModelToName, object[] parametersViewModel, bool newInstance = false) where TTo : class
+        {
+            string key;
+            if (FactoriesInstances.ContainsKey(viewModelToName) && !newInstance)
+            {
+                FactoriesInstances.TryGetValue(viewModelToName, out key);
+            }
+            else
+            {
+                if (FactoriesInstances.ContainsKey(viewModelToName))
+                {
+                    //Suppression de l'instance du viewModel dans le cache de SimpleIOC
+                    FactoriesInstances.TryGetValue(viewModelToName, out key);
+
+                    if (key != null)
+                    {
+                        FactoriesInstances.Remove(viewModelToName);
+                        SimpleIoc.Default.Unregister<TTo>(key);
+                    }
+                }
+
+                var instanceNew = Activator.CreateInstance(viewModelToName, parametersViewModel);
+                key = Guid.NewGuid().ToString();
+                SimpleIoc.Default.Register<TTo>(() => (TTo)instanceNew, key);
+                FactoriesInstances.Add(viewModelToName, key);
+            }
+
+            return key;
+        }
+
+        /// <summary>
+        /// Permet de lancer une fonction aprés l'appel au ViewModel
+        /// </summary>
+        /// <typeparam name="TTo">Type du ViewModel de destination</typeparam>
+        /// <param name="instance">Instance courante du ViewModel de destination</param>
+        /// <param name="functionToLoad">Fonction à charger</param>
+        /// <param name="parametersFunction">Paramètres de la fonction</param>
+        protected void LoadFunctionViewModelNavigateTo<TTo>(ViewModelBase instance, string functionToLoad, object[] parametersFunction) where TTo : class
+        {
+            if (!string.IsNullOrEmpty(functionToLoad))
+            {
+                var method = typeof(TTo).GetMethod(functionToLoad, parametersFunction);
+                if (method != null)
+                {
+                    method.Invoke(instance, parametersFunction);
+                }
+                else
+                {
+                    var countParameters = parametersFunction != null
+                                              ? ((IEnumerable<object>)parametersFunction).Count()
+                                              : 0;
+                    throw new FunctionToLoadNavigationException(string.Format("{0} with {1} parameter(s)", functionToLoad, countParameters), typeof(TTo).Name);
+                }
+            }
+        }
+
         #endregion
 
         #region Not Implemented
