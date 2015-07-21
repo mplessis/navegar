@@ -22,6 +22,7 @@
 using System;
 using GalaSoft.MvvmLight;
 using Navegar.Libs.Enums;
+using Navegar.Libs.Exceptions;
 
 namespace Navegar.Libs.Interfaces
 {
@@ -248,6 +249,37 @@ namespace Navegar.Libs.Interfaces
         /// Retourne la clé unique pour SimpleIoc, de l'instance du viewmodel vers lequel la navigation a eu lieu
         /// </returns>
         string NavigateTo<TTo>(ViewModelBase currentInstance, object[] parametersViewModel, string functionToLoad, object[] parametersFunction, bool newInstance = false)
+            where TTo : class;
+
+        /// <summary>
+        /// Navigeur vers un ViewModel, avec un ViewModel en historique précédent. 
+        /// Le paramètre <param name="functionToLoad"></param> permet de spécifier un nom de fonction à appeler aprés le chargement du viewModel ciblé
+        /// </summary>
+        /// <typeparam name="TTo">
+        /// Type du Viewmodel vers lequel la navigation est effectuée
+        /// </typeparam>
+        /// <param name="currentInstance">
+        /// Viewmodel depuis lequel la navigation est effectuée
+        /// </param>
+        /// <param name="parametersViewModel">
+        /// Tableau des paramétres éventuels à transmettre au constructeur du ViewModel
+        /// </param>
+        /// <param name="functionToLoad">
+        /// Permet de spécifier un nom de fonction à appeler aprés le chargement du viewModel ciblé
+        /// </param>
+        /// <param name="parametersFunction">
+        /// Paramétres pour la fonction appelée
+        /// </param>
+        /// <param name="newInstance">
+        /// Indique si l'on génére une nouvelle instance obligatoirement
+        /// </param>
+        /// <returns>
+        /// Retourne la clé unique pour SimpleIoc, de l'instance du viewmodel vers lequel la navigation a eu lieu
+        /// </returns>
+        /// <remarks>
+        /// Supportée uniquement sur la plateforme Xamarin.Forms, dans les autres cas une exception <see cref="NotImplementedForCurrentPlatformException"/> sera levée
+        /// </remarks>
+        string NavigateModalTo<TTo>(ViewModelBase currentInstance, object[] parametersViewModel, string functionToLoad, object[] parametersFunction, bool newInstance = false)
             where TTo : class;
 
         /// <summary>
