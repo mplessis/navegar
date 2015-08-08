@@ -50,6 +50,11 @@ namespace Navegar.Plateformes.NetCore.UAP.Win81
 
         #endregion
 
+        /// <summary>
+        /// Indique quelle plateforme est en cours d'exécution
+        /// </summary>
+        public override CurrentPlatformEnum CurrentPlatform => CurrentPlatformEnum.UAP;
+
         #region Surcharge de la navigation arriére
 
         /// <summary>

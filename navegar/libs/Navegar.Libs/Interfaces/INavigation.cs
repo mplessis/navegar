@@ -91,6 +91,11 @@ namespace Navegar.Libs.Interfaces
         void Clear();
 
         /// <summary>
+        /// Indique quelle plateforme est en cours d'exécution
+        /// </summary>
+        CurrentPlatformEnum CurrentPlatform { get; }
+
+        /// <summary>
         /// Permet de connaitre le type du ViewModel au niveau n-1 de l'historique de navigation
         /// </summary>
         /// <returns>Type du ViewModel</returns>

@@ -50,6 +50,11 @@ namespace Navegar.Libs.Class
         #endregion
 
         /// <summary>
+        /// Indique quelle plateforme est en cours d'exécution
+        /// </summary>
+        public abstract CurrentPlatformEnum CurrentPlatform { get; }
+
+        /// <summary>
         /// Permet d'indiquer que la navigation est annulée
         /// </summary>
         public event EventHandler NavigationCanceledOnPreviewNavigate;
