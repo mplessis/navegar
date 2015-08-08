@@ -27,6 +27,7 @@ using System.Collections.Generic;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using Navegar.Libs.Class;
+using Navegar.Libs.Enums;
 using Navegar.Libs.Exceptions;
 using Navegar.Libs.Interfaces;
 
@@ -70,6 +71,11 @@ namespace Navegar.Plateformes.Net.WPF
             }
             GC.Collect();
         }
+
+        /// <summary>
+        /// Indique quelle plateforme est en cours d'exécution
+        /// </summary>
+        public CurrentPlatformEnum CurrentPlatform => CurrentPlatformEnum.WPF;
 
         /// <summary>
         /// Génére l'instance du ViewModel principal

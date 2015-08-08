@@ -7,20 +7,20 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="ef907399-ee4d-4e79-8a06-5d372b215e23"
-    Publisher="CN=mples"
+    Name="18011205-c502-4539-8bef-10a8b96a4b68"
+    Publisher="CN=Marc"
     Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="ef907399-ee4d-4e79-8a06-5d372b215e23" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="18011205-c502-4539-8bef-10a8b96a4b68" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>Navegar UWP Exemple CRM</DisplayName>
-    <PublisherDisplayName>mplessis - Kopigi</PublisherDisplayName>
+    <DisplayName>Navegar.UWP.Exemple.CRM</DisplayName>
+    <PublisherDisplayName>Marc</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
   <Dependencies>
-    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.10069.0" MaxVersionTested="10.0.10069.0" />
+    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.0.0" MaxVersionTested="10.0.0.0" />
   </Dependencies>
 
   <Resources>
@@ -33,10 +33,11 @@
       EntryPoint="Navegar.UWP.Exemple.CRM.App">
       <uap:VisualElements
         DisplayName="Navegar.UWP.Exemple.CRM"
-        Square150x150Logo="Assets\Logo.png"
-        Square44x44Logo="Assets\SmallLogo.png"
+        Square150x150Logo="Assets\Square150x150Logo.png"
+        Square44x44Logo="Assets\Square44x44Logo.png"
         Description="Navegar.UWP.Exemple.CRM"
-        BackgroundColor="#407aae">
+        BackgroundColor="transparent">
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"/>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
     </Application>

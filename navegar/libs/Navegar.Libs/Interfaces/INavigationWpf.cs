@@ -24,6 +24,7 @@
 
 using System;
 using GalaSoft.MvvmLight;
+using Navegar.Libs.Enums;
 
 #endregion
 
@@ -38,6 +39,47 @@ namespace Navegar.Libs.Interfaces
         /// Nettoie l'ensemble de l'historique de navigation
         /// </summary>
         void Clear();
+
+        /// <summary>
+        /// Indique quelle plateforme est en cours d'exécution
+        /// </summary>
+        CurrentPlatformEnum CurrentPlatform { get; }
+
+        /// <summary>
+        /// Déterminer si un historique est possible depuis le ViewModel en cours
+        /// </summary>
+        /// <returns>
+        /// <c>true</c> si la navigation est possible, sinon <c>false</c>
+        /// </returns>
+        bool CanGoBack();
+
+        /// <summary>
+        /// Naviguer vers l'historique (ViewModel précédent) depuis le ViewModel en cours, si une navigation arriére est possible
+        /// </summary>
+        void GoBack();
+
+        /// <summary>
+        /// Naviguer vers l'historique (ViewModel précédent) depuis le ViewModel en cours, si une navigation arriére est possible
+        /// </summary>
+        /// <param name="functionToLoad">
+        /// Permet de spécifier un nom de fonction à appeler aprés le chargement du viewModel ciblé
+        /// </param>
+        /// <param name="parametersFunction">
+        /// Paramétres pour la fonction appelée
+        /// </param>
+        void GoBack(string functionToLoad, params object[] parametersFunction);
+
+        /// <summary>
+        /// Permet de connaitre le type du ViewModel au niveau n-1 de l'historique de navigation
+        /// </summary>
+        /// <returns>Type du ViewModel</returns>
+        Type GetTypeViewModelToBack();
+
+        /// <summary>
+        /// Permet de retrouver l'instance du ViewModel courant
+        /// </summary>
+        /// <returns>ViewModel courant</returns>
+        ViewModelBase GetViewModelCurrent();
 
         /// <summary>
         /// Génére l'instance du ViewModel principal
@@ -262,41 +304,5 @@ namespace Navegar.Libs.Interfaces
         /// </returns>
         string NavigateTo<TTo>(ViewModelBase currentInstance, object[] parametersViewModel, string functionToLoad, object[] parametersFunction, bool newInstance = false)
             where TTo : class;
-
-        /// <summary>
-        /// Déterminer si un historique est possible depuis le ViewModel en cours
-        /// </summary>
-        /// <returns>
-        /// <c>true</c> si la navigation est possible, sinon <c>false</c>
-        /// </returns>
-        bool CanGoBack();
-
-        /// <summary>
-        /// Naviguer vers l'historique (ViewModel précédent) depuis le ViewModel en cours, si une navigation arriére est possible
-        /// </summary>
-        void GoBack ();
-
-        /// <summary>
-        /// Naviguer vers l'historique (ViewModel précédent) depuis le ViewModel en cours, si une navigation arriére est possible
-        /// </summary>
-        /// <param name="functionToLoad">
-        /// Permet de spécifier un nom de fonction à appeler aprés le chargement du viewModel ciblé
-        /// </param>
-        /// <param name="parametersFunction">
-        /// Paramétres pour la fonction appelée
-        /// </param>
-        void GoBack(string functionToLoad, params object[] parametersFunction);
-
-        /// <summary>
-        /// Permet de connaitre le type du ViewModel au niveau n-1 de l'historique de navigation
-        /// </summary>
-        /// <returns>Type du ViewModel</returns>
-        Type GetTypeViewModelToBack();
-
-        /// <summary>
-        /// Permet de retrouver l'instance du ViewModel courant
-        /// </summary>
-        /// <returns>ViewModel courant</returns>
-        ViewModelBase GetViewModelCurrent();
     }
 }

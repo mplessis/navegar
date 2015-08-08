@@ -51,6 +51,11 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
 
         #endregion
 
+        /// <summary>
+        /// Indique quelle plateforme est en cours d'exécution
+        /// </summary>
+        public override CurrentPlatformEnum CurrentPlatform => CurrentPlatformEnum.UWP;
+
         #region Surcharge de la navigation arriére
 
         /// <summary>

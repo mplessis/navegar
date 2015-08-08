@@ -51,6 +51,11 @@ namespace Navegar.XamarinForms
 
         #endregion
 
+        /// <summary>
+        /// Indique quelle plateforme est en cours d'exécution
+        /// </summary>
+        public override CurrentPlatformEnum CurrentPlatform => CurrentPlatformEnum.XAMARINFORMS;
+
         #region Surcharge de la navigation arriére
 
         /// <summary>
