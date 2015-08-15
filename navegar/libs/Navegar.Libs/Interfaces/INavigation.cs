@@ -7,7 +7,7 @@
 // <date>21/07/2015</date>
 // <project>Navegar.Libs</project>
 // <web>http://navegar.kopigi.fr</web>
-// <license>bvvbnbnvbn
+// <license>
 // The MIT License (MIT)
 // 
 // Copyright (c) 2015 Marc Plessis
