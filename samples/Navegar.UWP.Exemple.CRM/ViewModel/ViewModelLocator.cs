@@ -1,6 +1,7 @@
 using CommonMobiles.ViewModels;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
+using Navegar.Libs.Enums;
 using Navegar.Libs.Interfaces;
 using Navegar.Plateformes.NetCore.UWP.Win10;
 using Navegar.UWP.Exemple.CRM.Views;
@@ -28,10 +29,10 @@ namespace Navegar.UWP.Exemple.CRM.ViewModel
 
             //Association des ViewModels et des Views associées
             ServiceLocator.Current.GetInstance<INavigation>().RegisterView<LandingPageViewModel, LandingPage>();
-            ServiceLocator.Current.GetInstance<INavigation>().RegisterView<ClientPageViewModel, ClientPage>();
-            ServiceLocator.Current.GetInstance<INavigation>().RegisterView<ListClientsPageViewModel, ListClientsPage>();
-            ServiceLocator.Current.GetInstance<INavigation>().RegisterView<CommandePageViewModel, CommandePage>();
-            ServiceLocator.Current.GetInstance<INavigation>().RegisterView<ListCommandesPageViewModel, ListCommandesPage>();
+            ServiceLocator.Current.GetInstance<INavigation>().RegisterView<ClientPageViewModel, ClientPage>(BackButtonViewEnum.Manual);
+            ServiceLocator.Current.GetInstance<INavigation>().RegisterView<ListClientsPageViewModel, ListClientsPage>(BackButtonViewEnum.None);
+            ServiceLocator.Current.GetInstance<INavigation>().RegisterView<CommandePageViewModel, CommandePage>(BackButtonViewEnum.Auto);
+            ServiceLocator.Current.GetInstance<INavigation>().RegisterView<ListCommandesPageViewModel, ListCommandesPage>(BackButtonViewEnum.Auto);
         }
 
         #region ViewModel Instance

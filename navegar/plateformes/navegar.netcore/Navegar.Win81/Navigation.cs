@@ -214,6 +214,21 @@ namespace Navegar.Plateformes.NetCore.UAP.Win81
         }
 
         /// <summary>
+        /// Permet d'associer un type pour la vue à un type pour le modéle de vue 
+        /// en incluant si un bouton back virtuel doit etre activé dans la barre de titre de l'application
+        /// </summary>
+        /// <param name="backVirtualButton">Indique si l'on doit ou non afficher un bouton de retour virtuel</param>
+        /// <remarks>
+        /// Spécifique à la plateforme .netcore UWP (Windows 10)
+        /// Léve une exception <exception cref="NotImplementedException" /> si la fonction n'est pas implémentée sur la plateforme courante
+        /// Si le device utilisé posséde un bouton physique cette fonction n'affiche pas de bouton, sauf à forcer l'affichage avec le paramétre
+        /// </remarks>
+        public override void RegisterView<TViewModel, TView>(BackButtonViewEnum backVirtualButton)
+        {
+            throw new NotImplementedForCurrentPlatformException();
+        }
+
+        /// <summary>
         /// Perrmet d'afficher le bouton virtuel dans la barre de titre de l'application
         /// </summary>
         /// <param name="visible">indique si l'on doit rendre le bouton visible ou non</param>
@@ -454,15 +469,7 @@ namespace Navegar.Plateformes.NetCore.UAP.Win81
         /// </summary>
         protected override void ClearNavigation()
         {
-            HistoryInstances.Clear();
-
-            //On vide les instances dans SimpleIoc
-            foreach (var instance in FactoriesInstances)
-            {
-                var instanceSimple = SimpleIoc.Default.GetInstance(instance.Key, instance.Value);
-                SimpleIoc.Default.Unregister(instanceSimple);
-            }
-            FactoriesInstances.Clear();
+            base.ClearNavigation();
             _rootFrame.SetNavigationState(NavigationStateInitial);
         }
 

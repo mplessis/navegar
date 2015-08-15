@@ -38,6 +38,7 @@
     <Compile Include="Class\NavigationBase.cs" />
     <Compile Include="Class\TypeExtensions.cs" />
     <Compile Include="Enums\BackButtonTypeEnum.cs" />
+    <Compile Include="Enums\BackButtonViewEnum.cs" />
     <Compile Include="Enums\CurrentPlatformEnum.cs" />
     <Compile Include="Exceptions\FrameNavigationException.cs" />
     <Compile Include="Exceptions\FunctionToLoadNavigationException.cs" />
