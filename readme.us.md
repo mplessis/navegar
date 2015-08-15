@@ -1,6 +1,6 @@
 ![Logo Navegar](http://www.kopigi.fr/navegar/navegar.png)
 
-Navegar help you to navigate inside your's Universal App Platform and Universal Window Platform applications with use of ViewModel First approach.
+Navegar help you to navigate inside your's Universal App Platform, Universal Windows Platform and Xamarin.forms applications with use of ViewModel First approach.
 
 Navegar help you too, on same technique, use this navigation (inspire by WinRT platform) on WPF's applications
 

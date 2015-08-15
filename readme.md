@@ -2,7 +2,7 @@
 
 English version [here](https://github.com/mplessis/navegar/blob/master/readme.us.md)
 
-Navegar vous permet de gérer une navigation, au sein de vos applications Universal Apps en utilisant l'approche ViewModel First et non l'approche View First intégrée dans le Framework WinRT, le tout basé sur MVVMLight et SimpleIoc, vous pouvez donc passer d'une page à une autre simplement depuis vos ViewModels.
+Navegar vous permet de gérer une navigation, au sein de vos applications Universal Apps, Universal Windows Platform et Xamarin.Forms en utilisant l'approche ViewModel First et non l'approche View First intégrée dans le Framework WinRT, le tout basé sur MVVMLight et SimpleIoc, vous pouvez donc passer d'une page à une autre simplement depuis vos ViewModels.
 
 Navegar permet également, sur le même principe, une navigation inspirée des applications Windows 8 mais pour les applications WPF.
 
@@ -14,6 +14,18 @@ Afin d'intégrer Navegar à votre application vous devez installer le package Nu
     PM> Install-Package Navegar 
 
 ##Nouveautés :
+V4.5.7:
+
+- Windows 10 : Gestion du bouton virtuel (dans la barre de titre de l'application) par un paramétre de la fonction RegisterView
+- Windows 10 : Gestion du passage en mode Tablette/Desktop automatiquement pour le bouton de retour virtuel
+
+V4.5.6 :
+
+- Suppport de Xamarin.Forms
+- Modification de la structure du projet, désormais une DLL NavegarLibs contient les interfaces INavigationWpf et INavigation (pour les UAP/UWP et Xamarin.Forms), ainsi que les exceptions. Chaque plateforme (WPF/UAP/UWP/Xamarin.Forms) est gérée dans une DLL à part installé à partir du package Navegar (ce package étant dépendant du package NavegarLibs il l'installe en même temps). 
+Ceci afin de permettre de réaliser une DLL Portable pour partager le code métier de votre application entre les UAP/UWP et Xamarin.Forms et avoir une navigation unique dans vos VIewModels. Vous pouvez donc installer sur cette DLL portable le package NavegarLibs pour bénéficier des interfaces et des exceptions et installer la dll de la plateforme sur chaque projet.
+- Version Windows 10 : Replacement de l'événement BackVirtualButtonPressed (pour personnaliser le retour arrière dans l'application) par l'événement BackButtonPressed qui gére les boutons physiques (ou virtuels sur Windows Phone) et virtuels dans la barre de titre des applications UWP Windows 10
+- Ajout d'une propriété CurrentPlatform indiquant la plateforme courante (WPF/UAP/UWP ou Xamarin)
 
 V4.0.3 Release Candidate :
 
