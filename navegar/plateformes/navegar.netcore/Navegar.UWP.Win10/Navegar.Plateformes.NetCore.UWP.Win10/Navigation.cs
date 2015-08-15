@@ -27,6 +27,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Windows.UI.Core;
+using Windows.UI.ViewManagement;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Automation;
 using Windows.UI.Xaml.Controls;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
@@ -46,9 +49,11 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
         #region fields
 
         private Frame _rootFrame;
-
         private Func<bool> _backButtonPressedAction;
-
+        private Type _currentPage;
+        private Dictionary<Type, BackButtonViewEnum> _backButtonView = new Dictionary<Type, BackButtonViewEnum>();
+        private Dictionary<Type, bool> _isBackButtonForView = new Dictionary<Type, bool>();
+          
         #endregion
 
         /// <summary>
@@ -72,7 +77,7 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
                 }
                 else
                 {
-                    if (Windows.UI.Core.SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility == Windows.UI.Core.AppViewBackButtonVisibility.Visible)
+                    if (Windows.UI.Core.SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility == Windows.UI.Core.AppViewBackButtonVisibility.Visible || UIViewSettings.GetForCurrentView().UserInteractionMode == UserInteractionMode.Touch)
                     {
                         return BackButtonTypeEnum.Virtual;
                     }
@@ -85,6 +90,7 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
         }
 
         private Func<bool> _backButtonPressed;
+
         /// <summary>
         /// Evenement de navigation arriére avec le bouton physique ou virtuel
         /// Permet de définir soit même une fonction gérant ce retour sans utiliser celui par défaut de Navegar
@@ -242,6 +248,25 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
         }
 
         /// <summary>
+        /// Permet d'associer un type pour la vue à un type pour le modéle de vue 
+        /// en incluant si un bouton back virtuel doit etre activé dans la barre de titre de l'application
+        /// </summary>
+        /// <param name="backVirtualButton">Indique si l'on doit ou non afficher un bouton de retour virtuel</param>
+        /// <remarks>
+        /// Spécifique à la plateforme .netcore UWP (Windows 10)
+        /// Léve une exception <exception cref="NotImplementedException" /> si la fonction n'est pas implémentée sur la plateforme courante
+        /// Si le device utilisé posséde un bouton physique cette fonction n'affiche pas de bouton, sauf à forcer l'affichage avec le paramétre
+        /// </remarks>
+        public override void RegisterView<TViewModel, TView>(BackButtonViewEnum backVirtualButton)
+        {
+            RegisterView<TViewModel, TView>();
+            if (!_backButtonView.ContainsKey(typeof(TView)))
+            {
+                _backButtonView.Add(typeof(TView), backVirtualButton);
+            }
+        }
+
+        /// <summary>
         /// Perrmet d'afficher le bouton virtuel dans la barre de titre de l'application
         /// </summary>
         /// <param name="visible">indique si l'on doit rendre le bouton visible ou non</param>
@@ -265,6 +290,18 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
                         Windows.UI.Core.SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
                     }
                 }
+            }
+
+            //Gestion de l'apparition du bouton lors d'un changement de mode Touch ou Mouse
+            BackButtonViewEnum backTypeButton;
+            _backButtonView.TryGetValue(_currentPage, out backTypeButton);
+            if (!IsTouchMode())
+            {
+                if (_isBackButtonForView.ContainsKey(_currentPage))
+                {
+                    _isBackButtonForView.Remove(_currentPage);
+                }
+                _isBackButtonForView.Add(_currentPage, Windows.UI.Core.SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility == AppViewBackButtonVisibility.Visible);
             }
         }
 
@@ -304,6 +341,9 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
                     var instance = (ViewModelBase)SimpleIoc.Default.GetInstance(viewModelToName, key);
                     if (instance != null)
                     {
+                        //Nouvelle page courante
+                        ViewsRegister.TryGetValue(viewModelToName, out _currentPage);
+
                         var result = SetGoBack(viewModelToName);
                         if (result)
                         {
@@ -423,11 +463,65 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
         {
             try
             {
+                _currentPage = instanceToNavigate;
                 _rootFrame.Navigate(instanceToNavigate);
+                _rootFrame.LayoutUpdated += OnLayoutUpdated;
             }
             catch (Exception e)
             {
                 throw new FrameNavigationException();
+            }
+        }
+
+        /// <summary>
+        /// Mise à jour du layout de la frame principale, soit à chauqe affichage de page ou bien lors d'un changement de mode d'UI
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="o"></param>
+        protected void OnLayoutUpdated(object sender, object o)
+        {
+            //On regarde si l'on doit afficher un bouton virtuel dans la barre de titre de l'application
+            if (HasBackButton == BackButtonTypeEnum.None)
+            {
+                if (!IsTouchMode())
+                {
+                    BackButtonViewEnum backButton;
+                    if (_backButtonView.TryGetValue(_currentPage, out backButton))
+                    {
+                        SetShowVirtualBackButton(backButton);
+                    }
+                }
+            }
+            else
+            {
+                BackButtonViewEnum backButton;
+                _backButtonView.TryGetValue(_currentPage, out backButton);
+                if (IsTouchMode() && HasBackButton == BackButtonTypeEnum.Virtual)
+                {
+                    ShowVirtualBackButton(false);
+                }
+                else
+                {
+                    SetShowVirtualBackButton(backButton);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Permet de gérer le bouton suivant le type de bouton choisi sur la page
+        /// </summary>
+        /// <param name="backButton"></param>
+        protected void SetShowVirtualBackButton(BackButtonViewEnum backButton)
+        {
+            switch (backButton)
+            {
+                case BackButtonViewEnum.Auto:
+                    ShowVirtualBackButton();
+                    break;
+
+                case BackButtonViewEnum.None:
+                    ShowVirtualBackButton(false);
+                    break;
             }
         }
 
@@ -493,16 +587,20 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
         /// </summary>
         protected override void ClearNavigation()
         {
-            HistoryInstances.Clear();
+           base.ClearNavigation();
 
-            //On vide les instances dans SimpleIoc
-            foreach (var instance in FactoriesInstances)
-            {
-                var instanceSimple = SimpleIoc.Default.GetInstance(instance.Key, instance.Value);
-                SimpleIoc.Default.Unregister(instanceSimple);
-            }
-            FactoriesInstances.Clear();
+            _backButtonView.Clear();
+            _isBackButtonForView.Clear();
             _rootFrame.SetNavigationState(NavigationStateInitial);
+        }
+
+        /// <summary>
+        /// Permet de savoir si l'on est en mode Touch ou Mouse
+        /// </summary>
+        /// <returns>True si le mode Touch est activé</returns>
+        protected bool IsTouchMode()
+        {
+            return UIViewSettings.GetForCurrentView().UserInteractionMode == UserInteractionMode.Touch;
         }
 
         /// <summary>

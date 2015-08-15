@@ -37,10 +37,6 @@ namespace Navegar.UWP.Exemple.CRM.Views
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if(ServiceLocator.Current.GetInstance<INavigation>().HasBackButton == BackButtonTypeEnum.Virtual)
-            {
-                ServiceLocator.Current.GetInstance<INavigation>().ShowVirtualBackButton(false);
-            }
         }
     }
 }

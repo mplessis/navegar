@@ -411,7 +411,18 @@ namespace Navegar.Libs.Class
         /// <summary>
         /// Vide l'historique de navigation de la classe et de la Frame de WinRT
         /// </summary>
-        protected abstract void ClearNavigation();
+        protected virtual void ClearNavigation()
+        {
+            HistoryInstances.Clear();
+
+            //On vide les instances dans SimpleIoc
+            foreach (var instance in FactoriesInstances)
+            {
+                var instanceSimple = SimpleIoc.Default.GetInstance(instance.Key, instance.Value);
+                SimpleIoc.Default.Unregister(instanceSimple);
+            }
+            FactoriesInstances.Clear();
+        }
 
         /// <summary>
         /// Génére l'événement d'annulation de la navigation
@@ -560,6 +571,8 @@ namespace Navegar.Libs.Class
         public abstract void RegisterBackPressedAction<TViewModel>(Action func) where TViewModel : ViewModelBase;
 
         public abstract void RegisterView<TViewModel, TView>() where TViewModel : ViewModelBase where TView : class;
+
+        public abstract void RegisterView<TViewModel, TView>(BackButtonViewEnum backVirtualButton) where TViewModel : ViewModelBase where TView : class;
 
         public abstract void ShowVirtualBackButton(bool visible = true, bool force = false);
 

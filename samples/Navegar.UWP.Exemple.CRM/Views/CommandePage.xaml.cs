@@ -36,8 +36,6 @@ namespace Navegar.UWP.Exemple.CRM.Views
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            //Affichage du bouton de retour virtuel dans la barre de titre des versions desktop
-            ServiceLocator.Current.GetInstance<INavigation>().ShowVirtualBackButton();
         }
     }
 }
