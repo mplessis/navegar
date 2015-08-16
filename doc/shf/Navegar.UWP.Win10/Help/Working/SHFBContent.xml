@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<content xml:space="preserve">
+	<!-- NOTE: This file must appear LAST in the list of content files so that these items override the matching
+						 items in the stock content files! -->
+
+	<!-- Note that the copyright item in the shared content is not used. The following items are used instead. -->
+	<item id="copyright_info"><p><a href='https://github.com/mplessis/navegar/blob/master/LICENSE' target='_blank'>https://github.com/mplessis/navegar/blob/master/LICENSE</a></p></item>
+	<item id="copyright_link"><a href='https://github.com/mplessis/navegar/blob/master/LICENSE' target='_blank'>https://github.com/mplessis/navegar/blob/master/LICENSE</a></item>
+	<item id="copyright_text"></item>
+
+	<item id="header"><span class="introStyle"></span> </item>
+	<item id="footer_content"><include item="copyright"/></item>
+	<item id="feedback_body">Vos remarques sont utilisées pour améliorer la documentation et le produit. Votre addresse e-mail ne sera pas utilisé à d'autres fins, et sera supprimée une fois que le problème que vous signalez sera résolu. Pendant la résolution du problème que vous signalez, il est possible que vous soyez contacté par e-mail pour obtenir des précisions ou des clarifications sur vos remarques. Une fois que le problème que vois signalez sera résolu, il est possible que vous receviez un e-mail pour vous en informer.</item>
+
+	<!-- reference_content.xml overrides -->
+	<item id="topicTitle_root"><include item="rootTopicTitleLocalized"/></item>
+    <!-- This is used when a title is not specified in the project -->
+    <item id="rootTopicTitleLocalized">Espaces de noms</item>
+
+	<item id="productTitle">Navegar</item>
+	<item id="runningHeaderText">Navegar</item>
+
+	<!-- shared_content.xml overrides -->
+	<item id="locale">fr-fr</item>
+	<item id="brandingLocaleCss">branding-fr-FR.css</item>
+
+	<item id="preliminary"><p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Ceci est une documentation préliminaire, sous réserve de modification.]</p></item>
+
+	<item id="comments"><div class="feedbackLink">Envoyez vos commentaires sur cette documentation à
+        <a id="HT_MailLink" href="mailto:?Subject=Navegar"></a></div>
+        <script type="text/javascript">
+        var HT_mailLink = document.getElementById("HT_MailLink");
+        var HT_mailLinkText = HT_mailLink.innerHTML;
+        HT_mailLink.href += ": " + document.title + "\u0026body=" + encodeURIComponent("<include item='feedback_body' />");
+        HT_mailLink.innerHTML = HT_mailLinkText;
+        </script></item>
+
+	<!-- To format the copyright HREF and/or copyright text into a message of your choosing, you can specify
+			 @HtmlEncCopyrightHref and/or @HtmlEncCopyrightText in braces -->
+	<item id="copyright"><p><a href='https://github.com/mplessis/navegar/blob/master/LICENSE' target='_blank'>https://github.com/mplessis/navegar/blob/master/LICENSE</a></p></item>
+</content>

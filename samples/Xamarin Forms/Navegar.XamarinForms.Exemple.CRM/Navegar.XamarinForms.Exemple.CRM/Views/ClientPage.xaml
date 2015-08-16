@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xamarinForms:NavegarContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xamarinForms="clr-namespace:Navegar.XamarinForms;assembly=Navegar.XamarinForms"
+             xmlns:converters="clr-namespace:Navegar.XamarinForms.Exemple.CRM.Converters;assembly=Navegar.XamarinForms.Exemple.CRM"
+             x:Class="Navegar.XamarinForms.Exemple.CRM.Views.ClientPage">
+    <xamarinForms:NavegarContentPage.ToolbarItems>
+        <ToolbarItem Text="Enregistrer" Command="{Binding SaveCommand}">
+            <ToolbarItem.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource" WinPhone="Toolkit.Content/ApplicationBar.Save.png" />
+            </ToolbarItem.Icon>
+        </ToolbarItem>
+        <ToolbarItem Text="Commandes" Command="{Binding LoadCommandesCommand}">
+            <ToolbarItem.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource" WinPhone="Toolkit.Content/ApplicationBar.Shop.png" />
+            </ToolbarItem.Icon>
+        </ToolbarItem>
+        <ToolbarItem Text="Fermer" Command="{Binding CancelCommand}">
+            <ToolbarItem.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource" WinPhone="Toolkit.Content/ApplicationBar.Cancel.png" />
+            </ToolbarItem.Icon>
+        </ToolbarItem>
+    </xamarinForms:NavegarContentPage.ToolbarItems>
+    <xamarinForms:NavegarContentPage.Resources>
+        <ResourceDictionary>
+            <converters:StringFormatConverter x:Key="StringFormatConverter"/>
+            <Color x:Key="BackgroundPage">#407aae</Color>
+            <Style x:Key="ValueTextBox" TargetType="Label">
+                <Setter Property="TextColor" Value="#FFFFFFFF" />
+                <Setter Property="FontSize" Value="20.333" />
+            </Style>
+            <Style x:Key="LabelTextBox" TargetType="Label">
+                <Setter Property="TextColor" Value="#FFFFFFFF" />
+                <Setter Property="FontSize" Value="14.333" />
+            </Style>
+        </ResourceDictionary>
+    </xamarinForms:NavegarContentPage.Resources>
+    <Grid BackgroundColor="{StaticResource BackgroundPage}" Padding="40,10,40,10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="120"/>
+            <RowDefinition Height="1"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Text="Client" VerticalOptions="Center" FontSize="32" HorizontalOptions="StartAndExpand" WidthRequest="200"/>
+        <Grid Padding="10" Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <StackLayout Grid.Row="0" Grid.Column="0" Orientation="Vertical" Padding="0,10,0,10">
+                <Label FontFamily="Global User Interface" Text="{Binding ClientCurrent.Nom, Mode=TwoWay}" Style="{StaticResource ValueTextBox}"/>
+                <Label Text="Nom" Style="{StaticResource LabelTextBox}" />
+            </StackLayout>
+
+            <StackLayout Grid.Row="1" Grid.Column="0" Orientation="Vertical" Padding="0,10,0,10">
+                <Label Text="{Binding ClientCurrent.NumeroClient, Mode=TwoWay}" Style="{StaticResource ValueTextBox}" />
+                <Label Text="Numéro Client" Style="{StaticResource LabelTextBox}" />
+            </StackLayout>
+
+            <StackLayout Grid.Row="2" Grid.Column="0" Orientation="Vertical" Padding="0,10,0,10">
+                <Label Text="{Binding ClientCurrent.Ville, Mode=TwoWay}" Style="{StaticResource ValueTextBox}" />
+                <Label Text="Ville" Style="{StaticResource LabelTextBox}"/>
+            </StackLayout>
+            <Label Grid.Row="0" Grid.Column="1" HorizontalOptions="Center" Grid.RowSpan="3" Text="{Binding ClientCurrent.ChiffreAffaire, ConverterParameter='CA {0} €', Converter={StaticResource StringFormatConverter}}" VerticalOptions="Center" TextColor="#FFFFFFFF" FontSize="30"/>
+        </Grid>
+    </Grid>
+</xamarinForms:NavegarContentPage>
