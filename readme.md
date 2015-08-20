@@ -16,7 +16,7 @@ Afin d'intégrer Navegar à votre application vous devez installer le package Nu
 ##Nouveautés :
 V4.5.7:
 
-- Windows 10 : Gestion du bouton virtuel (dans la barre de titre de l'application) par un paramétre de la fonction RegisterView
+- Windows 10 : Gestion de l'affichage du bouton virtuel (dans la barre de titre de l'application) par un paramétre de la fonction RegisterView
 - Windows 10 : Gestion du passage en mode Tablette/Desktop automatiquement pour le bouton de retour virtuel
 
 V4.5.6 :
