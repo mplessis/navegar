@@ -8,6 +8,22 @@ Navegar permet également, sur le même principe, une navigation inspirée des a
 
 Il s'agit d'un ensemble de classes dont les binaires sont disponibles sur [Nuget](https://www.nuget.org/packages/Navegar/) et dont le code source est lui disponible sur cette plateforme. Un ensemble de documentation et de tutoriaux sont disponibles sur [navegar.kopigi.fr](http://navegar.kopigi.fr)
 
+##Exemple de navigation
+Voici un petit exemple de la syntaxe pour naviguer vers une nouvelle page
+
+    /// <summary>
+    /// Permet de naviguer la page de gestion du client
+    /// </summary>
+    private void OpenClient(Client client)
+    {
+        //Navigation vers la page ClientPage
+        //this sert à indiquer que le ViewModel actuel (et donc par extension la page) sera ajouté à l'historique de navigation, afin que Navegar puisse savoir qu'il doit revenir vers cette page au Back
+        //new object[]{client} permet de passer l'objet client au constructeur du ViewModel ClientPageViewModel
+        //true indique que l'on souhaite générer une nouvelle instance du ViewModel ClientPageViewModel
+        
+        ServiceLocator.Current.GetInstance<INavigation>.NavigateTo<ClientPageViewModel>(this, new object[] {client}, true);
+    }
+
 ##Installation
 Afin d'intégrer Navegar à votre application vous devez installer le package NuGet :
 
