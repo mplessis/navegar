@@ -23,7 +23,7 @@ V4.5.6 :
 
 - Suppport de Xamarin.Forms
 - Modification de la structure du projet, désormais une DLL NavegarLibs contient les interfaces INavigationWpf et INavigation (pour les UAP/UWP et Xamarin.Forms), ainsi que les exceptions. Chaque plateforme (WPF/UAP/UWP/Xamarin.Forms) est gérée dans une DLL à part installée à partir du package Navegar (ce package étant dépendant du package NavegarLibs il l'installe en même temps). 
-Ceci afin de permettre de réaliser une DLL Portable pour partager le code métier de votre application entre les UAP/UWP et Xamarin.Forms et avoir une navigation unique dans vos VIewModels. Vous pouvez donc installer sur cette DLL portable le package NavegarLibs pour bénéficier des interfaces et des exceptions et installer la dll de la plateforme sur chaque projet.
+Ceci afin de permettre de réaliser une DLL Portable pour partager le code métier de votre application entre les UAP/UWP et Xamarin.Forms et avoir une navigation unique dans vos ViewModels. Vous pouvez donc installer avec cette DLL portable le package NavegarLibs pour bénéficier des interfaces et des exceptions et installer la dll de la plateforme sur chaque projet.
 - Version Windows 10 : Replacement de l'événement BackVirtualButtonPressed (pour personnaliser le retour arrière dans l'application) par l'événement BackButtonPressed qui gére les boutons physiques (ou virtuels sur Windows Phone) et virtuels dans la barre de titre des applications UWP Windows 10
 - Ajout d'une propriété CurrentPlatform indiquant la plateforme courante (WPF/UAP/UWP ou Xamarin)
 
