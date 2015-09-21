@@ -8,6 +8,22 @@ Navegar permet également, sur le même principe, une navigation inspirée des a
 
 Il s'agit d'un ensemble de classes dont les binaires sont disponibles sur [Nuget](https://www.nuget.org/packages/Navegar/) et dont le code source est lui disponible sur cette plateforme. Un ensemble de documentation et de tutoriaux sont disponibles sur [navegar.kopigi.fr](http://navegar.kopigi.fr)
 
+##Exemple de navigation
+Voici un petit exemple de la syntaxe pour naviguer vers une nouvelle page
+
+    /// <summary>
+    /// Permet de naviguer la page de gestion du client
+    /// </summary>
+    private void OpenClient(Client client)
+    {
+        //Navigation vers la page ClientPage
+        //this sert à indiquer que le ViewModel actuel (et donc par extension la page) sera ajouté à l'historique de navigation, afin que Navegar puisse savoir qu'il doit revenir vers cette page au Back
+        //new object[]{client} permet de passer l'objet client au constructeur du ViewModel ClientPageViewModel
+        //true indique que l'on souhaite générer une nouvelle instance du ViewModel ClientPageViewModel
+        
+        ServiceLocator.Current.GetInstance<INavigation>.NavigateTo<ClientPageViewModel>(this, new object[] {client}, true);
+    }
+
 ##Installation
 Afin d'intégrer Navegar à votre application vous devez installer le package NuGet :
 
@@ -16,14 +32,14 @@ Afin d'intégrer Navegar à votre application vous devez installer le package Nu
 ##Nouveautés :
 V4.5.7:
 
-- Windows 10 : Gestion du bouton virtuel (dans la barre de titre de l'application) par un paramétre de la fonction RegisterView
+- Windows 10 : Gestion de l'affichage du bouton virtuel (dans la barre de titre de l'application) par un paramétre de la fonction RegisterView
 - Windows 10 : Gestion du passage en mode Tablette/Desktop automatiquement pour le bouton de retour virtuel
 
 V4.5.6 :
 
 - Suppport de Xamarin.Forms
-- Modification de la structure du projet, désormais une DLL NavegarLibs contient les interfaces INavigationWpf et INavigation (pour les UAP/UWP et Xamarin.Forms), ainsi que les exceptions. Chaque plateforme (WPF/UAP/UWP/Xamarin.Forms) est gérée dans une DLL à part installé à partir du package Navegar (ce package étant dépendant du package NavegarLibs il l'installe en même temps). 
-Ceci afin de permettre de réaliser une DLL Portable pour partager le code métier de votre application entre les UAP/UWP et Xamarin.Forms et avoir une navigation unique dans vos VIewModels. Vous pouvez donc installer sur cette DLL portable le package NavegarLibs pour bénéficier des interfaces et des exceptions et installer la dll de la plateforme sur chaque projet.
+- Modification de la structure du projet, désormais une DLL NavegarLibs contient les interfaces INavigationWpf et INavigation (pour les UAP/UWP et Xamarin.Forms), ainsi que les exceptions. Chaque plateforme (WPF/UAP/UWP/Xamarin.Forms) est gérée dans une DLL à part installée à partir du package Navegar (ce package étant dépendant du package NavegarLibs il l'installe en même temps). 
+Ceci afin de permettre de réaliser une DLL Portable pour partager le code métier de votre application entre les UAP/UWP et Xamarin.Forms et avoir une navigation unique dans vos ViewModels. Vous pouvez donc installer avec cette DLL portable le package NavegarLibs pour bénéficier des interfaces et des exceptions et installer la dll de la plateforme sur chaque projet.
 - Version Windows 10 : Replacement de l'événement BackVirtualButtonPressed (pour personnaliser le retour arrière dans l'application) par l'événement BackButtonPressed qui gére les boutons physiques (ou virtuels sur Windows Phone) et virtuels dans la barre de titre des applications UWP Windows 10
 - Ajout d'une propriété CurrentPlatform indiquant la plateforme courante (WPF/UAP/UWP ou Xamarin)
 
