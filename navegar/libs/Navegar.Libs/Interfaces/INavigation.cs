@@ -62,7 +62,7 @@ namespace Navegar.Libs.Interfaces
         /// Spécifique à la plateforme Xamarin.Forms
         /// Léve une exception <exception cref="NotImplementedException" /> si la fonction n'est pas implémentée sur la plateforme courante
         /// </remarks>
-        void RegisterBackPressedAction<TViewModel>(Action func) where TViewModel : ViewModelBase;
+        void RegisterBackPressedAction<TViewModel>(Func<bool> func) where TViewModel : ViewModelBase;
 
         /// <summary>
         /// Evenement de navigation arriére avec le bouton physique

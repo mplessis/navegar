@@ -157,7 +157,7 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
         /// Spécifique à la plateforme Xamarin.Forms
         /// Léve une exception <exception cref="NotImplementedException" /> si la fonction n'est pas implémentée sur la plateforme courante
         /// </remarks>
-        public override void RegisterBackPressedAction<TViewModel>(Action func)
+        public override void RegisterBackPressedAction<TViewModel>(Func<bool> func)
         {
             throw new NotImplementedForCurrentPlatformException();
         }

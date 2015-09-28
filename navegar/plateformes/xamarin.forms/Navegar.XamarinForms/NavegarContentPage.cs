@@ -41,12 +41,11 @@ namespace Navegar.XamarinForms
     /// </example>
     public class NavegarContentPage : ContentPage
     {
-        public Action OnBackPressed { get; set; }
+        public Func<bool> OnBackPressed { get; set; }
 
         protected override bool OnBackButtonPressed()
         {
-            this.OnBackPressed();
-            return true;
+            return this.OnBackPressed();
         }
     }
 }

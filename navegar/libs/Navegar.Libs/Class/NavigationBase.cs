@@ -46,6 +46,7 @@ namespace Navegar.Libs.Class
         protected string NavigationStateInitial;
         protected readonly Dictionary<Type, string> HistoryNavigation = new Dictionary<Type, string>();
         protected readonly Dictionary<Type, Type> ViewsRegister = new Dictionary<Type, Type>();
+        private Dictionary<Type, bool> _backButtonView = new Dictionary<Type, bool>();
 
         #endregion
 
@@ -568,7 +569,7 @@ namespace Navegar.Libs.Class
 
         public abstract void Dispose();
 
-        public abstract void RegisterBackPressedAction<TViewModel>(Action func) where TViewModel : ViewModelBase;
+        public abstract void RegisterBackPressedAction<TViewModel>(Func<bool> func) where TViewModel : ViewModelBase;
 
         public abstract void RegisterView<TViewModel, TView>() where TViewModel : ViewModelBase where TView : class;
 
