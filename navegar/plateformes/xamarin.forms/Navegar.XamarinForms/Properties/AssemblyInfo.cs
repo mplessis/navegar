@@ -51,5 +51,5 @@ using System.Resources;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("4.5.8.4")]
-[assembly: AssemblyFileVersion("4.5.8.4")]
+[assembly: AssemblyVersion("4.5.8.5")]
+[assembly: AssemblyFileVersion("4.5.8.5")]

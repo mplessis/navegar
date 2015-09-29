@@ -400,17 +400,13 @@ namespace Navegar.XamarinForms
                     _factoriesInstancesView.TryGetValue(typePage, out key);
                 }
                 
-                var contentPage = (ContentPage) SimpleIoc.Default.GetInstance(typePage, key);
+                var contentPage = (Page) SimpleIoc.Default.GetInstance(typePage, key);
 
                 //Définition du BindingContext
                 contentPage.BindingContext = instanceToNavigate;
 
                 //Association de l'override éventuel du OnBackButtonPressed de la page
-                if (contentPage is NavegarContentPage)
-                {
-                    var func = GetActionOnBackButton(instanceToNavigate.GetType());
-                    ((NavegarContentPage) contentPage).OnBackPressed = func ?? HardwareButtonsBackPressed;
-                }
+                AssignActionBackPressed(contentPage, instanceToNavigate);
 
                 //Navigation
                 if (!modal)
@@ -426,6 +422,45 @@ namespace Navegar.XamarinForms
             catch (Exception e)
             {
                 throw new FrameNavigationException();
+            }
+        }
+
+        /// <summary>
+        /// Permet d'assigner la fonction gérée par le bouton de retour arriére
+        /// </summary>
+        /// <param name="contentPage"></param>
+        /// <param name="instanceToNavigate"></param>
+        protected void AssignActionBackPressed(Page contentPage, ViewModelBase instanceToNavigate)
+        {
+            //Association de l'override éventuel du OnBackButtonPressed de la page
+            if (contentPage is NavegarContentPage)
+            {
+                var func = GetActionOnBackButton(instanceToNavigate.GetType());
+                ((NavegarContentPage)contentPage).OnBackPressed = func ?? HardwareButtonsBackPressed;
+            }
+            else
+            {
+                if (contentPage is NavegarMasterDetailPage)
+                {
+                    var func = GetActionOnBackButton(instanceToNavigate.GetType());
+                    ((NavegarMasterDetailPage)contentPage).OnBackPressed = func ?? HardwareButtonsBackPressed;
+                }
+                else
+                {
+                    if (contentPage is NavegarCarouselPage)
+                    {
+                        var func = GetActionOnBackButton(instanceToNavigate.GetType());
+                        ((NavegarCarouselPage)contentPage).OnBackPressed = func ?? HardwareButtonsBackPressed;
+                    }
+                    else
+                    {
+                        if (contentPage is NavegarTabbedPage)
+                        {
+                            var func = GetActionOnBackButton(instanceToNavigate.GetType());
+                            ((NavegarTabbedPage)contentPage).OnBackPressed = func ?? HardwareButtonsBackPressed;
+                        }
+                    }
+                }
             }
         }
 
