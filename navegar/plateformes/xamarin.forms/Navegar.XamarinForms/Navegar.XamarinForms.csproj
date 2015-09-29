@@ -36,7 +36,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="NavegarCarouselPage.cs" />
     <Compile Include="NavegarContentPage.cs" />
+    <Compile Include="NavegarMasterDetailPage.cs" />
+    <Compile Include="NavegarTabbedPage.cs" />
     <Compile Include="Navigation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
