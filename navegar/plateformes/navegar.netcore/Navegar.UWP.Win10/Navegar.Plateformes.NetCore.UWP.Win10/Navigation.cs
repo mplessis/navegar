@@ -474,7 +474,7 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
         }
 
         /// <summary>
-        /// Mise à jour du layout de la frame principale, soit à chauqe affichage de page ou bien lors d'un changement de mode d'UI
+        /// Mise à jour du layout de la frame principale, soit à chaque affichage de page ou bien lors d'un changement de mode d'UI
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="o"></param>
