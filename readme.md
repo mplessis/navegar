@@ -34,6 +34,10 @@ V4.5.9 :
 
 - Plateformes UAP/UWP/Xamarin.Forms : ajout d'un argument PreNavigationArgs à l'événement PreviewNavigate afin de pouvoir modifier la fonction à charger au cours d'une navigation, pendant le déclenchement de la pré-navigation
 
+V4.5.8.8 :
+
+- Correction sur la fonction ShowVirtualBackButton
+
 V4.5.8.6 :
 
 - Corrections sur la fonction GetViewModelCurrent
