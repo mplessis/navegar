@@ -30,6 +30,10 @@ Afin d'intégrer Navegar à votre application vous devez installer le package Nu
     PM> Install-Package Navegar 
 
 ##Nouveautés :
+V4.5.8.6 :
+
+- Corrections sur la fonction GetViewModelCurrent
+
 V4.5.7:
 
 - Windows 10 : Gestion de l'affichage du bouton virtuel (dans la barre de titre de l'application) par un paramétre de la fonction RegisterView
