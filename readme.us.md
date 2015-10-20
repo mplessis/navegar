@@ -13,6 +13,9 @@ For install Navegar inside your application :
     PM> Install-Package Navegar 
 
 ##Changelog :
+V4.5.8.6 :
+
+- Bug fix on GetViewModelCurrent function
 
 V4.0.3 Release Candidate :
 
