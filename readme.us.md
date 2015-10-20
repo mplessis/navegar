@@ -13,6 +13,14 @@ For install Navegar inside your application :
     PM> Install-Package Navegar 
 
 ##Changelog :
+V4.5.9 :
+
+- UAP/UWP/Xamarin.Forms platforms : add PreNavigationArgs parmaeter on PreviewNavigate event for changed load function on Navigate function.
+
+V4.5.8.8 :
+
+- Bug fix on ShowVirtualBackButton function
+
 V4.5.8.6 :
 
 - Bug fix on GetViewModelCurrent function
