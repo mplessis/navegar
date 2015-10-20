@@ -454,7 +454,7 @@ namespace Navegar.Libs.Class
         /// <param name="viewModelFromName">ViewModel d'où l'on vient</param>
         /// <param name="viewModelToName">ViewModel vers lequel on va</param>
         /// <returns>True continue la navigation, False déclenche l'annulation de la navigation</returns>
-        protected bool PreNavigateTo(Type viewModelFromName, Type viewModelToName)
+        protected bool PreNavigateTo(Type viewModelFromName, Type viewModelToName, out PreNavigationArgs preNavigationArgs)
         {
             if (PreviewNavigate != null)
             {
@@ -471,11 +471,16 @@ namespace Navegar.Libs.Class
                     }
                 }
 
-                if (!PreviewNavigate(currentInstance, viewModelFromName, viewModelToName))
+                PreNavigationArgs preNavigationArg;
+                if (!PreviewNavigate(currentInstance, viewModelFromName, viewModelToName, out preNavigationArg))
                 {
+                    preNavigationArgs = null;
                     return false;
                 }
+                preNavigationArgs = preNavigationArg;
+                return true;
             }
+            preNavigationArgs = null;
             return true;
         }
 

@@ -25,6 +25,7 @@
 
 using System;
 using GalaSoft.MvvmLight;
+using Navegar.Libs.Class;
 using Navegar.Libs.Enums;
 using Navegar.Libs.Exceptions;
 
@@ -32,7 +33,16 @@ using Navegar.Libs.Exceptions;
 
 namespace Navegar.Libs.Interfaces
 {
-    public delegate bool PreNavigateDelegate<T>(T currentViewModelInstance, Type currentViewModel, Type viewModelToNavigate) where T : ViewModelBase;
+    /// <summary>
+    /// Délégué s'exécutant avant toute navigation avant
+    /// </summary>
+    /// <typeparam name="T">Type de la navigation</typeparam>
+    /// <param name="currentViewModelInstance">Instance du ViewModel courant</param>
+    /// <param name="currentViewModel">Type du ViewModel courant</param>
+    /// <param name="viewModelToNavigate">Type du ViewModel vers lequel la navigation va</param>
+    /// <param name="preNavigationArgs">Argument permettant de remplacer ou de spécifier une fonction et ses paramètres eventuels, à executer aprés la navigation. Null en retour pour ne pas spécifier de fonction</param>
+    /// <returns>true pour que la navigation continue, false pour bloquer la navigation ce qui va déclencher l'événement NavigationCanceledOnPreviewNavigate</returns>
+    public delegate bool PreNavigateDelegate<T>(T currentViewModelInstance, Type currentViewModel, Type viewModelToNavigate, out PreNavigationArgs preNavigationArgs) where T : ViewModelBase;
 
     /// <summary>
     /// Interface de la classe de navigation

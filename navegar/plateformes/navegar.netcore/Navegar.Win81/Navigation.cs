@@ -355,10 +355,18 @@ namespace Navegar.Plateformes.NetCore.UAP.Win81
                 }
 
                 //Pré-navigation
-                if (!PreNavigateTo(viewModelFromName, viewModelToName))
+                PreNavigationArgs preNavigationArgs;
+                if (!PreNavigateTo(viewModelFromName, viewModelToName, out preNavigationArgs))
                 {
                     OnNavigationCancel();
                     return string.Empty;
+                }
+
+                //On remplace la fonction désignée par celle ajoutée à la pre-navigation
+                if (preNavigationArgs != null)
+                {
+                    functionToLoad = preNavigationArgs.FunctionToLoad;
+                    parametersFunction = preNavigationArgs.ParametersFunctionToLoad;
                 }
 
                 //Gestion de l'historique
