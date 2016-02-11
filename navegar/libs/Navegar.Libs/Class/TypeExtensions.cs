@@ -72,7 +72,15 @@ namespace Navegar.Libs.Class
                     {
                         foreach (var methodInfo in methodsFiltered)
                         {
+                            //On test les types de paramétres exact
                             if (types.SequenceEqual(methodInfo.GetParameters().Select(p => p.ParameterType).ToList()))
+                            {
+                                return methodInfo;
+                            }
+
+                            //On regarde si les paramétres de la méthode peuvent être les types de base de ceux passés réellement
+                            var listTypesParam = parameters.Select(parameter => parameter.GetType().GetTypeInfo().BaseType ?? parameter.GetType()).ToList();
+                            if (listTypesParam.SequenceEqual(methodInfo.GetParameters().Select(p => p.ParameterType).ToList()))
                             {
                                 return methodInfo;
                             }

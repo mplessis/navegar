@@ -15,7 +15,7 @@
             <TextBlock Text="Premier ViewModel" FontSize="14pt" Foreground="{StaticResource MainColor}" Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
 
             <TextBlock Text="Saisissez une donnée :" FontSize="8pt" Foreground="{StaticResource MainColor}" Margin="10,40,0,0" />
-            <TextBox Text="{Binding Data}" FontSize="8pt" Width="350" Foreground="{StaticResource MainColor}" Margin="10,4,0,0" HorizontalAlignment="Left"/>
+            <TextBox Text="{Binding Data.Libelle}" FontSize="8pt" Width="350" Foreground="{StaticResource MainColor}" Margin="10,4,0,0" HorizontalAlignment="Left"/>
         </StackPanel>
         
         <Button Content="Suivant" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,20,0" Grid.Row="1" Command="{Binding NextViewModelCommand}" />

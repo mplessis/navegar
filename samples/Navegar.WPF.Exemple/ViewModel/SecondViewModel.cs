@@ -2,6 +2,7 @@
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using Navegar.Libs.Interfaces;
+using Navegar.WPF.Exemple.Class;
 
 namespace Navegar.WPF.Exemple.ViewModel
 {
@@ -36,6 +37,11 @@ namespace Navegar.WPF.Exemple.ViewModel
         public void LoadData(string data)
         {
             Data = data;
+        }
+
+        public void LoadData(BaseData data)
+        {
+            Data = data.Libelle;
         }
 
         private bool CanGoBack()
