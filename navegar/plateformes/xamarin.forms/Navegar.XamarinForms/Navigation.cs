@@ -47,7 +47,7 @@ namespace Navegar.XamarinForms
         private readonly Dictionary<Type, string> _factoriesInstancesView = new Dictionary<Type, string>();
         private new readonly Dictionary<Type, bool> HistoryNavigation = new Dictionary<Type, bool>(); //La valeur indique si il s'agit d'une navigation modale ou non
         private Page _rootFrame;
-        private readonly Dictionary<Type, Action> _viewsActionOnBackButtonRegister = new Dictionary<Type, Action>();
+        private readonly Dictionary<Type, Func<bool>> _viewsActionOnBackButtonRegister = new Dictionary<Type, Func<bool>>();
 
         #endregion
 
@@ -98,7 +98,7 @@ namespace Navegar.XamarinForms
         /// Spécifique à la plateforme Xamarin.Forms
         /// Léve une exception <exception cref="NotImplementedException" /> si la fonction n'est pas implémentée sur la plateforme courante
         /// </remarks>
-        public override void RegisterBackPressedAction<TViewModel>(Action func)
+        public override void RegisterBackPressedAction<TViewModel>(Func<bool> func)
         {
             if (!_viewsActionOnBackButtonRegister.ContainsKey(typeof(TViewModel)))
             {
@@ -323,10 +323,18 @@ namespace Navegar.XamarinForms
                 }
 
                 //Pré-navigation
-                if (!PreNavigateTo(viewModelFromName, viewModelToName))
+                PreNavigationArgs preNavigationArgs;
+                if (!PreNavigateTo(viewModelFromName, viewModelToName, out preNavigationArgs))
                 {
                     OnNavigationCancel();
                     return string.Empty;
+                }
+
+                //On remplace la fonction désignée par celle ajoutée à la pre-navigation
+                if (preNavigationArgs != null)
+                {
+                    functionToLoad = preNavigationArgs.FunctionToLoad;
+                    parametersFunction = preNavigationArgs.ParametersFunctionToLoad;
                 }
 
                 //Gestion de l'historique
@@ -400,17 +408,13 @@ namespace Navegar.XamarinForms
                     _factoriesInstancesView.TryGetValue(typePage, out key);
                 }
                 
-                var contentPage = (ContentPage) SimpleIoc.Default.GetInstance(typePage, key);
+                var contentPage = (Page) SimpleIoc.Default.GetInstance(typePage, key);
 
                 //Définition du BindingContext
                 contentPage.BindingContext = instanceToNavigate;
 
                 //Association de l'override éventuel du OnBackButtonPressed de la page
-                if (contentPage is NavegarContentPage)
-                {
-                    var func = GetActionOnBackButton(instanceToNavigate.GetType());
-                    ((NavegarContentPage) contentPage).OnBackPressed = func ?? HardwareButtonsBackPressed;
-                }
+                AssignActionBackPressed(contentPage, instanceToNavigate);
 
                 //Navigation
                 if (!modal)
@@ -426,6 +430,45 @@ namespace Navegar.XamarinForms
             catch (Exception e)
             {
                 throw new FrameNavigationException();
+            }
+        }
+
+        /// <summary>
+        /// Permet d'assigner la fonction gérée par le bouton de retour arriére
+        /// </summary>
+        /// <param name="contentPage"></param>
+        /// <param name="instanceToNavigate"></param>
+        protected void AssignActionBackPressed(Page contentPage, ViewModelBase instanceToNavigate)
+        {
+            //Association de l'override éventuel du OnBackButtonPressed de la page
+            if (contentPage is NavegarContentPage)
+            {
+                var func = GetActionOnBackButton(instanceToNavigate.GetType());
+                ((NavegarContentPage)contentPage).OnBackPressed = func ?? HardwareButtonsBackPressed;
+            }
+            else
+            {
+                if (contentPage is NavegarMasterDetailPage)
+                {
+                    var func = GetActionOnBackButton(instanceToNavigate.GetType());
+                    ((NavegarMasterDetailPage)contentPage).OnBackPressed = func ?? HardwareButtonsBackPressed;
+                }
+                else
+                {
+                    if (contentPage is NavegarCarouselPage)
+                    {
+                        var func = GetActionOnBackButton(instanceToNavigate.GetType());
+                        ((NavegarCarouselPage)contentPage).OnBackPressed = func ?? HardwareButtonsBackPressed;
+                    }
+                    else
+                    {
+                        if (contentPage is NavegarTabbedPage)
+                        {
+                            var func = GetActionOnBackButton(instanceToNavigate.GetType());
+                            ((NavegarTabbedPage)contentPage).OnBackPressed = func ?? HardwareButtonsBackPressed;
+                        }
+                    }
+                }
             }
         }
 
@@ -460,7 +503,7 @@ namespace Navegar.XamarinForms
         }
 
         /// <summary>
-        /// Permet de savoir si l'on peut revenir en arriere au niveau des Frame (pour la plateforme Xamarin true est toujorus renvoyé)
+        /// Permet de savoir si l'on peut revenir en arriere au niveau des Frame (pour la plateforme Xamarin true est toujours renvoyé)
         /// </summary>
         /// <returns>Résultat de la demande</returns>
         protected override bool CanGoBackFrame()
@@ -490,9 +533,9 @@ namespace Navegar.XamarinForms
         /// </summary>
         /// <param name="viewModel">Le Viewmodel associé</param>
         /// <returns></returns>
-        protected Action GetActionOnBackButton(Type viewModel)
+        protected Func<bool> GetActionOnBackButton(Type viewModel)
         {
-            Action func;
+            Func<bool> func;
             if (_viewsActionOnBackButtonRegister.TryGetValue(viewModel, out func))
             {
                 return func;
@@ -503,12 +546,14 @@ namespace Navegar.XamarinForms
         /// <summary>
         /// Fonction par défaut du retour en arriére par le bouton phyique ou virtuel du device
         /// </summary>
-        protected void HardwareButtonsBackPressed()
+        protected bool HardwareButtonsBackPressed()
         {
             if (CanGoBack())
             {
                 GoBack();
+                return true;
             }
+            return false;
         }
 
         #endregion

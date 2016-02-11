@@ -36,6 +36,7 @@
   <ItemGroup>
     <Compile Include="Class\CurrentViewNavigationAttribute.cs" />
     <Compile Include="Class\NavigationBase.cs" />
+    <Compile Include="Class\PreNavigationArgs.cs" />
     <Compile Include="Class\TypeExtensions.cs" />
     <Compile Include="Enums\BackButtonTypeEnum.cs" />
     <Compile Include="Enums\BackButtonViewEnum.cs" />

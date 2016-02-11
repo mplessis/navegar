@@ -27,6 +27,8 @@ using GalaSoft.MvvmLight.Ioc;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=234227
 using GalaSoft.MvvmLight.Views;
+using Microsoft.Practices.ServiceLocation;
+using Navegar.Libs.Class;
 using Navegar.Libs.Interfaces;
 
 namespace Navegar.UAP.Exemple.CRM
@@ -104,20 +106,20 @@ namespace Navegar.UAP.Exemple.CRM
                 rootFrame.Navigated += this.RootFrame_FirstNavigated;
 #endif
                 //Initialisation et navigation vers la premiére page de l'application
-                SimpleIoc.Default.GetInstance<INavigation>().InitializeRootFrame(rootFrame);
+                ServiceLocator.Current.GetInstance<INavigation>().InitializeRootFrame(rootFrame);
 
                 //Permet d'exécuter une fonction avant chaque navigation, si la fonction n'est pas vérifiée Navegar déclenche l'événement NavigationCanceledOnPreviewNavigate,
                 //il faut donc s'y abonner pour traiter l'erreur
                 //remarque : pour tester cette pré-navigation et l'annulation, allez dans la fonction OpenClient du ViewModel ListClientsPageViewModel et décommentez la ligne "//UsersController.IsConnected = false;"
-                SimpleIoc.Default.GetInstance<INavigation>().PreviewNavigate += PreviewNavigate;
-                SimpleIoc.Default.GetInstance<INavigation>().NavigationCanceledOnPreviewNavigate += OnNavigationCanceledOnPreviewNavigate;
+                ServiceLocator.Current.GetInstance<INavigation>().PreviewNavigate += PreviewNavigate;
+                ServiceLocator.Current.GetInstance<INavigation>().NavigationCanceledOnPreviewNavigate += OnNavigationCanceledOnPreviewNavigate;
 
 #if WINDOWS_PHONE_APP
-                SimpleIoc.Default.GetInstance<INavigation>().BackButtonPressed += BackButtonPressed;
+                ServiceLocator.Current.GetInstance<INavigation>().BackButtonPressed += BackButtonPressed;
 #endif
 
                 //Navigation vers la premiére page
-                if (string.IsNullOrEmpty(SimpleIoc.Default.GetInstance<INavigation>().NavigateTo<LandingPageViewModel>(true)))
+                if (string.IsNullOrEmpty(ServiceLocator.Current.GetInstance<INavigation>().NavigateTo<LandingPageViewModel>(true)))
                 {
                     throw new Exception("Failed to create initial page");
                 }
@@ -164,8 +166,8 @@ namespace Navegar.UAP.Exemple.CRM
         private void OnNavigationCanceledOnPreviewNavigate(object sender, EventArgs args)
         {
             //On revient à l'écran de login
-            SimpleIoc.Default.GetInstance<INavigation>().Clear();
-            SimpleIoc.Default.GetInstance<INavigation>().NavigateTo<LandingPageViewModel>(true);
+            ServiceLocator.Current.GetInstance<INavigation>().Clear();
+            ServiceLocator.Current.GetInstance<INavigation>().NavigateTo<LandingPageViewModel>(true);
         }
 
         /// <summary>
@@ -175,12 +177,23 @@ namespace Navegar.UAP.Exemple.CRM
         /// <param name="currentViewModel">Type du ViewModel courant</param>
         /// <param name="viewModelToNavigate">Type du ViewModel vers lequel la navigation est dirigée</param>
         /// <returns>Un booléen indiquant si la navigation doit être poursuivi ou non</returns>
-        private bool PreviewNavigate(ViewModelBase currentViewModelInstance, Type currentViewModel, Type viewModelToNavigate)
+        private bool PreviewNavigate(ViewModelBase currentViewModelInstance, Type currentViewModel, Type viewModelToNavigate, out PreNavigationArgs preNavigationArgs)
         {
+            //Exemple
+            /*if (viewModelToNavigate == typeof(MonViewModel))
+            {
+                preNavigationArgs = new PreNavigationArgs { FunctionToLoad = "NewLoadFunction", ParametersFunctionToLoad = new object[] { } };
+                return true;
+            }
+            preNavigationArgs = null;
+            return true;*/
+
             if (viewModelToNavigate != typeof(LandingPageViewModel))
             {
+                preNavigationArgs = null;
                 return UsersController.IsConnected;    
             }
+            preNavigationArgs = null;
             return true;
         }
 

@@ -46,6 +46,7 @@ namespace Navegar.Libs.Class
         protected string NavigationStateInitial;
         protected readonly Dictionary<Type, string> HistoryNavigation = new Dictionary<Type, string>();
         protected readonly Dictionary<Type, Type> ViewsRegister = new Dictionary<Type, Type>();
+        private Dictionary<Type, bool> _backButtonView = new Dictionary<Type, bool>();
 
         #endregion
 
@@ -72,7 +73,7 @@ namespace Navegar.Libs.Class
         /// </returns>
         public bool CanGoBack()
         {
-            return CurrentViewModel != null && HistoryInstances.ContainsKey(CurrentViewModel) && CanGoBackFrame();
+            return CurrentViewModel != null && (HistoryInstances != null && CurrentViewModel != null && HistoryInstances.ContainsKey(CurrentViewModel)) && CanGoBackFrame();
         }
 
         /// <summary>
@@ -99,12 +100,15 @@ namespace Navegar.Libs.Class
         {
             if (CanGoBack())
             {
-                if (HistoryInstances.ContainsKey(CurrentViewModel) && CanGoBackFrame())
+                if (CurrentViewModel != null)
                 {
-                    Type viewModelFrom;
-                    if (HistoryInstances.TryGetValue(CurrentViewModel, out viewModelFrom))
+                    if (HistoryInstances != null && HistoryInstances.ContainsKey(CurrentViewModel) && CanGoBackFrame())
                     {
-                        return viewModelFrom;
+                        Type viewModelFrom;
+                        if (HistoryInstances.TryGetValue(CurrentViewModel, out viewModelFrom))
+                        {
+                            return viewModelFrom;
+                        }
                     }
                 }
             }
@@ -122,7 +126,7 @@ namespace Navegar.Libs.Class
         /// </returns>
         public T GetViewModelInstance<T>() where T : ViewModelBase
         {
-            if (FactoriesInstances.ContainsKey(typeof(T)))
+            if (FactoriesInstances != null && FactoriesInstances.ContainsKey(typeof(T)))
             {
                 string key;
                 var result = FactoriesInstances.TryGetValue(typeof(T), out key);
@@ -140,12 +144,15 @@ namespace Navegar.Libs.Class
         /// <returns>ViewModel courant</returns>
         public ViewModelBase GetViewModelCurrent()
         {
-            if (FactoriesInstances.ContainsKey(CurrentViewModel))
+            if (CurrentViewModel != null)
             {
-                string key;
-                if (FactoriesInstances.TryGetValue(CurrentViewModel, out key))
+                if (FactoriesInstances != null && FactoriesInstances.ContainsKey(CurrentViewModel))
                 {
-                    return (ViewModelBase)SimpleIoc.Default.GetInstance(CurrentViewModel, key);
+                    string key;
+                    if (FactoriesInstances.TryGetValue(CurrentViewModel, out key))
+                    {
+                        return (ViewModelBase) SimpleIoc.Default.GetInstance(CurrentViewModel, key);
+                    }
                 }
             }
             return null;
@@ -158,12 +165,15 @@ namespace Navegar.Libs.Class
         {
             if (CanGoBack())
             {
-                if (HistoryInstances.ContainsKey(CurrentViewModel) && CanGoBackFrame())
+                if (CurrentViewModel != null)
                 {
-                    Type viewModelFrom;
-                    if (HistoryInstances.TryGetValue(CurrentViewModel, out viewModelFrom))
+                    if (HistoryInstances != null && HistoryInstances.ContainsKey(CurrentViewModel) && CanGoBackFrame())
                     {
-                        Navigate(viewModelFrom, null, null);
+                        Type viewModelFrom;
+                        if (HistoryInstances.TryGetValue(CurrentViewModel, out viewModelFrom))
+                        {
+                            Navigate(viewModelFrom, null, null);
+                        }
                     }
                 }
             }
@@ -182,12 +192,15 @@ namespace Navegar.Libs.Class
         {
             if (CanGoBack())
             {
-                if (HistoryInstances.ContainsKey(CurrentViewModel) && CanGoBackFrame())
+                if (CurrentViewModel != null)
                 {
-                    Type viewModelFrom;
-                    if (HistoryInstances.TryGetValue(CurrentViewModel, out viewModelFrom))
+                    if (HistoryInstances != null && HistoryInstances.ContainsKey(CurrentViewModel) && CanGoBackFrame())
                     {
-                        Navigate(viewModelFrom, functionToLoad, parametersFunction);
+                        Type viewModelFrom;
+                        if (HistoryInstances.TryGetValue(CurrentViewModel, out viewModelFrom))
+                        {
+                            Navigate(viewModelFrom, functionToLoad, parametersFunction);
+                        }
                     }
                 }
             }
@@ -441,14 +454,14 @@ namespace Navegar.Libs.Class
         /// <param name="viewModelFromName">ViewModel d'où l'on vient</param>
         /// <param name="viewModelToName">ViewModel vers lequel on va</param>
         /// <returns>True continue la navigation, False déclenche l'annulation de la navigation</returns>
-        protected bool PreNavigateTo(Type viewModelFromName, Type viewModelToName)
+        protected bool PreNavigateTo(Type viewModelFromName, Type viewModelToName, out PreNavigationArgs preNavigationArgs)
         {
             if (PreviewNavigate != null)
             {
                 ViewModelBase currentInstance = null;
                 if (viewModelFromName != null)
                 {
-                    if (FactoriesInstances.ContainsKey(viewModelToName))
+                    if (FactoriesInstances != null && FactoriesInstances.ContainsKey(viewModelToName))
                     {
                         string keyInstance;
                         if (FactoriesInstances.TryGetValue(viewModelToName, out keyInstance))
@@ -458,11 +471,16 @@ namespace Navegar.Libs.Class
                     }
                 }
 
-                if (!PreviewNavigate(currentInstance, viewModelFromName, viewModelToName))
+                PreNavigationArgs preNavigationArg;
+                if (!PreviewNavigate(currentInstance, viewModelFromName, viewModelToName, out preNavigationArg))
                 {
+                    preNavigationArgs = null;
                     return false;
                 }
+                preNavigationArgs = preNavigationArg;
+                return true;
             }
+            preNavigationArgs = null;
             return true;
         }
 
@@ -476,13 +494,13 @@ namespace Navegar.Libs.Class
         {
             if (viewModelFromName != null)
             {
-                if (HistoryInstances.ContainsKey(viewModelToName))
+                if (HistoryInstances != null && HistoryInstances.ContainsKey(viewModelToName))
                 {
                     HistoryInstances[viewModelToName] = viewModelFromName;
                 }
                 else
                 {
-                    HistoryInstances.Add(viewModelToName, viewModelFromName);
+                    if (HistoryInstances != null) HistoryInstances.Add(viewModelToName, viewModelFromName);
                 }
 
                 //Gestion de l'historique de navigation
@@ -501,13 +519,13 @@ namespace Navegar.Libs.Class
         protected string GenerateNewInstanceViewModelNavigateTo<TTo>(Type viewModelToName, object[] parametersViewModel, bool newInstance = false) where TTo : class
         {
             string key;
-            if (FactoriesInstances.ContainsKey(viewModelToName) && !newInstance)
+            if (FactoriesInstances != null && FactoriesInstances.ContainsKey(viewModelToName) && !newInstance)
             {
                 FactoriesInstances.TryGetValue(viewModelToName, out key);
             }
             else
             {
-                if (FactoriesInstances.ContainsKey(viewModelToName))
+                if (FactoriesInstances != null && FactoriesInstances.ContainsKey(viewModelToName))
                 {
                     //Suppression de l'instance du viewModel dans le cache de SimpleIOC
                     FactoriesInstances.TryGetValue(viewModelToName, out key);
@@ -522,7 +540,7 @@ namespace Navegar.Libs.Class
                 var instanceNew = Activator.CreateInstance(viewModelToName, parametersViewModel);
                 key = Guid.NewGuid().ToString();
                 SimpleIoc.Default.Register<TTo>(() => (TTo)instanceNew, key);
-                FactoriesInstances.Add(viewModelToName, key);
+                if (FactoriesInstances != null) FactoriesInstances.Add(viewModelToName, key);
             }
 
             return key;
@@ -568,7 +586,7 @@ namespace Navegar.Libs.Class
 
         public abstract void Dispose();
 
-        public abstract void RegisterBackPressedAction<TViewModel>(Action func) where TViewModel : ViewModelBase;
+        public abstract void RegisterBackPressedAction<TViewModel>(Func<bool> func) where TViewModel : ViewModelBase;
 
         public abstract void RegisterView<TViewModel, TView>() where TViewModel : ViewModelBase where TView : class;
 

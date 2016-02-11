@@ -20,6 +20,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using CommonMobiles.Controllers;
 using CommonMobiles.ViewModels;
+using Navegar.Libs.Class;
 using Navegar.Libs.Interfaces;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=402347&clcid=0x409
@@ -193,13 +194,25 @@ namespace Navegar.UWP.Exemple.CRM
         /// <param name="currentViewModelInstance">Instance du ViewModel courant</param>
         /// <param name="currentViewModel">Type du ViewModel courant</param>
         /// <param name="viewModelToNavigate">Type du ViewModel vers lequel la navigation est dirigée</param>
+        /// <param name="preNavigationArgs">Argument permettant de remplacer ou de spécifier une fonction et ses paramètres eventuels, à executer aprés la navigation. Null en retour pour ne pas spécifier de fonction</param>
         /// <returns>Un booléen indiquant si la navigation doit être poursuivi ou non</returns>
-        private bool PreviewNavigate(ViewModelBase currentViewModelInstance, Type currentViewModel, Type viewModelToNavigate)
+        private bool PreviewNavigate(ViewModelBase currentViewModelInstance, Type currentViewModel, Type viewModelToNavigate, out PreNavigationArgs preNavigationArgs)
         {
+            //Exemple
+            /*if (viewModelToNavigate == typeof(MonViewModel))
+            {
+                preNavigationArgs = new PreNavigationArgs { FunctionToLoad = "NewLoadFunction", ParametersFunctionToLoad = new object[] { } };
+                return true;
+            }
+            preNavigationArgs = null;
+            return true;*/
+
             if (viewModelToNavigate != typeof(LandingPageViewModel))
             {
+                preNavigationArgs = null;
                 return UsersController.IsConnected;
             }
+            preNavigationArgs = null;
             return true;
         }
     }

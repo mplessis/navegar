@@ -52,6 +52,17 @@ namespace Navegar.Plateformes.Net.WPF
         #endregion
 
         /// <summary>
+        /// Déterminer si un historique est possible depuis le ViewModel en cours
+        /// </summary>
+        /// <returns>
+        /// <c>true</c> si la navigation est possible, sinon <c>false</c>
+        /// </returns>
+        public bool CanGoBack()
+        {
+            return _currentViewModel != null && _historyInstances.ContainsKey(_currentViewModel);
+        }
+
+        /// <summary>
         /// Nettoie l'ensemble de l'historique de navigation
         /// </summary>
         public void Clear()
@@ -108,6 +119,90 @@ namespace Navegar.Plateformes.Net.WPF
             return (TMain)_mainViewModel;
         }
 
+        /// <summary>
+        /// Permet de connaitre le type du ViewModel au niveau n-1 de l'historique de navigation
+        /// </summary>
+        /// <returns>Type du ViewModel</returns>
+        public Type GetTypeViewModelToBack()
+        {
+            if (CanGoBack())
+            {
+                if (_historyInstances.ContainsKey(_currentViewModel))
+                {
+                    Type viewModelFrom;
+                    if (_historyInstances.TryGetValue(_currentViewModel, out viewModelFrom))
+                    {
+                        return viewModelFrom;
+                    }
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Permet de retrouver l'instance du ViewModel courant
+        /// </summary>
+        /// <returns>ViewModel courant</returns>
+        public ViewModelBase GetViewModelCurrent()
+        {
+            if (_factoriesInstances.ContainsKey(_currentViewModel))
+            {
+                string key;
+                if (_factoriesInstances.TryGetValue(_currentViewModel, out key))
+                {
+                    return (ViewModelBase)SimpleIoc.Default.GetInstance(typeof(ViewModelBase), key);
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Récupére l'instance du ViewModel
+        /// </summary>
+        /// <typeparam name="T">
+        /// Type du ViewModel
+        /// </typeparam>
+        /// <returns>
+        /// Instance du ViewModel
+        /// </returns>
+        public T GetViewModelInstance<T>() where T : ViewModelBase
+        {
+            if (_factoriesInstances != null && _factoriesInstances.ContainsKey(typeof(T)))
+            {
+                string key;
+                var result = _factoriesInstances.TryGetValue(typeof(T), out key);
+                if (result)
+                {
+                    return SimpleIoc.Default.GetInstance<T>(key);
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Naviguer vers l'historique (ViewModel précédent) depuis le ViewModel en cours, si une navigation arriére est possible
+        /// </summary>
+        /// /// <param name="functionToLoad">
+        /// Permet de spécifier un nom de fonction à appeler aprés le chargement du viewModel ciblé
+        /// </param>
+        /// <param name="parametersFunction">
+        /// Paramétres pour la fonction appelée
+        /// </param>
+        public void GoBack(string functionToLoad, params object[] parametersFunction)
+        {
+            if (CanGoBack())
+            {
+                if (_historyInstances.ContainsKey(_currentViewModel))
+                {
+                    Type viewModelFrom;
+                    if (_historyInstances.TryGetValue(_currentViewModel, out viewModelFrom))
+                    {
+                        NavigateHistory(viewModelFrom, functionToLoad, parametersFunction);
+                    }
+                }
+            }
+        }
+        
         /// <summary>
         /// Naviguer vers un ViewModel 
         /// </summary>
@@ -343,17 +438,6 @@ namespace Navegar.Plateformes.Net.WPF
         }
 
         /// <summary>
-        /// Déterminer si un historique est possible depuis le ViewModel en cours
-        /// </summary>
-        /// <returns>
-        /// <c>true</c> si la navigation est possible, sinon <c>false</c>
-        /// </returns>
-        public bool CanGoBack()
-        {
-            return _currentViewModel != null && _historyInstances.ContainsKey(_currentViewModel);
-        }
-
-        /// <summary>
         /// Naviguer vers l'historique (ViewModel précédent) depuis le ViewModel en cours, si une navigation arriére est possible
         /// </summary>
         public void GoBack ()
@@ -369,67 +453,6 @@ namespace Navegar.Plateformes.Net.WPF
                     }
                 }
             }
-        }
-
-        /// <summary>
-        /// Naviguer vers l'historique (ViewModel précédent) depuis le ViewModel en cours, si une navigation arriére est possible
-        /// </summary>
-        /// /// <param name="functionToLoad">
-        /// Permet de spécifier un nom de fonction à appeler aprés le chargement du viewModel ciblé
-        /// </param>
-        /// <param name="parametersFunction">
-        /// Paramétres pour la fonction appelée
-        /// </param>
-        public void GoBack(string functionToLoad, params object[] parametersFunction)
-        {
-            if (CanGoBack())
-            {
-                if (_historyInstances.ContainsKey(_currentViewModel))
-                {
-                    Type viewModelFrom;
-                    if(_historyInstances.TryGetValue(_currentViewModel, out viewModelFrom))
-                    {
-                        NavigateHistory(viewModelFrom, functionToLoad, parametersFunction);    
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Permet de connaitre le type du ViewModel au niveau n-1 de l'historique de navigation
-        /// </summary>
-        /// <returns>Type du ViewModel</returns>
-        public Type GetTypeViewModelToBack()
-        {
-            if (CanGoBack())
-            {
-                if (_historyInstances.ContainsKey(_currentViewModel))
-                {
-                    Type viewModelFrom;
-                    if (_historyInstances.TryGetValue(_currentViewModel, out viewModelFrom))
-                    {
-                        return viewModelFrom;
-                    }
-                }
-            }
-            return null;
-        }
-
-        /// <summary>
-        /// Permet de retrouver l'instance du ViewModel courant
-        /// </summary>
-        /// <returns>ViewModel courant</returns>
-        public ViewModelBase GetViewModelCurrent()
-        {
-            if(_factoriesInstances.ContainsKey(_currentViewModel))
-            {
-                string key;
-                if(_factoriesInstances.TryGetValue(_currentViewModel, out key))
-                {
-                    return (ViewModelBase) SimpleIoc.Default.GetInstance(typeof(ViewModelBase), key);
-                }
-            }
-            return null;
         }
 
         #region private

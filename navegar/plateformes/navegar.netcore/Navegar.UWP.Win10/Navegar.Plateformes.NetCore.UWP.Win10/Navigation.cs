@@ -157,7 +157,7 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
         /// Spécifique à la plateforme Xamarin.Forms
         /// Léve une exception <exception cref="NotImplementedException" /> si la fonction n'est pas implémentée sur la plateforme courante
         /// </remarks>
-        public override void RegisterBackPressedAction<TViewModel>(Action func)
+        public override void RegisterBackPressedAction<TViewModel>(Func<bool> func)
         {
             throw new NotImplementedForCurrentPlatformException();
         }
@@ -281,13 +281,22 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
             {
                 if((HasBackButton == BackButtonTypeEnum.None && HasBackButton != BackButtonTypeEnum.Virtual) || force)
                 {
-                    Windows.UI.Core.SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = visible ? Windows.UI.Core.AppViewBackButtonVisibility.Visible : Windows.UI.Core.AppViewBackButtonVisibility.Collapsed;
+                    Windows.UI.Core.SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = visible && CanGoBack() ? Windows.UI.Core.AppViewBackButtonVisibility.Visible : Windows.UI.Core.AppViewBackButtonVisibility.Collapsed;
                 }
                 else
                 {
                     if (!visible)
                     {
-                        Windows.UI.Core.SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+                        Windows.UI.Core.SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
+                            AppViewBackButtonVisibility.Collapsed;
+                    }
+                    else
+                    {
+                        if (!CanGoBack())
+                        {
+                            Windows.UI.Core.SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
+                            AppViewBackButtonVisibility.Collapsed;
+                        }
                     }
                 }
             }
@@ -417,10 +426,18 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
                 }
 
                 //Pré-navigation
-                if (!PreNavigateTo(viewModelFromName, viewModelToName))
+                PreNavigationArgs preNavigationArgs;
+                if (!PreNavigateTo(viewModelFromName, viewModelToName, out preNavigationArgs))
                 {
                     OnNavigationCancel();
                     return string.Empty;
+                }
+
+                //On remplace la fonction désignée par celle ajoutée à la pre-navigation
+                if (preNavigationArgs != null)
+                {
+                    functionToLoad = preNavigationArgs.FunctionToLoad;
+                    parametersFunction = preNavigationArgs.ParametersFunctionToLoad;
                 }
 
                 //Gestion de l'historique
@@ -474,7 +491,7 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
         }
 
         /// <summary>
-        /// Mise à jour du layout de la frame principale, soit à chauqe affichage de page ou bien lors d'un changement de mode d'UI
+        /// Mise à jour du layout de la frame principale, soit à chaque affichage de page ou bien lors d'un changement de mode d'UI
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="o"></param>
