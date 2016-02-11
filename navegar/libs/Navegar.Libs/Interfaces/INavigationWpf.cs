@@ -90,7 +90,7 @@ namespace Navegar.Libs.Interfaces
         /// <returns>
         /// Instance du ViewModel
         /// </returns>
-        T GetViewModelInstance<T>() where T : ViewModelBase;
+        ViewModelBase GetViewModelInstance<T>() where T : ViewModelBase;
 
         /// <summary>
         /// Génére l'instance du ViewModel principal

@@ -165,7 +165,7 @@ namespace Navegar.Plateformes.Net.WPF
         /// <returns>
         /// Instance du ViewModel
         /// </returns>
-        public T GetViewModelInstance<T>() where T : ViewModelBase
+        public ViewModelBase GetViewModelInstance<T>() where T : ViewModelBase
         {
             if (_factoriesInstances != null && _factoriesInstances.ContainsKey(typeof(T)))
             {
@@ -173,7 +173,7 @@ namespace Navegar.Plateformes.Net.WPF
                 var result = _factoriesInstances.TryGetValue(typeof(T), out key);
                 if (result)
                 {
-                    return SimpleIoc.Default.GetInstance<T>(key);
+                    return (ViewModelBase)SimpleIoc.Default.GetInstance(typeof(ViewModelBase), key);
                 }
             }
             return null;
