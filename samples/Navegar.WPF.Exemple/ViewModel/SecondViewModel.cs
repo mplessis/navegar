@@ -39,7 +39,7 @@ namespace Navegar.WPF.Exemple.ViewModel
             Data = data;
         }
 
-        public void LoadData(BaseData data)
+        public void LoadData(BaseData data, bool valueBool)
         {
             Data = data.Libelle;
         }

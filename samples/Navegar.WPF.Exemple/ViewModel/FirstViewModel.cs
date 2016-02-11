@@ -37,7 +37,7 @@ namespace Navegar.WPF.Exemple.ViewModel
         {
             //Version avec paramétre de type classe personnalisée
             SimpleIoc.Default.GetInstance<INavigationWpf>()
-                     .NavigateTo<SecondViewModel>(this, null, "LoadData", new object[] { Data }, true);
+                     .NavigateTo<SecondViewModel>(this, null, "LoadData", new object[] { Data, true }, true);
 
             //version avec paramétre de type string
             //SimpleIoc.Default.GetInstance<INavigationWpf>()

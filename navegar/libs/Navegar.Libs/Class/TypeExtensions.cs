@@ -79,10 +79,20 @@ namespace Navegar.Libs.Class
                             }
 
                             //On regarde si les paramétres de la méthode peuvent être les types de base de ceux passés réellement
-                            var listTypesParam = parameters.Select(parameter => parameter.GetType().GetTypeInfo().BaseType ?? parameter.GetType()).ToList();
-                            if (listTypesParam.SequenceEqual(methodInfo.GetParameters().Select(p => p.ParameterType).ToList()))
+                            var parametersArray = parameters.ToArray();
+                            for (var i = 0; i < parametersArray.Count(); i++)
                             {
-                                return methodInfo;
+                                var listParam = parameters.Select(p => p.GetType()).ToArray();
+
+                                if (parametersArray[i].GetType().GetTypeInfo().BaseType != null)
+                                {
+                                    listParam[i] = parametersArray[i].GetType().GetTypeInfo().BaseType;
+                                }
+
+                                if (listParam.SequenceEqual(methodInfo.GetParameters().Select(p => p.ParameterType).ToList()))
+                                {
+                                    return methodInfo;
+                                }
                             }
                         }
                     }
