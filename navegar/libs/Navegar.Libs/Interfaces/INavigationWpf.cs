@@ -82,6 +82,17 @@ namespace Navegar.Libs.Interfaces
         ViewModelBase GetViewModelCurrent();
 
         /// <summary>
+        /// Récupére l'instance du ViewModel
+        /// </summary>
+        /// <typeparam name="T">
+        /// Type du ViewModel
+        /// </typeparam>
+        /// <returns>
+        /// Instance du ViewModel
+        /// </returns>
+        T GetViewModelInstance<T>() where T : ViewModelBase;
+
+        /// <summary>
         /// Génére l'instance du ViewModel principal
         /// </summary>
         /// <typeparam name="TMain">

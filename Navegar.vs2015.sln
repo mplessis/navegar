@@ -77,6 +77,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Navegar.Plateformes.NetCore
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Navegar.UWP.Exemple.CRM", "samples\Navegar.UWP.Exemple.CRM\Navegar.UWP.Exemple.CRM.csproj", "{95A88D56-DFBB-454F-89B1-B421657DBD03}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Navegar.XamarinForms.Exemple.CRM.iOS", "samples\Xamarin Forms\Navegar.XamarinForms.Exemple.CRM\Navegar.XamarinForms.Exemple.CRM.iOS\Navegar.XamarinForms.Exemple.CRM.iOS.csproj", "{4EA0627F-37BC-4DA7-9513-1B8941EB308E}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		samples\Navegar.UAP.Exemple.CRM\Navegar.UAP.Exemple.CRM.Shared\Navegar.UAP.Exemple.CRM.Shared.projitems*{fe8b8657-75b4-4c23-a8e2-36f9ee3e58ff}*SharedItemsImports = 4
@@ -1046,6 +1048,38 @@ Global
 		{95A88D56-DFBB-454F-89B1-B421657DBD03}.Release|x86.ActiveCfg = Release|x86
 		{95A88D56-DFBB-454F-89B1-B421657DBD03}.Release|x86.Build.0 = Release|x86
 		{95A88D56-DFBB-454F-89B1-B421657DBD03}.Release|x86.Deploy.0 = Release|x86
+		{4EA0627F-37BC-4DA7-9513-1B8941EB308E}.Ad-Hoc|Any CPU.ActiveCfg = Ad-Hoc|iPhone
+		{4EA0627F-37BC-4DA7-9513-1B8941EB308E}.Ad-Hoc|ARM.ActiveCfg = Ad-Hoc|iPhone
+		{4EA0627F-37BC-4DA7-9513-1B8941EB308E}.Ad-Hoc|iPhone.ActiveCfg = Ad-Hoc|iPhone
+		{4EA0627F-37BC-4DA7-9513-1B8941EB308E}.Ad-Hoc|iPhone.Build.0 = Ad-Hoc|iPhone
+		{4EA0627F-37BC-4DA7-9513-1B8941EB308E}.Ad-Hoc|iPhoneSimulator.ActiveCfg = Ad-Hoc|iPhoneSimulator
+		{4EA0627F-37BC-4DA7-9513-1B8941EB308E}.Ad-Hoc|iPhoneSimulator.Build.0 = Ad-Hoc|iPhoneSimulator
+		{4EA0627F-37BC-4DA7-9513-1B8941EB308E}.Ad-Hoc|x64.ActiveCfg = Ad-Hoc|iPhone
+		{4EA0627F-37BC-4DA7-9513-1B8941EB308E}.Ad-Hoc|x86.ActiveCfg = Ad-Hoc|iPhone
+		{4EA0627F-37BC-4DA7-9513-1B8941EB308E}.AppStore|Any CPU.ActiveCfg = AppStore|iPhone
+		{4EA0627F-37BC-4DA7-9513-1B8941EB308E}.AppStore|ARM.ActiveCfg = AppStore|iPhone
+		{4EA0627F-37BC-4DA7-9513-1B8941EB308E}.AppStore|iPhone.ActiveCfg = AppStore|iPhone
+		{4EA0627F-37BC-4DA7-9513-1B8941EB308E}.AppStore|iPhone.Build.0 = AppStore|iPhone
+		{4EA0627F-37BC-4DA7-9513-1B8941EB308E}.AppStore|iPhoneSimulator.ActiveCfg = AppStore|iPhoneSimulator
+		{4EA0627F-37BC-4DA7-9513-1B8941EB308E}.AppStore|iPhoneSimulator.Build.0 = AppStore|iPhoneSimulator
+		{4EA0627F-37BC-4DA7-9513-1B8941EB308E}.AppStore|x64.ActiveCfg = AppStore|iPhone
+		{4EA0627F-37BC-4DA7-9513-1B8941EB308E}.AppStore|x86.ActiveCfg = AppStore|iPhone
+		{4EA0627F-37BC-4DA7-9513-1B8941EB308E}.Debug|Any CPU.ActiveCfg = Debug|iPhone
+		{4EA0627F-37BC-4DA7-9513-1B8941EB308E}.Debug|ARM.ActiveCfg = Debug|iPhone
+		{4EA0627F-37BC-4DA7-9513-1B8941EB308E}.Debug|iPhone.ActiveCfg = Debug|iPhone
+		{4EA0627F-37BC-4DA7-9513-1B8941EB308E}.Debug|iPhone.Build.0 = Debug|iPhone
+		{4EA0627F-37BC-4DA7-9513-1B8941EB308E}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
+		{4EA0627F-37BC-4DA7-9513-1B8941EB308E}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
+		{4EA0627F-37BC-4DA7-9513-1B8941EB308E}.Debug|x64.ActiveCfg = Debug|iPhone
+		{4EA0627F-37BC-4DA7-9513-1B8941EB308E}.Debug|x86.ActiveCfg = Debug|iPhone
+		{4EA0627F-37BC-4DA7-9513-1B8941EB308E}.Release|Any CPU.ActiveCfg = Release|iPhone
+		{4EA0627F-37BC-4DA7-9513-1B8941EB308E}.Release|ARM.ActiveCfg = Release|iPhone
+		{4EA0627F-37BC-4DA7-9513-1B8941EB308E}.Release|iPhone.ActiveCfg = Release|iPhone
+		{4EA0627F-37BC-4DA7-9513-1B8941EB308E}.Release|iPhone.Build.0 = Release|iPhone
+		{4EA0627F-37BC-4DA7-9513-1B8941EB308E}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
+		{4EA0627F-37BC-4DA7-9513-1B8941EB308E}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
+		{4EA0627F-37BC-4DA7-9513-1B8941EB308E}.Release|x64.ActiveCfg = Release|iPhone
+		{4EA0627F-37BC-4DA7-9513-1B8941EB308E}.Release|x86.ActiveCfg = Release|iPhone
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1082,5 +1116,6 @@ Global
 		{DE20F945-4DDB-41D6-9993-191DCCD41B3E} = {EF0FE785-AD76-4C69-A7A2-937B685E825D}
 		{F01BD2C4-A49C-4C07-B9CF-034DA0AA2710} = {1D085917-2042-4217-9194-4630D6020DB6}
 		{95A88D56-DFBB-454F-89B1-B421657DBD03} = {0D00570D-559E-4FA1-8905-D576FBEC30AC}
+		{4EA0627F-37BC-4DA7-9513-1B8941EB308E} = {8F5FDF5A-3DAE-45CB-A647-E983DCCBC2D5}
 	EndGlobalSection
 EndGlobal
