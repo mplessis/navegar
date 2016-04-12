@@ -17,7 +17,7 @@ namespace Navegar.Libs.Enums
         None = 0,
 
         /// <summary>
-        /// Affichage géré automatiquement par Navegar. Si le mode d'UI de Windows est en mode Mouse le bouton est afficé, en mode Touch il est supprimé de la barre de titre
+        /// Affichage géré automatiquement par Navegar. Si le mode d'UI de Windows est en mode Mouse le bouton est affiché, en mode Touch il est supprimé de la barre de titre
         /// </summary>
         Auto = 1,
 

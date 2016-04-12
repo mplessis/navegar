@@ -126,7 +126,7 @@ namespace Navegar.XamarinForms
         /// </summary>
         public override object InitializeRootFrame<TViewModelFirst, TViewFirst>()
         {
-            _rootFrame = (ContentPage)Activator.CreateInstance(typeof(TViewFirst));
+            _rootFrame = (Page)Activator.CreateInstance(typeof(TViewFirst));
             _rootFrame.BindingContext = (TViewModelFirst) Activator.CreateInstance<TViewModelFirst>();
             return new NavigationPage(_rootFrame);
         }
