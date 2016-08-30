@@ -414,7 +414,7 @@ namespace Navegar.Plateformes.NetCore.UAP.Win81
             }
             catch (Exception e)
             {
-                throw new FrameNavigationException();
+                throw new FrameNavigationException(e);
             }
         }
 

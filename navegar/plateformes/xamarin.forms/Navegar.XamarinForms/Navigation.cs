@@ -429,7 +429,7 @@ namespace Navegar.XamarinForms
             }
             catch (Exception e)
             {
-                throw new FrameNavigationException();
+                throw new FrameNavigationException(e);
             }
         }
 

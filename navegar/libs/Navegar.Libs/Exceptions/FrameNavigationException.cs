@@ -41,5 +41,15 @@ namespace Navegar.Libs.Exceptions
         public FrameNavigationException()
             : base("The Frame object isn't initialized in navigation service", null)
         {}
+
+        /// <summary>
+        /// Constructeur de l'exception
+        /// </summary>
+        /// <param name="e">
+        /// L'exception déclenchée lors de la navigation
+        /// </param>
+        public FrameNavigationException(Exception innerException)
+            : base("The Frame object isn't initialized in navigation service", innerException)
+        { }
     }
 }
