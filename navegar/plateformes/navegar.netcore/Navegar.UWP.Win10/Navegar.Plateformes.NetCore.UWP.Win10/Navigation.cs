@@ -386,6 +386,70 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
         }
 
         /// <summary>
+        /// Naviguer vers l'historique (ViewModel précédent) depuis le ViewModel en cours, si une navigation arriére est possible
+        /// </summary>
+        /// <param name="viewModelToName">
+        /// Type du Viewmodel vers lequel la navigation est effectuée
+        /// </param>
+        /// <param name="functionsToLoad">
+        /// Permet de définir un dictionnaire contenant les noms des fonctions à appeler aprés le chargement du viewModel ciblé avec leurs paramètres éventuels</param>
+        protected override void Navigate(Type viewModelToName, Dictionary<string, object[]> functionsToLoad)
+        {
+            if (viewModelToName != null)
+            {
+                string key = String.Empty;
+
+                if (FactoriesInstances.ContainsKey(viewModelToName))
+                {
+                    FactoriesInstances.TryGetValue(viewModelToName, out key);
+                }
+
+                if (!String.IsNullOrEmpty(key))
+                {
+                    var instance = (ViewModelBase)SimpleIoc.Default.GetInstance(viewModelToName, key);
+                    if (instance != null)
+                    {
+                        //Nouvelle page courante
+                        ViewsRegister.TryGetValue(viewModelToName, out _currentPage);
+
+                        var result = SetGoBack(viewModelToName);
+                        if (result)
+                        {
+                            CurrentViewModel = viewModelToName;
+
+                            //Gestion d'une fonction à appeler suite à la génération de l'instance
+                            //La recherche de la méthode doit se faire sur le type de l'instance
+                            if (functionsToLoad.Count > 0)
+                            {
+                                foreach (var function in functionsToLoad)
+                                {
+                                    var method = instance.GetType().GetMethod(function.Key, function.Value);
+                                    if (method != null)
+                                    {
+                                        method.Invoke(instance, function.Value);
+                                    }
+                                    else
+                                    {
+                                        var countParameters = function.Value != null
+                                            ? ((IEnumerable<object>)function.Value).Count()
+                                            : 0;
+                                        throw new FunctionToLoadNavigationException(
+                                            string.Format("{0} with {1} parameter(s)", function.Key, countParameters),
+                                            instance.GetType().Name);
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            throw new HistoryNavigationException();
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// Naviguer vers un ViewModel 
         /// </summary>
         /// <typeparam name="TTo">

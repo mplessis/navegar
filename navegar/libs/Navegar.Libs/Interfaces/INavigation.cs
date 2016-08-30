@@ -24,6 +24,7 @@
 #region using
 
 using System;
+using System.Collections.Generic;
 using GalaSoft.MvvmLight;
 using Navegar.Libs.Class;
 using Navegar.Libs.Enums;
@@ -143,6 +144,13 @@ namespace Navegar.Libs.Interfaces
         /// Paramétres pour la fonction appelée
         /// </param>
         void GoBack(string functionToLoad, params object[] parametersFunction);
+
+        /// <summary>
+        /// Naviguer vers l'historique (ViewModel précédent) depuis le ViewModel en cours, si une navigation arriére est possible
+        /// </summary>
+        /// <param name="functionsToLoad">
+        /// Permet de définir un dictionnaire contenant les noms des fonctions à appeler aprés le chargement du viewModel ciblé avec leurs paramètres éventuels</param>
+        void GoBack(Dictionary<string, object[]> functionsToLoad);
 
         /// <summary>
         /// Indique si le device a un bouton de retour physique

@@ -207,6 +207,34 @@ namespace Navegar.Libs.Class
         }
 
         /// <summary>
+        /// Naviguer vers l'historique (ViewModel précédent) depuis le ViewModel en cours, si une navigation arriére est possible
+        /// </summary>
+        /// <param name="functionsToLoad">
+        /// Permet de définir un dictionnaire contenant les noms des fonctions à appeler aprés le chargement du viewModel ciblé avec leurs paramètres éventuels</param>
+        public void GoBack(Dictionary<string, object[]> functionsToLoad)
+        {
+            if (CurrentPlatform != CurrentPlatformEnum.UWP)
+            {
+                throw new NotImplementedForCurrentPlatformException();
+            }
+
+            if (CanGoBack())
+            {
+                if (CurrentViewModel != null)
+                {
+                    if (HistoryInstances != null && HistoryInstances.ContainsKey(CurrentViewModel) && CanGoBackFrame())
+                    {
+                        Type viewModelFrom;
+                        if (HistoryInstances.TryGetValue(CurrentViewModel, out viewModelFrom))
+                        {
+                            Navigate(viewModelFrom, functionsToLoad);
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// Naviguer vers un ViewModel 
         /// </summary>
         /// <typeparam name="TTo">
@@ -374,6 +402,16 @@ namespace Navegar.Libs.Class
         /// Paramétres pour la fonction appelée
         /// </param>
         protected abstract void Navigate(Type viewModelToName, string functionToLoad, object[] parametersFunction);
+
+        /// <summary>
+        /// Naviguer vers l'historique (ViewModel précédent) depuis le ViewModel en cours, si une navigation arriére est possible
+        /// </summary>
+        /// <param name="viewModelToName">
+        /// Type du Viewmodel vers lequel la navigation est effectuée
+        /// </param>
+        /// <param name="functionsToLoad">
+        /// Permet de définir un dictionnaire contenant les noms des fonctions à appeler aprés le chargement du viewModel ciblé avec leurs paramètres éventuels</param>
+        protected abstract void Navigate(Type viewModelToName, Dictionary<string, object[]> functionsToLoad);
 
         /// <summary>
         /// Naviguer vers un ViewModel 

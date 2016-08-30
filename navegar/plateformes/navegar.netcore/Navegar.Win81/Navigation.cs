@@ -315,6 +315,19 @@ namespace Navegar.Plateformes.NetCore.UAP.Win81
         }
 
         /// <summary>
+        /// Naviguer vers l'historique (ViewModel précédent) depuis le ViewModel en cours, si une navigation arriére est possible
+        /// </summary>
+        /// <param name="viewModelToName">
+        /// Type du Viewmodel vers lequel la navigation est effectuée
+        /// </param>
+        /// <param name="functionsToLoad">
+        /// Permet de définir un dictionnaire contenant les noms des fonctions à appeler aprés le chargement du viewModel ciblé avec leurs paramètres éventuels</param>
+        protected override void Navigate(Type viewModelToName, Dictionary<string, object[]> functionsToLoad)
+        {
+            throw new NotImplementedForCurrentPlatformException();
+        }
+
+        /// <summary>
         /// Naviguer vers un ViewModel 
         /// </summary>
         /// <typeparam name="TTo">
