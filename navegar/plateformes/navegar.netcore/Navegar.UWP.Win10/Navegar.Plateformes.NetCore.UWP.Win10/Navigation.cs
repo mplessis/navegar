@@ -550,7 +550,7 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
             }
             catch (Exception e)
             {
-                throw new FrameNavigationException();
+                throw new FrameNavigationException(e);
             }
         }
 
