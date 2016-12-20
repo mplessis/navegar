@@ -483,6 +483,8 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
         {
             try
             {
+                var functionsToLoad = new Dictionary<string, object[]>() { { functionToLoad, parametersFunction } };
+
                 //Vérification du type de ViewModel demandé pour l'historique
                 if (!viewModelToName.GetTypeInfo().IsSubclassOf(typeof(ViewModelBase)))
                 {
@@ -497,11 +499,10 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
                     return string.Empty;
                 }
 
-                //On remplace la fonction désignée par celle ajoutée à la pre-navigation
+                //On ajoute la fonction ajoutée à la pre-navigation
                 if (preNavigationArgs != null)
                 {
-                    functionToLoad = preNavigationArgs.FunctionToLoad;
-                    parametersFunction = preNavigationArgs.ParametersFunctionToLoad;
+                    functionsToLoad.Add(preNavigationArgs.FunctionToLoad, preNavigationArgs.ParametersFunctionToLoad);
                 }
 
                 //Gestion de l'historique
@@ -522,8 +523,8 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
                     }
                 }
 
-                //Gestion d'une fonction à appeler suite à la génération de l'instance
-                LoadFunctionViewModelNavigateTo<TTo>(instance, functionToLoad, parametersFunction);
+                //Gestion des fonctions à appeler suite à la génération de l'instance
+                LoadFunctionsViewModelNavigateTo<TTo>(instance, functionsToLoad);
 
                 return key;
             }

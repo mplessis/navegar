@@ -591,21 +591,26 @@ namespace Navegar.Libs.Class
         /// <param name="instance">Instance courante du ViewModel de destination</param>
         /// <param name="functionToLoad">Fonction à charger</param>
         /// <param name="parametersFunction">Paramètres de la fonction</param>
-        protected void LoadFunctionViewModelNavigateTo<TTo>(ViewModelBase instance, string functionToLoad, object[] parametersFunction) where TTo : class
+        protected void LoadFunctionsViewModelNavigateTo<TTo>(ViewModelBase instance, Dictionary<string, object[]> functionsToLoad) where TTo : class
         {
-            if (!string.IsNullOrEmpty(functionToLoad))
+            if (functionsToLoad.Count > 0)
             {
-                var method = typeof(TTo).GetMethod(functionToLoad, parametersFunction);
-                if (method != null)
+                foreach (var function in functionsToLoad)
                 {
-                    method.Invoke(instance, parametersFunction);
-                }
-                else
-                {
-                    var countParameters = parametersFunction != null
-                                              ? ((IEnumerable<object>)parametersFunction).Count()
-                                              : 0;
-                    throw new FunctionToLoadNavigationException(string.Format("{0} with {1} parameter(s)", functionToLoad, countParameters), typeof(TTo).Name);
+                    var method = typeof(TTo).GetMethod(function.Key, function.Value);
+                    if (method != null)
+                    {
+                        method.Invoke(instance, function.Value);
+                    }
+                    else
+                    {
+                        var countParameters = function.Value != null
+                            ? ((IEnumerable<object>)function.Value).Count()
+                            : 0;
+                        throw new FunctionToLoadNavigationException(
+                            string.Format("{0} with {1} parameter(s)", function.Key, countParameters),
+                            instance.GetType().Name);
+                    }
                 }
             }
         }
