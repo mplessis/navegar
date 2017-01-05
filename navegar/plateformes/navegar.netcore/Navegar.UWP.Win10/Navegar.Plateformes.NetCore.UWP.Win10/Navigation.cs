@@ -483,7 +483,11 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
         {
             try
             {
-                var functionsToLoad = new Dictionary<string, object[]>() { { functionToLoad, parametersFunction } };
+                var functionsToLoad = new Dictionary<string, object[]>();
+                if (functionToLoad != null)
+                {
+                    functionsToLoad.Add(functionToLoad, parametersFunction);
+                }
 
                 //Vérification du type de ViewModel demandé pour l'historique
                 if (!viewModelToName.GetTypeInfo().IsSubclassOf(typeof(ViewModelBase)))
