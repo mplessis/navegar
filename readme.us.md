@@ -1,11 +1,10 @@
-![Logo Navegar](http://www.kopigi.fr/navegar/navegar.png)
+![Logo Navegar](https://pro2-bar-s3-cdn-cf3.myportfolio.com/174d98845cfd76e745f7db1b61e2da99/ef7f3e34-1cea-4eac-b82d-75882fffdd12_rw_600.png)
 
 Navegar help you to navigate inside your's Universal App Platform and Universal Window Platform applications with use of ViewModel First approach.
 
 Navegar help you too, on same technique, use this navigation (inspire by WinRT platform) on WPF's applications
 
 Binarie's class are available on  [Nuget](https://www.nuget.org/packages/Navegar/) and source code here.
-Docmentation's and tutorials aren't available on [navegar.kopigi.fr](http://navegar.kopigi.fr) (only french at this time)
 
 ##Installation
 For install Navegar inside your application :
