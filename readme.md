@@ -1,4 +1,4 @@
-![Logo Navegar](http://www.kopigi.fr/navegar/navegar.png)
+![Logo Navegar](https://pro2-bar-s3-cdn-cf3.myportfolio.com/174d98845cfd76e745f7db1b61e2da99/ef7f3e34-1cea-4eac-b82d-75882fffdd12_rw_600.png)
 
 English version [here](https://github.com/mplessis/navegar/blob/master/readme.us.md)
 
@@ -6,7 +6,7 @@ Navegar vous permet de gérer une navigation, au sein de vos applications Univer
 
 Navegar permet également, sur le même principe, une navigation inspirée des applications Windows 8 mais pour les applications WPF.
 
-Il s'agit d'un ensemble de classes dont les binaires sont disponibles sur [Nuget](https://www.nuget.org/packages/Navegar/) et dont le code source est lui disponible sur cette plateforme. Un ensemble de documentation et de tutoriaux sont disponibles sur [navegar.kopigi.fr](http://navegar.kopigi.fr)
+Il s'agit d'un ensemble de classes dont les binaires sont disponibles sur [Nuget](https://www.nuget.org/packages/Navegar/) et dont le code source est lui disponible sur cette plateforme.
 
 ##Exemple de navigation
 Voici un petit exemple de la syntaxe pour naviguer vers une nouvelle page
