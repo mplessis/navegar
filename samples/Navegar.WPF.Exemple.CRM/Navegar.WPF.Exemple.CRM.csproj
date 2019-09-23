@@ -157,7 +157,7 @@
       <Project>{e24bfa63-fb8c-47ce-b7d8-ec9e4c078eab}</Project>
       <Name>Navegar.Libs</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\navegar\plateformes\navegar.net\Navegar\Navegar.Plateformes.Net.WPF.csproj">
+    <ProjectReference Include="..\..\navegar\plateformes\navegar.net\Navegar.Plateformes.Net.WPF.csproj">
       <Project>{b6101f13-bd08-46bf-aa89-9f08265ba87c}</Project>
       <Name>Navegar.Plateformes.Net.WPF</Name>
     </ProjectReference>

@@ -121,7 +121,7 @@
       <Project>{e24bfa63-fb8c-47ce-b7d8-ec9e4c078eab}</Project>
       <Name>Navegar.Libs</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\navegar\plateformes\xamarin.forms\Navegar.XamarinForms\Navegar.XamarinForms.csproj">
+    <ProjectReference Include="..\..\..\..\navegar\plateformes\xamarin.forms\Navegar.XamarinForms.csproj">
       <Project>{a2c20dac-5b27-4762-8d24-94be69f977ad}</Project>
       <Name>Navegar.XamarinForms</Name>
     </ProjectReference>
