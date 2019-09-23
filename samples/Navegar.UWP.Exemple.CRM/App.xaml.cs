@@ -1,6 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
-using Microsoft.Practices.ServiceLocation;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,6 +19,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using CommonMobiles.Controllers;
 using CommonMobiles.ViewModels;
+using CommonServiceLocator;
 using Navegar.Libs.Class;
 using Navegar.Libs.Interfaces;
 
@@ -88,19 +88,19 @@ namespace Navegar.UWP.Exemple.CRM
             if (rootFrame.Content == null)
             {
                 //Initialisation et navigation vers la premiére page de l'application
-                ServiceLocator.Current.GetInstance<INavigation>().InitializeRootFrame(rootFrame);
+                SimpleIoc.Default.GetInstance<INavigation>().InitializeRootFrame(rootFrame);
 
                 //Permet d'exécuter une fonction avant chaque navigation, si la fonction n'est pas vérifiée Navegar déclenche l'événement NavigationCanceledOnPreviewNavigate,
                 //il faut donc s'y abonner pour traiter l'erreur
                 //remarque : pour tester cette pré-navigation et l'annulation, allez dans la fonction OpenClient du ViewModel ListClientsPageViewModel et décommentez la ligne "//UsersController.IsConnected = false;"
-                ServiceLocator.Current.GetInstance<INavigation>().PreviewNavigate += PreviewNavigate;
-                ServiceLocator.Current.GetInstance<INavigation>().NavigationCanceledOnPreviewNavigate += OnNavigationCanceledOnPreviewNavigate;
+                SimpleIoc.Default.GetInstance<INavigation>().PreviewNavigate += PreviewNavigate;
+                SimpleIoc.Default.GetInstance<INavigation>().NavigationCanceledOnPreviewNavigate += OnNavigationCanceledOnPreviewNavigate;
 
                 //Si et seulement si il y a un bouton retour (physique ou virtuel) sur le device
-                ServiceLocator.Current.GetInstance<INavigation>().BackButtonPressed += BackButtonPressed;
+                SimpleIoc.Default.GetInstance<INavigation>().BackButtonPressed += BackButtonPressed;
 
                 //Navigation vers la premiére page
-                if (string.IsNullOrEmpty(ServiceLocator.Current.GetInstance<INavigation>().NavigateTo<LandingPageViewModel>(true)))
+                if (string.IsNullOrEmpty(SimpleIoc.Default.GetInstance<INavigation>().NavigateTo<LandingPageViewModel>(true)))
                 {
                     throw new Exception("Failed to create initial page");
                 }
@@ -144,8 +144,8 @@ namespace Navegar.UWP.Exemple.CRM
             if (SimpleIoc.Default.GetInstance<INavigation>().GetViewModelCurrent().GetType() != typeof(ListClientsPageViewModel))
             {
                 //On supprime l'historique de navigation et on revient vers la page de la liste des clients (pour l'exemple)
-                ServiceLocator.Current.GetInstance<INavigation>().Clear();
-                ServiceLocator.Current.GetInstance<INavigation>().NavigateTo<ListClientsPageViewModel>(true);
+                SimpleIoc.Default.GetInstance<INavigation>().Clear();
+                SimpleIoc.Default.GetInstance<INavigation>().NavigateTo<ListClientsPageViewModel>(true);
             }
         }
 
@@ -155,18 +155,18 @@ namespace Navegar.UWP.Exemple.CRM
         /// </summary>
         private bool BackButtonPressed()
         {
-            if (ServiceLocator.Current.GetInstance<INavigation>().CanGoBack())
+            if (SimpleIoc.Default.GetInstance<INavigation>().CanGoBack())
             {
                 //Lorsque l'on revient d'une commande on rafraichi la liste des commandes sur la page de liste
-                if (ServiceLocator.Current.GetInstance<INavigation>().GetTypeViewModelToBack() ==
+                if (SimpleIoc.Default.GetInstance<INavigation>().GetTypeViewModelToBack() ==
                     typeof(ListCommandesPageViewModel))
                 {
                     //Permet de relancer la fonction LoadDatas aprés la navigation arriére vers la liste des commandes
-                    ServiceLocator.Current.GetInstance<INavigation>().GoBack("LoadDatas", new object[] { });
+                    SimpleIoc.Default.GetInstance<INavigation>().GoBack("LoadDatas", new object[] { });
                 }
                 else
                 {
-                    ServiceLocator.Current.GetInstance<INavigation>().GoBack();
+                    SimpleIoc.Default.GetInstance<INavigation>().GoBack();
                 }
 
                 //A ajouter absolument à  partir du moment où l'on sait que l'on peut revenir en arriére
@@ -184,8 +184,8 @@ namespace Navegar.UWP.Exemple.CRM
         private void OnNavigationCanceledOnPreviewNavigate(object sender, EventArgs args)
         {
             //On revient à l'écran de login
-            ServiceLocator.Current.GetInstance<INavigation>().Clear();
-            ServiceLocator.Current.GetInstance<INavigation>().NavigateTo<LandingPageViewModel>(true);
+            SimpleIoc.Default.GetInstance<INavigation>().Clear();
+            SimpleIoc.Default.GetInstance<INavigation>().NavigateTo<LandingPageViewModel>(true);
         }
 
         /// <summary>

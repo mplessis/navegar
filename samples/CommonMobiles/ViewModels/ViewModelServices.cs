@@ -1,6 +1,7 @@
-﻿using GalaSoft.MvvmLight;
+﻿using CommonServiceLocator;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using Microsoft.Practices.ServiceLocation;
+using GalaSoft.MvvmLight.Ioc;
 using Navegar.Libs.Enums;
 using Navegar.Libs.Interfaces;
 
@@ -15,7 +16,7 @@ namespace CommonMobiles.ViewModels
         /// </summary>
         public INavigation NavigationService
         {
-            get { return ServiceLocator.Current.GetInstance<INavigation>(); }
+            get { return SimpleIoc.Default.GetInstance<INavigation>(); }
         }
 
         /// <summary>

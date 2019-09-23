@@ -1,5 +1,5 @@
+using CommonServiceLocator;
 using GalaSoft.MvvmLight.Ioc;
-using Microsoft.Practices.ServiceLocation;
 using Navegar.Libs.Interfaces;
 using Navegar.Plateformes.Net.WPF;
 
@@ -9,8 +9,6 @@ namespace Navegar.WPF.Exemple.ViewModel
     {
         public ViewModelLocator()
         {
-            ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
-
             //1. Enregistrer la classe de navigation dans l'IOC
             SimpleIoc.Default.Register<INavigationWpf, Navigation>();
 

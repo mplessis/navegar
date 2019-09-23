@@ -1,6 +1,6 @@
 using CommonMobiles.ViewModels;
+using CommonServiceLocator;
 using GalaSoft.MvvmLight.Ioc;
-using Microsoft.Practices.ServiceLocation;
 using Navegar.Libs.Enums;
 using Navegar.Libs.Interfaces;
 using Navegar.Plateformes.NetCore.UWP.Win10;
@@ -19,8 +19,6 @@ namespace Navegar.UWP.Exemple.CRM.ViewModel
         /// </summary>
         public ViewModelLocator()
         {
-            ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
-
             //Si le service de navigation n'est pas enregistré dans l'IOC
             if (!SimpleIoc.Default.IsRegistered<INavigation>())
             {
@@ -28,38 +26,38 @@ namespace Navegar.UWP.Exemple.CRM.ViewModel
             }
 
             //Association des ViewModels et des Views associées
-            ServiceLocator.Current.GetInstance<INavigation>().RegisterView<LandingPageViewModel, LandingPage>();
-            ServiceLocator.Current.GetInstance<INavigation>().RegisterView<ClientPageViewModel, ClientPage>(BackButtonViewEnum.Manual);
-            ServiceLocator.Current.GetInstance<INavigation>().RegisterView<ListClientsPageViewModel, ListClientsPage>(BackButtonViewEnum.None);
-            ServiceLocator.Current.GetInstance<INavigation>().RegisterView<CommandePageViewModel, CommandePage>(BackButtonViewEnum.Auto);
-            ServiceLocator.Current.GetInstance<INavigation>().RegisterView<ListCommandesPageViewModel, ListCommandesPage>(BackButtonViewEnum.Auto);
+            SimpleIoc.Default.GetInstance<INavigation>().RegisterView<LandingPageViewModel, LandingPage>();
+            SimpleIoc.Default.GetInstance<INavigation>().RegisterView<ClientPageViewModel, ClientPage>(BackButtonViewEnum.Manual);
+            SimpleIoc.Default.GetInstance<INavigation>().RegisterView<ListClientsPageViewModel, ListClientsPage>(BackButtonViewEnum.None);
+            SimpleIoc.Default.GetInstance<INavigation>().RegisterView<CommandePageViewModel, CommandePage>(BackButtonViewEnum.Auto);
+            SimpleIoc.Default.GetInstance<INavigation>().RegisterView<ListCommandesPageViewModel, ListCommandesPage>(BackButtonViewEnum.Auto);
         }
 
         #region ViewModel Instance
 
         public LandingPageViewModel LandingPageViewModelInstance
         {
-            get { return ServiceLocator.Current.GetInstance<INavigation>().GetViewModelInstance<LandingPageViewModel>(); }
+            get { return SimpleIoc.Default.GetInstance<INavigation>().GetViewModelInstance<LandingPageViewModel>(); }
         }
 
         public ClientPageViewModel ClientPageViewModelInstance
         {
-            get { return ServiceLocator.Current.GetInstance<INavigation>().GetViewModelInstance<ClientPageViewModel>(); }
+            get { return SimpleIoc.Default.GetInstance<INavigation>().GetViewModelInstance<ClientPageViewModel>(); }
         }
 
         public ListClientsPageViewModel ListClientsPageViewModelInstance
         {
-            get { return ServiceLocator.Current.GetInstance<INavigation>().GetViewModelInstance<ListClientsPageViewModel>(); }
+            get { return SimpleIoc.Default.GetInstance<INavigation>().GetViewModelInstance<ListClientsPageViewModel>(); }
         }
 
         public CommandePageViewModel CommandePagePageViewModelInstance
         {
-            get { return ServiceLocator.Current.GetInstance<INavigation>().GetViewModelInstance<CommandePageViewModel>(); }
+            get { return SimpleIoc.Default.GetInstance<INavigation>().GetViewModelInstance<CommandePageViewModel>(); }
         }
 
         public ListCommandesPageViewModel ListCommandesPageViewModelInstance
         {
-            get { return ServiceLocator.Current.GetInstance<INavigation>().GetViewModelInstance<ListCommandesPageViewModel>(); }
+            get { return SimpleIoc.Default.GetInstance<INavigation>().GetViewModelInstance<ListCommandesPageViewModel>(); }
         }
 
         #endregion

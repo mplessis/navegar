@@ -1,5 +1,4 @@
-﻿using Microsoft.Practices.ServiceLocation;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,6 +13,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using CommonServiceLocator;
+using GalaSoft.MvvmLight.Ioc;
 using Navegar.Libs.Interfaces;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
@@ -37,7 +38,7 @@ namespace Navegar.UWP.Exemple.CRM.Views
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            ServiceLocator.Current.GetInstance<INavigation>().ShowVirtualBackButton();
+            SimpleIoc.Default.GetInstance<INavigation>().ShowVirtualBackButton();
         }
     }
 }
