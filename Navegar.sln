@@ -29,6 +29,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Navegar.UWP.Exemple.CRM", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonMobiles", "samples\CommonMobiles\CommonMobiles.csproj", "{E0697C80-1ADC-465A-80A3-ABB54FCDC657}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuget", "nuget", "{5BD0DA98-B2F5-4B07-BFA2-63C2DB6AA65B}"
+	ProjectSection(SolutionItems) = preProject
+		Navegar.5.0.0.snupkg = Navegar.5.0.0.snupkg
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Ad-Hoc|Any CPU = Ad-Hoc|Any CPU
