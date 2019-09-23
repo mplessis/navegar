@@ -1,11 +1,10 @@
 ![Logo Navegar](http://www.kopigi.fr/navegar/navegar.png)
 
-Navegar help you to navigate inside your's Universal App Platform, Universal Windows Platform and Xamarin.forms applications with use of ViewModel First approach.
+Navegar help you to navigate inside your's Windows Presentation Foundation and Universal Windows Platform applications with use of ViewModel First approach.
 
-Navegar help you too, on same technique, use this navigation (inspire by WinRT platform) on WPF's applications
+Navegar help you too, on same technique, use this navigation (inspire by WinRT platform) on WPF's and UWP's applications
 
-Binarie's class are available on  [Nuget](https://www.nuget.org/packages/Navegar/) and source code here.
-Docmentation's and tutorials aren't available on [navegar.kopigi.fr](http://navegar.kopigi.fr) (only french at this time)
+Binaries class are available on  [Nuget](https://www.nuget.org/packages/Navegar/) and source code here.
 
 ##Installation
 For install Navegar inside your application :
@@ -13,6 +12,12 @@ For install Navegar inside your application :
     PM> Install-Package Navegar 
 
 ##Changelog :
+
+V5.0 :
+
+- Suppress support for Xamarin.Forms, due to issue on MvvmLight on Android Support
+- Support align on .Net Full  Framework v4.7.2 and UWP minimal version 1809 (build 17763)
+
 V4.5.9 :
 
 - UAP/UWP/Xamarin.Forms platforms : add PreNavigationArgs parmaeter on PreviewNavigate event for changed load function on Navigate function.
@@ -52,7 +57,7 @@ This tutorials help you to develop with Navegar (only in french at this time) :
 - [01. Installer et paramétrer Navegar](http://blog.kopigi.fr/index.php?article10/01-installer-et-parametrer-navegar)
 - [02. Maintenant Navigons...] (http://blog.kopigi.fr/index.php?article14/02-maintenant-navigons)
 - [03. Fonctionnalités avancées] (http://blog.kopigi.fr/index.php?article15/03-fonctionnalites-avancees)
- 
+
 ##Source Code documentation
 
 
@@ -60,7 +65,7 @@ This tutorials help you to develop with Navegar (only in french at this time) :
 - [Plateforme Universal Application Plateform - Windows 8.1](http://www.kopigi.fr/navegar/documentation/uap.win81)
 - [Plateforme Universal Application Plateform - Windows Phone 8.1](http://www.kopigi.fr/navegar/documentation/uap.wp81)
 
- 
+
 ##Wizard Visual Studio
 
 Wizard's Visual Studio are also available (only in french at this time)

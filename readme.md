@@ -2,9 +2,9 @@
 
 English version [here](https://github.com/mplessis/navegar/blob/master/readme.us.md)
 
-Navegar vous permet de gérer une navigation, au sein de vos applications Universal Apps, Universal Windows Platform et Xamarin.Forms en utilisant l'approche ViewModel First et non l'approche View First intégrée dans le Framework WinRT, le tout basé sur MVVMLight et SimpleIoc, vous pouvez donc passer d'une page à une autre simplement depuis vos ViewModels.
+Navegar vous permet de gérer une navigation, au sein de vos applications Windows Presentation Foundation et Universal Windows Platform en utilisant l'approche ViewModel First et non l'approche View First intégrée dans le Framework WinRT, le tout basé sur MVVMLight et SimpleIoc, vous pouvez donc passer d'une page à une autre simplement depuis vos ViewModels.
 
-Navegar permet également, sur le même principe, une navigation inspirée des applications Windows 8 mais pour les applications WPF.
+Navegar permet également, sur le même principe, une navigation inspirée des applications Windows 8 mais pour les applications WPF et UWP.
 
 Il s'agit d'un ensemble de classes dont les binaires sont disponibles sur [Nuget](https://www.nuget.org/packages/Navegar/) et dont le code source est lui disponible sur cette plateforme.
 
@@ -30,6 +30,12 @@ Afin d'intégrer Navegar à votre application vous devez installer le package Nu
     PM> Install-Package Navegar 
 
 ##Nouveautés :
+
+V5.0 :
+
+- Suppression du support pour Xamarin.Forms, dû à un non support de Android Support par MvvmLight
+- La librairie ne supporte désormais que le .Net Full  Framework v4.7.2 et UWP en version minimale 1809 (build 17763)
+
 V4.5.9 :
 
 - Plateformes UAP/UWP/Xamarin.Forms : ajout d'un argument PreNavigationArgs à l'événement PreviewNavigate afin de pouvoir modifier la fonction à charger au cours d'une navigation, pendant le déclenchement de la pré-navigation
@@ -82,7 +88,7 @@ Voici différents tutoriaux vous permettant de vous familiariser avec la librair
 - [01. Installer et paramétrer Navegar](http://blog.kopigi.fr/index.php?article10/01-installer-et-parametrer-navegar)
 - [02. Maintenant Navigons...] (http://blog.kopigi.fr/index.php?article14/02-maintenant-navigons)
 - [03. Fonctionnalités avancées] (http://blog.kopigi.fr/index.php?article15/03-fonctionnalites-avancees)
- 
+
 ##Documentation en ligne
 
 Vous trouverez également la documentation (en ligne) du code, pour les plateformes WPF et Windows 8.1 & Windows Phone 8.1 (WinRT)
@@ -91,7 +97,7 @@ Vous trouverez également la documentation (en ligne) du code, pour les platefor
 - [Plateforme Universal Application Plateform - Windows 8.1](http://www.kopigi.fr/navegar/documentation/uap.win81)
 - [Plateforme Universal Application Plateform - Windows Phone 8.1](http://www.kopigi.fr/navegar/documentation/uap.wp81)
 
- 
+
 ##Assistants Visual Studio
 
 Enfin des assistants interactifs pour Visual Studio vous permettent également de suivre la mise en place de Navegar dans un projet
