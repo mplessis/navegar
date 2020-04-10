@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Navegar.Plateformes.NetCore.UWP.Win10")]
+[assembly: AssemblyTitle("Navegar.Plateformes.UWP")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Kopigi")]
-[assembly: AssemblyProduct("Navegar.Plateformes.NetCore.UWP.Win10")]
+[assembly: AssemblyProduct("Navegar.Plateformes.UWP")]
 [assembly: AssemblyCopyright("Copyright Kopigi © 2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Navegar.Libs", "navegar\lib
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plateformes", "Plateformes", "{5EC557B1-8282-4330-AEC6-9EC591EC2949}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Navegar.Plateformes.NetCore.UWP.Win10", "navegar\plateformes\navegar.netcore\Navegar.Plateformes.NetCore.UWP.Win10.csproj", "{F01BD2C4-A49C-4C07-B9CF-034DA0AA2710}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Navegar.Plateformes.UWP", "navegar\plateformes\navegar.uwp\Navegar.Plateformes.UWP.csproj", "{F01BD2C4-A49C-4C07-B9CF-034DA0AA2710}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Navegar.UWP.Exemple.CRM", "samples\Navegar.UWP.Exemple.CRM\Navegar.UWP.Exemple.CRM.csproj", "{95A88D56-DFBB-454F-89B1-B421657DBD03}"
 EndProject

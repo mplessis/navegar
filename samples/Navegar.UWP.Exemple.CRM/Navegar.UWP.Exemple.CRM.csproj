@@ -146,9 +146,9 @@
       <Project>{e24bfa63-fb8c-47ce-b7d8-ec9e4c078eab}</Project>
       <Name>Navegar.Libs</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\navegar\plateformes\navegar.netcore\Navegar.Plateformes.NetCore.UWP.Win10.csproj">
+    <ProjectReference Include="..\..\navegar\plateformes\navegar.uwp\Navegar.Plateformes.UWP.csproj">
       <Project>{f01bd2c4-a49c-4c07-b9cf-034da0aa2710}</Project>
-      <Name>Navegar.Plateformes.NetCore.UWP.Win10</Name>
+      <Name>Navegar.Plateformes.UWP</Name>
     </ProjectReference>
     <ProjectReference Include="..\CommonMobiles\CommonMobiles.csproj">
       <Project>{de20f945-4ddb-41d6-9993-191dccd41b3e}</Project>

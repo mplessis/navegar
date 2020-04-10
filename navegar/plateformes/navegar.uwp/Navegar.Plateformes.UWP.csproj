@@ -7,8 +7,8 @@
     <ProjectGuid>{F01BD2C4-A49C-4C07-B9CF-034DA0AA2710}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Navegar.Plateformes.NetCore.UWP.Win10</RootNamespace>
-    <AssemblyName>Navegar.Plateformes.NetCore.UWP.Win10</AssemblyName>
+    <RootNamespace>Navegar.Plateformes.UWP</RootNamespace>
+    <AssemblyName>Navegar.Plateformes.UWP</AssemblyName>
     <DefaultLanguage>fr-FR</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.18362.0</TargetPlatformVersion>
@@ -123,9 +123,6 @@
   <ItemGroup>
     <SDKReference Include="WindowsDesktop, Version=10.0.18362.0">
       <Name>Windows Desktop Extensions for the UWP</Name>
-    </SDKReference>
-    <SDKReference Include="WindowsIoT, Version=10.0.16299.0">
-      <Name>Windows IoT Extensions for the UWP</Name>
     </SDKReference>
     <SDKReference Include="WindowsMobile, Version=10.0.18362.0">
       <Name>Windows Mobile Extensions for the UWP</Name>
