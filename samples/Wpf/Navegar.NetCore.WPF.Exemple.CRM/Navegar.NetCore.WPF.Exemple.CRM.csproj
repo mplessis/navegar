@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>Navegar.NetCore.WPF.Exemple</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MvvmLightStd10" Version="5.4.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\navegar\libs\Navegar.Libs\Navegar.Libs.csproj" />
+    <ProjectReference Include="..\..\..\navegar\plateformes\navegar.net.standard\Navegar.Plateformes.Net.Standard.csproj" />
+  </ItemGroup>
+
+</Project>

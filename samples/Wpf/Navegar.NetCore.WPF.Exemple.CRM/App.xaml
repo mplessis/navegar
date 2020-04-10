@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Application StartupUri="MainWindow.xaml" p1:Class="NavegarExemple.App" xmlns:vm="clr-namespace:Navegar.NetCore.WPF.Exemple.ViewModel" xmlns:p1="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" d1p1:Ignorable="d" xmlns:d1p1="http://schemas.openxmlformats.org/markup-compatibility/2006">
+  <Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Themes/ControlsDefault.xaml" />
+        <ResourceDictionary Source="/Themes/DataTemplates.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <vm:ViewModelLocator p1:Key="Locator" d:IsDataSource="True" />
+    </ResourceDictionary>
+  </Application.Resources>
+</Application>

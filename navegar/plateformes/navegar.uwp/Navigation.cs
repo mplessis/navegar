@@ -46,15 +46,12 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
     /// </summary>
     public class Navigation : NavigationBase
     {
-        #region fields
 
         private Frame _rootFrame;
         private Func<bool> _backButtonPressedAction;
         private Type _currentPage;
         private Dictionary<Type, BackButtonViewEnum> _backButtonView = new Dictionary<Type, BackButtonViewEnum>();
         private Dictionary<Type, bool> _isBackButtonForView = new Dictionary<Type, bool>();
-          
-        #endregion
 
         /// <summary>
         /// Indique quelle plateforme est en cours d'exécution
@@ -322,18 +319,6 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
 
         #region private
 
-        /// <summary>
-        /// Naviguer vers l'historique (ViewModel précédent) depuis le ViewModel en cours
-        /// </summary>
-        /// <param name="viewModelToName">
-        /// Type du Viewmodel vers lequel la navigation est effectuée
-        /// </param>
-        /// <param name="functionToLoad">
-        /// Permet de spécifier un nom de fonction à appeler aprés le chargement du viewModel ciblé
-        /// </param>
-        /// <param name="parametersFunction">
-        /// Paramétres pour la fonction appelée
-        /// </param>
         protected override void Navigate(Type viewModelToName, string functionToLoad, object[] parametersFunction)
         {
             if (viewModelToName != null)
@@ -362,18 +347,7 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
                             //La recherche de la méthode doit se faire sur le type de l'instance
                             if (!string.IsNullOrEmpty(functionToLoad))
                             {
-                                var method = instance.GetType().GetMethod(functionToLoad, parametersFunction);
-                                if (method != null)
-                                {
-                                    method.Invoke(instance, parametersFunction);
-                                }
-                                else
-                                {
-                                    var countParameters = parametersFunction != null
-                                                  ? ((IEnumerable<object>)parametersFunction).Count()
-                                                  : 0;
-                                    throw new FunctionToLoadNavigationException(string.Format("{0} with {1} parameter(s)", functionToLoad, countParameters), instance.GetType().Name);
-                                }
+                                RunFunctionAfterGenerateInstance(functionToLoad, parametersFunction, instance);
                             }
                         }
                         else
@@ -384,15 +358,7 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
                 }
             }
         }
-
-        /// <summary>
-        /// Naviguer vers l'historique (ViewModel précédent) depuis le ViewModel en cours, si une navigation arriére est possible
-        /// </summary>
-        /// <param name="viewModelToName">
-        /// Type du Viewmodel vers lequel la navigation est effectuée
-        /// </param>
-        /// <param name="functionsToLoad">
-        /// Permet de définir un dictionnaire contenant les noms des fonctions à appeler aprés le chargement du viewModel ciblé avec leurs paramètres éventuels</param>
+        
         protected override void Navigate(Type viewModelToName, Dictionary<string, object[]> functionsToLoad)
         {
             if (viewModelToName != null)
@@ -423,20 +389,7 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
                             {
                                 foreach (var function in functionsToLoad)
                                 {
-                                    var method = instance.GetType().GetMethod(function.Key, function.Value);
-                                    if (method != null)
-                                    {
-                                        method.Invoke(instance, function.Value);
-                                    }
-                                    else
-                                    {
-                                        var countParameters = function.Value != null
-                                            ? ((IEnumerable<object>)function.Value).Count()
-                                            : 0;
-                                        throw new FunctionToLoadNavigationException(
-                                            string.Format("{0} with {1} parameter(s)", function.Key, countParameters),
-                                            instance.GetType().Name);
-                                    }
+                                    RunFunctionAfterGenerateInstance(function.Key, function.Value, instance);
                                 }
                             }
                         }
@@ -449,36 +402,22 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
             }
         }
 
-        /// <summary>
-        /// Naviguer vers un ViewModel 
-        /// </summary>
-        /// <typeparam name="TTo">
-        /// Type du Viewmodel vers lequel la navigation est effectuée
-        /// </typeparam>
-        /// <param name="viewModelToName">
-        /// Type du Viewmodel vers lequel la navigation est effectuée
-        /// </param>
-        /// <param name="viewModelFromName">
-        /// Type du Viewmodel depuis lequel la navigation est effectuée
-        /// </param>
-        /// <param name="parametersViewModel">
-        /// Tableau des paramétres éventuels à transmettre au constructeur du ViewModel
-        /// </param>
-        /// <param name="functionToLoad">
-        /// Permet de spécifier un nom de fonction à appeler aprés le chargement du viewModel ciblé
-        /// </param>
-        /// <param name="parametersFunction">
-        /// Paramétres pour la fonction appelée
-        /// </param>
-        /// <param name="newInstance">
-        /// Indique si l'on génére une nouvelle instance obligatoirement
-        /// </param>
-        /// <param name="isModal">
-        /// Indique que l'on souhaite une navigation modal, supportée uniquement par la plateforme Xamarin.Forms
-        /// </param>
-        /// <returns>
-        /// Retourne la clé unique pour SimpleIoc, de l'instance du viewmodel vers lequel la navigation a eu lieu
-        /// </returns>
+        private static void RunFunctionAfterGenerateInstance(string functionToLoad, object[] parametersFunction, ViewModelBase instance)
+        {
+            var method = instance.GetType().GetMethod(functionToLoad, parametersFunction);
+            if (method != null)
+            {
+                method.Invoke(instance, parametersFunction);
+            }
+            else
+            {
+                var countParameters = parametersFunction != null
+                              ? ((IEnumerable<object>)parametersFunction).Count()
+                              : 0;
+                throw new FunctionToLoadNavigationException(string.Format("{0} with {1} parameter(s)", functionToLoad, countParameters), instance.GetType().Name);
+            }
+        }
+
         protected override string Navigate<TTo>(Type viewModelToName, Type viewModelFromName, object[] parametersViewModel, string functionToLoad, object[] parametersFunction, bool newInstance = false, bool isModal = false)
         {
             try
@@ -538,13 +477,6 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
             }
         }
 
-
-        /// <summary>
-        /// Affecte la propriété de view courante du ViewModel principal
-        /// </summary>
-        /// <param name="instanceToNavigate">
-        /// Instance de la vue qui est devenue la vue courante
-        /// </param>
         protected void SetCurrentView(Type instanceToNavigate)
         {
             try
@@ -559,11 +491,6 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
             }
         }
 
-        /// <summary>
-        /// Mise à jour du layout de la frame principale, soit à chaque affichage de page ou bien lors d'un changement de mode d'UI
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="o"></param>
         protected void OnLayoutUpdated(object sender, object o)
         {
             //On regarde si l'on doit afficher un bouton virtuel dans la barre de titre de l'application
@@ -593,10 +520,6 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
             }
         }
 
-        /// <summary>
-        /// Permet de gérer le bouton suivant le type de bouton choisi sur la page
-        /// </summary>
-        /// <param name="backButton"></param>
         protected void SetShowVirtualBackButton(BackButtonViewEnum backButton)
         {
             switch (backButton)
@@ -611,11 +534,6 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
             }
         }
 
-        /// <summary>
-        /// Permet de gérer l'état de navigation à l'instant T pour un ViewModel
-        /// </summary>
-        /// <param name="viewModelFromName">ViewModel pris en compte</param>
-        /// <param name="isModal">Indique que la navigation est de type modale, supportée uniquement sur la plateforme Xamarin.Forms</param>
         protected override void SetNavigationHistory(Type viewModelFromName, bool isModal = false)
         {
             if (!HistoryNavigation.ContainsKey(viewModelFromName))
@@ -624,9 +542,6 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
             }
         }
 
-        /// <summary>
-        /// Permet de revenir en arriére dans la pile de navigation des pages
-        /// </summary>
         protected bool SetGoBack(Type historyViewModel)
         {
             //Sauvegarde de l'état actuel pour revenir en arriére si il le faut
@@ -659,18 +574,11 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
             return true;
         }
 
-        /// <summary>
-        /// Permet de savoir si l'on peut revenir en arriere au niveau des Frame
-        /// </summary>
-        /// <returns>Résultat de la demande</returns>
         protected override bool CanGoBackFrame()
         {
             return _rootFrame.CanGoBack;
         }
 
-        /// <summary>
-        /// Vide l'historique de navigation de la classe et de la Frame de WinRT
-        /// </summary>
         protected override void ClearNavigation()
         {
            base.ClearNavigation();
@@ -680,20 +588,11 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
             _rootFrame.SetNavigationState(NavigationStateInitial);
         }
 
-        /// <summary>
-        /// Permet de savoir si l'on est en mode Touch ou Mouse
-        /// </summary>
-        /// <returns>True si le mode Touch est activé</returns>
         protected bool IsTouchMode()
         {
             return UIViewSettings.GetForCurrentView().UserInteractionMode == UserInteractionMode.Touch;
         }
 
-        /// <summary>
-        /// Fonction par défaut du retour en arriére par le bouton phyique du device
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         protected void HardwareButtonsBackPressed(object sender, Windows.Phone.UI.Input.BackPressedEventArgs e)
         {
             if (CanGoBack())
@@ -703,21 +602,11 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
             }
         }
 
-        /// <summary>
-        /// Surcharge de la fonction de retour arriére sur le bouton physique, définie par l'utilisateur
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         protected void HardwareButtonBackPressedOverride(object sender, Windows.Phone.UI.Input.BackPressedEventArgs e)
         {
             e.Handled = _backButtonPressedAction();
         }
 
-        /// <summary>
-        /// Fonction par défaut du retour en arriére par le bouton virtuel du device
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         protected void VirtualBackPressed(object sender, Windows.UI.Core.BackRequestedEventArgs e)
         {
             if (CanGoBack())
@@ -727,11 +616,6 @@ namespace Navegar.Plateformes.NetCore.UWP.Win10
             }
         }
 
-        /// <summary>
-        /// Surcharge de la fonction de retour arriére sur le bouton virtuel, définie par l'utilisateur
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         protected void VirtualBackPressedOverride(object sender, Windows.UI.Core.BackRequestedEventArgs e)
         {
             e.Handled = _backButtonPressedAction();

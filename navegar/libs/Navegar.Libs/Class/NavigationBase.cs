@@ -36,7 +36,7 @@ using Navegar.Libs.Interfaces;
 
 namespace Navegar.Libs.Class
 {
-    public abstract class NavigationBase : INavigation
+    public abstract class NavigationBase : INavigationUwp
     {
         #region fields
 
