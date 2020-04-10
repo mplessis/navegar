@@ -1,8 +1,8 @@
-##Principe de fonctionnement en WPF
+# Principe de fonctionnement en WPF
 
 Bonjour, bienvenue dans ce tutoriel vous permettant d'intégrer Navegar dans une solution WPF. Nous allons voir l'installation du package, l'initialisation et la navigation vers un premier ViewModel
 
-###I. Création d'une solution Windows 8.1 et installation de Navegar
+## I. Création d'une solution Windows 8.1 et installation de Navegar
 
 Commonçons par créer une solution de type WPF
 Pour cela, il vous suffit de faire
@@ -11,13 +11,13 @@ Pour cela, il vous suffit de faire
 
 Une fois votre solution créée, nous allons procéder à l'installation de Navegar, pour cela vous pouvez utiliser le gestionnaire de paquet de NuGet en mode graphique ou bien en ligne de commande :
 
-    install-package Navegar Copier
+    install-package Navegar
 
 Ceci installera également MvvmLightLibs
 
 Vous devez également installer *MvvmLight* complet pour le bon fonctionnement de l'application, Navegar ne l'installe pas car il est possible d'utiliser Navegar dans un projet bibliothéque qui n'a pas besoin de tout *MvvmLight*
 
-###II. Initialisation de la navigation
+## II. Initialisation de la navigation
 
 La navigation en WPF fonctionne sur le principe d'une page principale qui va accueillir des UserControl qui seront vos différentes pages. Navegar ne gére pas de navigation multi-fenêtres.
 
@@ -58,7 +58,7 @@ Normalement MvvmLight a déja affecté à la page principale la propriété, si 
 
 La navigation est maintenant initialisée.
 
-###III. Préparation de la page Main et du MainViewModel pour gérer la navigation en Usercontrol
+## III. Préparation de la page Main et du MainViewModel pour gérer la navigation en Usercontrol
 
 Ajouter un USerControl et un ViewModel associé, nommez les *FirstView* et *FirstViewModel*
 

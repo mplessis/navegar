@@ -1,8 +1,8 @@
-##Principe de fonctionnement en Windows 10
+# Principe de fonctionnement en Windows 10
 
 Bonjour, bienvenue dans ce tutoriel vous permettant d'intégrer Navegar dans une solution Windows 10. Nous allons voir l'installation du package, l'initialisation et la navigation vers un premier ViewModel
 
-###I. Création d'une solution Windows 10 Universal et installation de Navegar
+## I. Création d'une solution Windows 10 Universal et installation de Navegar
 
 Commonçons par créer une solution de type Windows 10 (Universal)
 
@@ -14,7 +14,7 @@ Ceci installera également MvvmLightLibs
 
 Vous devez également installer *MvvmLight* complet pour le bon fonctionnement de l'application, Navegar ne l'installe pas car il est possible d'utiliser Navegar dans un projet bibliothéque qui n'a pas besoin de tout *MvvmLight*
 
-###II. Initialisation de la navigation
+## II. Initialisation de la navigation
 
 Afin d'initialiser la navigation au sein de l'application vous devez modifier le fichier **App.xaml.cs** pour naviguer sur votre premier ViewModel (premiére page)
 
@@ -80,7 +80,7 @@ Il faut maintenant affecter cette propriété comme DataContext de la page
 
 La navigation est maintenant initialisée et votre premier ViewModel et premiére Page sont prêts à être utilisés
 
-###III. Premiére navigation vers une seconde page
+## III. Premiére navigation vers une seconde page
 
 Ajoutez une seconde page avec son ViewModel associée, nommez les *SecondViewModelPage* et *SecondPage*
 

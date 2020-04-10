@@ -1,14 +1,12 @@
 ![Logo Navegar](https://pro2-bar-s3-cdn-cf3.myportfolio.com/174d98845cfd76e745f7db1b61e2da99/ef7f3e34-1cea-4eac-b82d-75882fffdd12_rw_600.png)
 
-English version [here](https://github.com/mplessis/navegar/blob/master/readme.us.md)
-
 Navegar vous permet de gérer une navigation, au sein de vos applications Windows Presentation Foundation et Universal Windows Platform en utilisant l'approche ViewModel First et non l'approche View First intégrée dans le Framework WinRT, le tout basé sur MVVMLight et SimpleIoc, vous pouvez donc passer d'une page à une autre simplement depuis vos ViewModels.
 
 Navegar permet également, sur le même principe, une navigation inspirée des applications Windows 8 mais pour les applications WPF et UWP.
 
 Il s'agit d'un ensemble de classes dont les binaires sont disponibles sur [Nuget](https://www.nuget.org/packages/Navegar/) et dont le code source est lui disponible sur cette plateforme.
 
-##Exemple de navigation
+## Exemple de navigation
 Voici un petit exemple de la syntaxe pour naviguer vers une nouvelle page
 
     /// <summary>
@@ -24,13 +22,18 @@ Voici un petit exemple de la syntaxe pour naviguer vers une nouvelle page
         ServiceLocator.Current.GetInstance<INavigation>.NavigateTo<ClientPageViewModel>(this, new object[] {client}, true);
     }
 
-##Installation
+## Installation
 Afin d'intégrer Navegar à votre application vous devez installer le package NuGet :
 
     PM> Install-Package Navegar 
 
-##Nouveautés :
+## Nouveautés :
 
+V6.0:
+
+- Suppression de la plateforme WPF full framework spécifique, elle est remplacée par une version Standard 2.0
+- La librairie supporte désormais le .Net Full  Framework v4.7.2, .Net Core et UWP en version minimale 1809 (build 17763)
+  
 V5.0 :
 
 - Suppression du support pour Xamarin.Forms, dû à un non support de Android Support par MvvmLight

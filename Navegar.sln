@@ -29,8 +29,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonMobiles", "samples\Uw
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuget", "nuget", "{5BD0DA98-B2F5-4B07-BFA2-63C2DB6AA65B}"
 	ProjectSection(SolutionItems) = preProject
-		Navegar.5.0.0.snupkg = Navegar.5.0.0.snupkg
-		NavegarLibs.5.0.0.snupkg = NavegarLibs.5.0.0.snupkg
+		Navegar.6.0.0.snupkg = Navegar.6.0.0.snupkg
+		NavegarLibs.6.0.0.snupkg = NavegarLibs.6.0.0.snupkg
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Navegar.Plateformes.Net.Standard", "navegar\plateformes\navegar.net.standard\Navegar.Plateformes.Net.Standard.csproj", "{7E636AFD-D6C5-4B34-B071-F2C663BE5594}"
